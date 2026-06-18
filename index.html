@@ -810,8 +810,9 @@ function LiveChat({ chats, t }) {
 function CarStatus({ cars, bookings, t }) {
   const statusMap = getCarStatus(bookings, cars);
   return (
-    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
-      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>🚗 {t("fahrzeuge_title")}</div>
+    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",display:"flex",flexDirection:"column"}}>
+      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem",flexShrink:0}}>🚗 {t("fahrzeuge_title")} ({cars.length})</div>
+      <div style={{overflowY:"scroll",maxHeight:340,paddingRight:4}}>
       {cars.map(car => {
         const s = statusMap[car.name] || { booked: false };
         return (
@@ -841,6 +842,7 @@ function CarStatus({ cars, bookings, t }) {
           </div>
         );
       })}
+      </div>
     </div>
   );
 }
