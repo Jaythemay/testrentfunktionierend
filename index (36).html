@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Testrent Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<style>
+/* ---- Theme tokens: "classic" (default/current) ---- */
+:root{
+  --rgb-hue:260;
+  --c-body-bg:#0a0a0f; --c-surface:#111118; --c-surface-alt:#0d0d14;
+  --c-border:#1e1e2e; --c-border-strong:#334155;
+  --c-text-heading:#f1f5f9; --c-text-body:#e2e8f0; --c-text-subtle:#cbd5e1;
+  --c-text-muted:#94a3b8; --c-text-faint:#64748b; --c-text-faint2:#475569; --c-text-faintest:#334155;
+  --c-accent:#7c3aed; --c-accent-light:#a855f7; --c-accent-text:#a78bfa;
+  --c-accent-bg:#1e1b4b; --c-accent-bg2:#2d1b69; --c-accent-text-light:#c4b5fd; --c-on-accent:#fff;
+  --c-success:#22c55e; --c-success-bg:#0d2b1d; --c-success-border:#166534;
+  --c-success-text-light:#4ade80; --c-success-text2:#86efac; --c-success-bg2:#0f2d1f; --c-success-bg3:#1a2d1a;
+  --c-danger:#f87171; --c-danger-bg:#2d1515; --c-danger-border:#7f1d1d; --c-danger-strong:#dc2626;
+  --c-warning:#f59e0b; --c-warning-bg:#2d2210; --c-warning-border:#7c5e10;
+  --c-info:#3b82f6; --c-info-light:#60a5fa; --c-info-bg:#1e3a5f;
+  --c-nav-active-bg:#1e1e2e; --c-nav-active-text:#e2e8f0;
+  --c-card-shadow:none; --c-overlay:rgba(0,0,0,0.6);
+}
+/* ---- Theme tokens: "led" (classic base, but every accent color cycles continuously like an RGB LED strip, each hue offset for a rainbow effect) ---- */
+:root[data-theme="led"]{
+  --c-body-bg:#0a0a0f; --c-surface:#111118; --c-surface-alt:#0d0d14;
+  --c-border:#1e1e2e; --c-border-strong:#334155;
+  --c-text-heading:#f1f5f9; --c-text-body:#e2e8f0; --c-text-subtle:#cbd5e1;
+  --c-text-muted:#94a3b8; --c-text-faint:#64748b; --c-text-faint2:#475569; --c-text-faintest:#334155;
+  --c-accent:hsl(var(--rgb-hue),85%,60%); --c-accent-light:hsl(var(--rgb-hue),90%,70%); --c-accent-text:hsl(var(--rgb-hue),85%,73%);
+  --c-accent-bg:hsl(var(--rgb-hue),55%,16%); --c-accent-bg2:hsl(var(--rgb-hue),50%,20%); --c-accent-text-light:hsl(var(--rgb-hue),85%,78%); --c-on-accent:#fff;
+  --c-success:hsl(calc(var(--rgb-hue) + 72),80%,58%); --c-success-bg:hsl(calc(var(--rgb-hue) + 72),55%,15%); --c-success-border:hsl(calc(var(--rgb-hue) + 72),50%,30%);
+  --c-success-text-light:hsl(calc(var(--rgb-hue) + 72),80%,72%); --c-success-text2:hsl(calc(var(--rgb-hue) + 72),75%,70%); --c-success-bg2:hsl(calc(var(--rgb-hue) + 72),55%,15%); --c-success-bg3:hsl(calc(var(--rgb-hue) + 72),55%,15%);
+  --c-danger:hsl(calc(var(--rgb-hue) + 288),80%,62%); --c-danger-bg:hsl(calc(var(--rgb-hue) + 288),55%,16%); --c-danger-border:hsl(calc(var(--rgb-hue) + 288),50%,30%); --c-danger-strong:hsl(calc(var(--rgb-hue) + 288),75%,50%);
+  --c-warning:hsl(calc(var(--rgb-hue) + 216),80%,58%); --c-warning-bg:hsl(calc(var(--rgb-hue) + 216),55%,15%); --c-warning-border:hsl(calc(var(--rgb-hue) + 216),50%,30%);
+  --c-info:hsl(calc(var(--rgb-hue) + 144),80%,58%); --c-info-light:hsl(calc(var(--rgb-hue) + 144),80%,70%); --c-info-bg:hsl(calc(var(--rgb-hue) + 144),55%,16%);
+  --c-nav-active-bg:hsl(var(--rgb-hue),55%,16%); --c-nav-active-text:hsl(var(--rgb-hue),85%,76%);
+  --c-card-shadow:none; --c-overlay:rgba(0,0,0,0.6);
+}
+/* ---- Theme tokens: "pro" (new professional/light design) ---- */
+:root[data-theme="pro"]{
+  --c-body-bg:#f1f3f9; --c-surface:#ffffff; --c-surface-alt:#f6f7fb;
+  --c-border:#e7e9f2; --c-border-strong:#d3d7e6;
+  --c-text-heading:#161a2c; --c-text-body:#2b2f47; --c-text-subtle:#3e4259;
+  --c-text-muted:#6b7086; --c-text-faint:#8a8fa3; --c-text-faint2:#a3a7ba; --c-text-faintest:#bcc0d0;
+  --c-accent:#7c3aed; --c-accent-light:#a855f7; --c-accent-text:#6d28d9;
+  --c-accent-bg:#f1ecfe; --c-accent-bg2:#ece4fc; --c-accent-text-light:#6d28d9; --c-on-accent:#fff;
+  --c-success:#16a34a; --c-success-bg:#e9f9ef; --c-success-border:#bbeecb;
+  --c-success-text-light:#15803d; --c-success-text2:#0f7a3d; --c-success-bg2:#eafbf0; --c-success-bg3:#e9f9ef;
+  --c-danger:#dc2626; --c-danger-bg:#fdecec; --c-danger-border:#f8c9c9; --c-danger-strong:#dc2626;
+  --c-warning:#d97706; --c-warning-bg:#fef3e2; --c-warning-border:#f9dca0;
+  --c-info:#2563eb; --c-info-light:#1d4ed8; --c-info-bg:#e3ecfd;
+  --c-nav-active-bg:#f1ecfe; --c-nav-active-text:#6d28d9;
+  --c-card-shadow:0 1px 2px rgba(15,23,42,0.04),0 4px 16px rgba(15,23,42,0.07); --c-overlay:rgba(30,32,46,0.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--c-body-bg);color:var(--c-text-body);font-family:'Inter',sans-serif;min-height:100vh}
+body,.card,aside,input,select,button{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease}
+.card{box-shadow:var(--c-card-shadow)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes led-demo-cycle{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+.led-demo{animation:led-demo-cycle 3s linear infinite}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--c-surface)}
+::-webkit-scrollbar-thumb{background:var(--c-border-strong);border-radius:2px}
+input,select{background:var(--c-surface-alt);border:1px solid var(--c-border);color:var(--c-text-body);border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
+input:focus,select:focus{border-color:var(--c-border-strong)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="car-svg-data" style="display:none">
+  <div id="car-svg-seite_links" data-svg="<svg viewBox=&quot;0 0 260 100&quot; style=&quot;width:100%;display:block&quot;><path d=&quot;M20,78 L20,55 Q20,50 25,46 L52,36 Q60,24 75,20 L160,20 Q178,20 190,28 L215,40 Q228,46 232,54 L235,62 L235,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><path d=&quot;M75,20 Q80,12 88,10 L158,10 Q168,12 175,20&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><path d=&quot;M90,20 L154,20 L150,11 L93,11 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><path d=&quot;M108,20 L119,20 L118,11 L109,11 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><line x1=&quot;125&quot; y1=&quot;78&quot; x2=&quot;125&quot; y2=&quot;22&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.5&quot;/><circle cx=&quot;195&quot; cy=&quot;78&quot; r=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><circle cx=&quot;195&quot; cy=&quot;78&quot; r=&quot;9&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><circle cx=&quot;195&quot; cy=&quot;78&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;195&quot; y1=&quot;69&quot; x2=&quot;195&quot; y2=&quot;71.5&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;195&quot; y1=&quot;84.5&quot; x2=&quot;195&quot; y2=&quot;87&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;186&quot; y1=&quot;78&quot; x2=&quot;188.5&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;201.5&quot; y1=&quot;78&quot; x2=&quot;204&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><circle cx=&quot;62&quot; cy=&quot;78&quot; r=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><circle cx=&quot;62&quot; cy=&quot;78&quot; r=&quot;9&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><circle cx=&quot;62&quot; cy=&quot;78&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;62&quot; y1=&quot;69&quot; x2=&quot;62&quot; y2=&quot;71.5&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;62&quot; y1=&quot;84.5&quot; x2=&quot;62&quot; y2=&quot;87&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;53&quot; y1=&quot;78&quot; x2=&quot;55.5&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;68.5&quot; y1=&quot;78&quot; x2=&quot;71&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><path d=&quot;M226,62 L238,62 Q242,62 242,67 L242,78 L226,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><path d=&quot;M34,62 L22,62 Q18,62 18,67 L18,78 L34,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><ellipse cx=&quot;232&quot; cy=&quot;47&quot; rx=&quot;6&quot; ry=&quot;5&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><rect x=&quot;18&quot; y=&quot;47&quot; width=&quot;7&quot; height=&quot;9&quot; rx=&quot;2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;18&quot; y1=&quot;78&quot; x2=&quot;242&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/></svg>"></div>
+  <div id="car-svg-seite_rechts" data-svg="<svg viewBox=&quot;0 0 260 100&quot; style=&quot;width:100%;display:block&quot;><path d=&quot;M240,78 L240,55 Q240,50 235,46 L208,36 Q200,24 185,20 L100,20 Q82,20 70,28 L45,40 Q32,46 28,54 L25,62 L25,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><path d=&quot;M185,20 Q180,12 172,10 L102,10 Q92,12 85,20&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><path d=&quot;M170,20 L106,20 L110,11 L167,11 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><path d=&quot;M152,20 L141,20 L142,11 L151,11 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><line x1=&quot;135&quot; y1=&quot;78&quot; x2=&quot;135&quot; y2=&quot;22&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.5&quot;/><circle cx=&quot;65&quot; cy=&quot;78&quot; r=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><circle cx=&quot;65&quot; cy=&quot;78&quot; r=&quot;9&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><circle cx=&quot;65&quot; cy=&quot;78&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;65&quot; y1=&quot;69&quot; x2=&quot;65&quot; y2=&quot;71.5&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;65&quot; y1=&quot;84.5&quot; x2=&quot;65&quot; y2=&quot;87&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;56&quot; y1=&quot;78&quot; x2=&quot;58.5&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;71.5&quot; y1=&quot;78&quot; x2=&quot;74&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><circle cx=&quot;198&quot; cy=&quot;78&quot; r=&quot;16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><circle cx=&quot;198&quot; cy=&quot;78&quot; r=&quot;9&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><circle cx=&quot;198&quot; cy=&quot;78&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;198&quot; y1=&quot;69&quot; x2=&quot;198&quot; y2=&quot;71.5&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;198&quot; y1=&quot;84.5&quot; x2=&quot;198&quot; y2=&quot;87&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;189&quot; y1=&quot;78&quot; x2=&quot;191.5&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;204.5&quot; y1=&quot;78&quot; x2=&quot;207&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><path d=&quot;M34,62 L22,62 Q18,62 18,67 L18,78 L34,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><path d=&quot;M226,62 L238,62 Q242,62 242,67 L242,78 L226,78 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><ellipse cx=&quot;28&quot; cy=&quot;47&quot; rx=&quot;6&quot; ry=&quot;5&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><rect x=&quot;235&quot; y=&quot;47&quot; width=&quot;7&quot; height=&quot;9&quot; rx=&quot;2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><line x1=&quot;18&quot; y1=&quot;78&quot; x2=&quot;242&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/></svg>"></div>
+  <div id="car-svg-front" data-svg="<svg viewBox=&quot;0 0 140 110&quot; style=&quot;width:100%;display:block&quot;><path d=&quot;M18,88 L18,45 Q18,34 30,28 L110,28 Q122,34 122,45 L122,88 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><path d=&quot;M34,28 Q36,16 48,13 L92,13 Q104,16 106,28 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><path d=&quot;M40,28 Q42,17 52,14 L88,14 Q98,17 100,28 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><path d=&quot;M18,44 L30,38 Q32,36 34,38 L34,54 Q32,56 28,56 L18,54 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><path d=&quot;M122,44 L110,38 Q108,36 106,38 L106,54 Q108,56 112,56 L122,54 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><rect x=&quot;46&quot; y=&quot;60&quot; width=&quot;48&quot; height=&quot;18&quot; rx=&quot;4&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.2&quot;/><line x1=&quot;52&quot; y1=&quot;60&quot; x2=&quot;52&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;58&quot; y1=&quot;60&quot; x2=&quot;58&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;64&quot; y1=&quot;60&quot; x2=&quot;64&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;70&quot; y1=&quot;60&quot; x2=&quot;70&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;76&quot; y1=&quot;60&quot; x2=&quot;76&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;82&quot; y1=&quot;60&quot; x2=&quot;82&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><line x1=&quot;88&quot; y1=&quot;60&quot; x2=&quot;88&quot; y2=&quot;78&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.6&quot; opacity=&quot;0.5&quot;/><rect x=&quot;50&quot; y=&quot;80&quot; width=&quot;40&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><ellipse cx=&quot;30&quot; cy=&quot;96&quot; rx=&quot;12&quot; ry=&quot;6&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><ellipse cx=&quot;110&quot; cy=&quot;96&quot; rx=&quot;12&quot; ry=&quot;6&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><line x1=&quot;12&quot; y1=&quot;102&quot; x2=&quot;128&quot; y2=&quot;102&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/></svg>"></div>
+  <div id="car-svg-heck" data-svg="<svg viewBox=&quot;0 0 140 110&quot; style=&quot;width:100%;display:block&quot;><path d=&quot;M18,88 L18,45 Q18,34 30,28 L110,28 Q122,34 122,45 L122,88 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/><path d=&quot;M34,28 Q36,16 48,13 L92,13 Q104,16 106,28 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><path d=&quot;M40,28 Q42,17 52,14 L88,14 Q98,17 100,28 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot; opacity=&quot;0.7&quot;/><path d=&quot;M18,44 L30,38 Q32,36 34,38 L34,54 Q32,56 28,56 L18,54 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><path d=&quot;M122,44 L110,38 Q108,36 106,38 L106,54 Q108,56 112,56 L122,54 Z&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><circle cx=&quot;30&quot; cy=&quot;60&quot; r=&quot;7&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><circle cx=&quot;110&quot; cy=&quot;60&quot; r=&quot;7&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.1&quot;/><circle cx=&quot;30&quot; cy=&quot;60&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot;/><circle cx=&quot;110&quot; cy=&quot;60&quot; r=&quot;3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;0.8&quot;/><rect x=&quot;42&quot; y=&quot;80&quot; width=&quot;56&quot; height=&quot;8&quot; rx=&quot;2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1&quot;/><ellipse cx=&quot;30&quot; cy=&quot;96&quot; rx=&quot;12&quot; ry=&quot;6&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><ellipse cx=&quot;110&quot; cy=&quot;96&quot; rx=&quot;12&quot; ry=&quot;6&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.3&quot;/><line x1=&quot;12&quot; y1=&quot;102&quot; x2=&quot;128&quot; y2=&quot;102&quot; stroke=&quot;currentColor&quot; strokeWidth=&quot;1.5&quot;/></svg>"></div>
+</div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useMemo } = React;
+
+const DEFAULT_SHEET_ID = "1lIclzDm6EONvX8_XCOZtJ6Y5QihXswUkvuckFd9lKzw";
+const DEFAULT_GOOGLE_API_KEY = "AIzaSyCOeApddKgsJiqu0rnlGBnWwCQnuDc4gL4";
+
+function loadDataSourceConfig() {
+  let sheetId = DEFAULT_SHEET_ID, apiKey = DEFAULT_GOOGLE_API_KEY, whatsapp = "";
+  try {
+    sheetId = window.localStorage.getItem("testrent_sheet_id") || DEFAULT_SHEET_ID;
+    apiKey = window.localStorage.getItem("testrent_api_key") || DEFAULT_GOOGLE_API_KEY;
+    whatsapp = window.localStorage.getItem("testrent_whatsapp_number") || "";
+  } catch(e) {}
+  return { sheetId, apiKey, whatsapp };
+}
+
+let { sheetId: SHEET_ID, apiKey: GOOGLE_API_KEY, whatsapp: WHATSAPP_NUMBER } = loadDataSourceConfig();
+
+function setDataSourceConfig(newSheetId, newApiKey, newWhatsapp) {
+  SHEET_ID = newSheetId;
+  GOOGLE_API_KEY = newApiKey;
+  WHATSAPP_NUMBER = newWhatsapp || "";
+  try {
+    window.localStorage.setItem("testrent_sheet_id", newSheetId);
+    window.localStorage.setItem("testrent_api_key", newApiKey);
+    window.localStorage.setItem("testrent_whatsapp_number", newWhatsapp || "");
+  } catch(e) {}
+}
+
+function resetDataSourceConfig() {
+  SHEET_ID = DEFAULT_SHEET_ID;
+  GOOGLE_API_KEY = DEFAULT_GOOGLE_API_KEY;
+  WHATSAPP_NUMBER = "";
+  try {
+    window.localStorage.removeItem("testrent_sheet_id");
+    window.localStorage.removeItem("testrent_api_key");
+    window.localStorage.removeItem("testrent_whatsapp_number");
+  } catch(e) {}
+}
+
+const CARS = [
+  { id: 1, name: "VW Polo 2020", price: 60 },
+  { id: 2, name: "VW Polo 2024", price: 70 },
+  { id: 3, name: "VW Tiguan 2020", price: 80 },
+];
+
+const TRANSLATIONS = {
+  de: {
+    nav_uebersicht: "Übersicht", nav_buchungen: "Buchungen", nav_fahrzeuge: "Fahrzeuge", nav_chats: "Chats", nav_kunden: "Kunden", nav_einstellungen: "Einstellungen",
+    sidebar_admin: "Admin Dashboard", sidebar_ki_aktiv: "KI aktiv",
+    uebersicht_title: "Übersicht", uebersicht_sub: "Zuletzt aktualisiert:", uebersicht_live: "Live · alle 10s",
+    metric_verfuegbar: "Verfügbar", metric_buchungen: "Buchungen", metric_umsatz: "Umsatz", metric_aktive_chats: "Aktive Chats",
+    metric_gesamt_gebucht: "aktuell gebucht", metric_gesamt_sub: "gesamt", metric_umsatz_sub: "aus allen Buchungen", metric_chats_sub: "WhatsApp Konversationen",
+    letzte_buchungen: "Letzte Buchungen",
+    buchungen_title: "Buchungen", buchungen_sub: "Alle Mietbuchungen verwalten", buchungen_neu: "+ Neue Buchung",
+    buchungen_gesamt: "Gesamt", buchungen_bestaetigt: "Bestätigt", buchungen_abgeschlossen: "Abgeschlossen",
+    buchungen_gefilterte: "gefilterte Einträge", buchungen_aktive: "aktive Buchungen", buchungen_vergangene: "vergangene Buchungen",
+    suche_platzhalter: "Suche nach Name, ID, Auto...", alle: "Alle", storniert_gratis: "Storniert (gratis)", storniert_gebuehr: "Storniert (Gebühr fällig)",
+    stornieren: "Stornieren", abbrechen: "Abbrechen", aktion: "Aktion", von_label: "von", buchungen_label: "Buchungen",
+    fahrzeuge_title: "Fahrzeuge", fahrzeuge_sub: "Flotte verwalten und Verfügbarkeit prüfen", fahrzeuge_neu: "+ Fahrzeug hinzufügen",
+    flotte_gesamt: "Flotte gesamt", aktuell_gebucht: "Aktuell gebucht", verfuegbar_jetzt: "Verfügbar jetzt", aktiv: "aktiv",
+    bereit_abholung: "bereit zur Abholung", von_aktiven: "von aktiven",
+    suche_fahrzeug: "Suche nach Modell oder Kennzeichen...", bearbeiten: "Bearbeiten", deaktivieren: "Deaktivieren",
+    kennzeichen: "Kennzeichen", modell: "Modell", baujahr: "Baujahr", preis_tag: "Preis/Tag", status: "Status", verfuegbarkeit: "Verfügbarkeit",
+    gebucht: "Gebucht", verfuegbar: "Verfügbar", frei_ab: "frei ab", inaktiv: "Inaktiv", in_wartung: "In Wartung",
+    chats_title: "Chats", chats_sub: "Live WhatsApp Konversationen", filter_aktiv: "Aktiv", filter_heute: "Heute", filter_alle: "Alle",
+    uebernehmen: "Übernehmen", ki_reaktivieren: "KI reaktivieren", nachrichten: "Nachrichten",
+    kunden_title: "Kunden", kunden_sub: "Stammkunden und Buchungshistorie", kunden_neu: "+ Kunde hinzufügen",
+    kunden_gesamt: "Kunden gesamt", stammkunden: "Stammkunden", mit_buchungen: "mit 2+ Buchungen", registrierte_kontakte: "registrierte Kontakte",
+    name: "Name", telefon: "Telefonnummer", notizen: "Notizen", letzte_buchung: "Letzte Buchung",
+    waehle_kunde: "Wähle links einen Kunden aus um Details zu sehen.", buchungshistorie: "Buchungshistorie",
+    einstellungen_title: "Einstellungen", einstellungen_sub: "Dashboard-Konfiguration", sprache: "Sprache",
+    speichern: "Speichern", gespeichert: "Gespeichert!", abholung: "Abholung", rueckgabe: "Rückgabe",
+    fahrzeug: "Fahrzeug", zeitraum: "Zeitraum", gesamtpreis: "Gesamtpreis", kunde: "Kunde",
+    fehler_speichern: "Fehler beim Speichern. Bitte erneut versuchen.", wird_gespeichert: "Wird gespeichert...",
+    live_chat: "Live Chat", keine_chats: "Noch keine WhatsApp Chats vorhanden.", ki_formuliert: "KI formuliert Antwort via n8n...",
+    pro_tag: "/ Tag", belegt_bis: "Belegt bis", naechste_buchung: "Nächste Buchung:",
+    keine_buchungen_gefunden: "Keine Buchungen gefunden.", von_von: "von",
+    abholdatum: "Abholdatum", ruckgabedatum: "Rückgabedatum", neue_buchung_titel: "Neue Buchung (Telefon)",
+    manuell_eingetragen: "Manuell eingetragen vom Mitarbeiter", kundenname: "Kundenname", fahrzeug_label: "Fahrzeug",
+    von_feld: "Von (TT.MM.JJJJ)", bis_feld: "Bis (TT.MM.JJJJ)", gesamtpreis_eur: "Gesamtpreis (EUR)",
+    buchung_speichern: "Buchung speichern", buchung_stornieren_titel: "Buchung stornieren",
+    kostenlose_stornierung: "Kostenlose Stornierung möglich", stornogebuehr_faellig: "Stornogebühr fällig",
+    stornierung_bestaetigen: "Stornierung bestätigen", wird_storniert: "Wird storniert...",
+    pflichtfelder: "Bitte alle Felder ausfüllen.", noch_keine_fahrzeuge: "Noch keine Fahrzeuge in der Flotte.",
+    keine_fahrzeuge_gefunden: "Keine Fahrzeuge gefunden.", lade_flotte: "Lade Flotte...",
+    fahrzeug_hinzufuegen_titel: "Fahrzeug hinzufügen", fahrzeug_bearbeiten_titel: "Fahrzeug bearbeiten",
+    aenderungen_speichern: "Änderungen speichern", fahrzeug_deaktivieren_frage: "Fahrzeug deaktivieren?",
+    kein_telefon: "Telefon und Name sind Pflichtfelder.", kunde_hinzufuegen_titel: "Kunde hinzufügen",
+    keine_kunden_gefunden: "Keine Kunden gefunden.", noch_keine_kunden: "Noch keine Kunden vorhanden.",
+    unbekannt: "Unbekannt", uebernommen: "übernommen", ki_aktiv_anzahl: "KI aktiv", warte_antwort: "Wartet auf Antwort",
+    ki_antwortet: "KI antwortet gerade...", mitarbeiter_antwortet: "Mitarbeiter antwortet", mitarbeiter_modus: "Mitarbeiter-Modus aktiv – KI pausiert für diesen Kunden. Antworte direkt per WhatsApp auf deinem Handy.",
+    live_aktualisiert: "Live · aktualisiert alle 10 Sekunden", kein_telefon_hinweis: "Der Kunde wird NICHT automatisch benachrichtigt.", erscheint_10s: "Daten erscheinen innerhalb von 10 Sekunden unten", buchung_storniert_msg: "Buchung wurde storniert.",
+    datum_unklar: "Datum konnte nicht ausgewertet werden. Bitte manuell prüfen.", kostenlos_moeglich: "Kostenlose Stornierung möglich – Abholung ist in", stunden_entfernt: "Stunden (mehr als 24h entfernt).",
+    gebuehr_faellig_msg: "Stornogebühr fällig – Abholung ist in nur", stunden_entfernt_weniger: "Stunden (weniger als 24h entfernt).",
+    von_feld_kurz: "Von", bis_feld_kurz: "Bis", aktiv_caps: "Aktiv", optional: "optional", notizen_platzhalter: "z.B. Geburtsdatum, Führerschein seit...", sprache_hinweis: "Gilt für alle, die dieses Dashboard öffnen.",
+    design_title: "Design", design_hinweis: "Wähle das Erscheinungsbild des Dashboards.", design_classic: "Klassisch", design_classic_sub: "Das aktuelle dunkle Design", design_pro: "Professionell", design_pro_sub: "Neues helles, modernes Design",
+    design_led: "Farbwechsel (RGB)", design_led_sub: "Wie eine LED-Lampe – Akzentfarbe wechselt durchgehend",
+    notif_title: "Benachrichtigungen", notif_hinweis: "Werde informiert, wenn etwas Neues passiert.",
+    notif_sound_buchung: "Sound bei neuer Buchung", notif_sound_buchung_sub: "Spielt einen Ton ab, wenn eine neue Buchung eingeht",
+    notif_sound_chat: "Sound bei neuer Chat-Nachricht", notif_sound_chat_sub: "Spielt einen Ton ab, wenn ein Kunde schreibt",
+    notif_push: "Browser-Benachrichtigungen", notif_push_sub: "Zeigt eine Systembenachrichtigung an (Berechtigung erforderlich)",
+    notif_test: "🔊 Test-Sound abspielen", notif_neue_buchung_titel: "Neue Buchung", notif_neue_nachricht_titel: "Neue Nachricht",
+    export_title: "Export", export_hinweis: "Lade deine Daten als CSV-Datei herunter, z.B. für Backups oder den Steuerberater.",
+    export_buchungen: "Buchungen exportieren", export_fahrzeuge: "Fahrzeuge exportieren", export_kunden: "Kunden exportieren",
+    datenquelle_title: "Datenquelle", datenquelle_hinweis: "Verbinde das Dashboard mit einem anderen Google Sheet – praktisch für neue Kunden.",
+    sheet_id_label: "Google-Sheet-ID", api_key_label: "Google-API-Key", zuruecksetzen: "Zurücksetzen",
+    datenquelle_reload_hinweis: "Nach dem Speichern wird die Seite neu geladen, damit die neue Verbindung aktiv wird.",
+    verbindung_testen: "Verbindung testen", verbindung_erfolgreich: "✅ Verbindung erfolgreich", verbindung_fehlgeschlagen: "❌ Verbindung fehlgeschlagen – bitte ID/Key prüfen", verbindung_testet: "⏳ Teste Verbindung...",
+    schritt_label: "Schritt", weiter: "Weiter", zurueck: "Zurück",
+    ds_step1_title: "Google-Sheet-ID", ds_step1_hinweis: "Du findest sie in der URL deines Sheets, zwischen /d/ und /edit.",
+    ds_step2_title: "Google-API-Key", ds_step2_hinweis: "Der Key, mit dem das Dashboard auf Google Sheets zugreift.",
+    ds_step3_title: "WhatsApp-Nummer (optional)", ds_step3_hinweis: "Nur zur eigenen Übersicht – wird z.B. in der Sidebar angezeigt.",
+    ds_step4_title: "Zusammenfassung", ds_step4_hinweis: "Bitte prüfen und dann speichern.",
+    ds_whatsapp_label: "WhatsApp-Nummer", ds_whatsapp_placeholder: "+43 xxx xxx xxxx", ds_keine_angabe: "Keine Angabe",
+    intervall_title: "Aktualisierung", intervall_hinweis: "Wie oft das Dashboard neue Daten aus Google Sheets lädt – größere Abstände schonen dein API-Kontingent.",
+    nav_rueckgabe: "Rückgabe",
+    rueckgabe_title: "Rückgabe", rueckgabe_sub: "Fahrzeugzustand, km-Stand und Kaution bei Rückgabe erfassen",
+    tab_neuer_eintrag: "Neuer Eintrag", tab_alte_eintraege: "Alte Einträge",
+    typ_abholung: "Abholung", typ_rueckgabe: "Rückgabe", fahrzeug_waehlen: "Buchung wählen",
+    kategorie_schaden: "Kategorie", beschaedigtes_teil: "Beschädigtes Teil",
+    kat_kratzer: "Kratzer", kat_riss: "Riss", kat_beule: "Beule", kat_sonstiges: "Sonstiges",
+    notiz_schaden: "Notiz (z.B. Kratzer hinten links)", foto_hochladen: "Foto hochladen",
+    schaeden_markieren: "Schäden markieren", keine_markierungen: "Noch keine Stellen markiert.",
+    markierte_stellen: "Markierte Stellen",
+    km_stand_abholung: "km-Stand bei Abholung", km_stand_rueckgabe: "km-Stand bei Rückgabe",
+    km_kosten: "km-Kosten", gefahrene_km: "Gefahrene km", preis_pro_km: "Preis pro km",
+    bei_abholung: "bei Abholung", kein_abholung_eintrag: "Kein Abholungs-Eintrag gefunden. Bitte zuerst Abholung erfassen.",
+    fuellstand: "Füllstand", nachtanken: "Nachtanken (Liter)", tank_kosten: "Tank-Kosten",
+    kaution_info: "Kaution (Information)", kaution_hoehe: "Hinterlegte Kaution",
+    kaution_hinweis: "Die Rückzahlung erfolgt manuell durch einen Mitarbeiter außerhalb dieses Systems.",
+    eintrag_speichern: "Eintrag speichern", wird_hochgeladen: "Wird hochgeladen...",
+    keine_eintraege: "Noch keine Einträge vorhanden.", bitte_buchung_waehlen: "Bitte eine Buchung auswählen.",
+    bitte_foto_waehlen: "Bitte ein Foto auswählen.",
+    abholung_dokumentiert: "Zustand bei Abholung", rueckgabe_dokumentiert: "Zustand bei Rückgabe",
+    foto_ansehen: "Foto ansehen", kilometerstand: "Kilometerstand",
+  },
+  en: {
+    nav_uebersicht: "Overview", nav_buchungen: "Bookings", nav_fahrzeuge: "Vehicles", nav_chats: "Chats", nav_kunden: "Customers", nav_einstellungen: "Settings",
+    sidebar_admin: "Admin Dashboard", sidebar_ki_aktiv: "AI active",
+    uebersicht_title: "Overview", uebersicht_sub: "Last updated:", uebersicht_live: "Live · every 10s",
+    metric_verfuegbar: "Available", metric_buchungen: "Bookings", metric_umsatz: "Revenue", metric_aktive_chats: "Active Chats",
+    metric_gesamt_gebucht: "currently booked", metric_gesamt_sub: "total", metric_umsatz_sub: "from all bookings", metric_chats_sub: "WhatsApp conversations",
+    letzte_buchungen: "Recent Bookings",
+    buchungen_title: "Bookings", buchungen_sub: "Manage all rental bookings", buchungen_neu: "+ New Booking",
+    buchungen_gesamt: "Total", buchungen_bestaetigt: "Confirmed", buchungen_abgeschlossen: "Completed",
+    buchungen_gefilterte: "filtered entries", buchungen_aktive: "active bookings", buchungen_vergangene: "past bookings",
+    suche_platzhalter: "Search by name, ID, vehicle...", alle: "All", storniert_gratis: "Cancelled (free)", storniert_gebuehr: "Cancelled (fee due)",
+    stornieren: "Cancel", abbrechen: "Cancel", aktion: "Action", von_label: "of", buchungen_label: "bookings",
+    fahrzeuge_title: "Vehicles", fahrzeuge_sub: "Manage fleet and check availability", fahrzeuge_neu: "+ Add Vehicle",
+    flotte_gesamt: "Fleet total", aktuell_gebucht: "Currently booked", verfuegbar_jetzt: "Available now", aktiv: "active",
+    bereit_abholung: "ready for pickup", von_aktiven: "of active",
+    suche_fahrzeug: "Search by model or plate...", bearbeiten: "Edit", deaktivieren: "Deactivate",
+    kennzeichen: "Plate", modell: "Model", baujahr: "Year", preis_tag: "Price/Day", status: "Status", verfuegbarkeit: "Availability",
+    gebucht: "Booked", verfuegbar: "Available", frei_ab: "free from", inaktiv: "Inactive", in_wartung: "In Maintenance",
+    chats_title: "Chats", chats_sub: "Live WhatsApp conversations", filter_aktiv: "Active", filter_heute: "Today", filter_alle: "All",
+    uebernehmen: "Take over", ki_reaktivieren: "Reactivate AI", nachrichten: "messages",
+    kunden_title: "Customers", kunden_sub: "Regular customers and booking history", kunden_neu: "+ Add Customer",
+    kunden_gesamt: "Total customers", stammkunden: "Repeat customers", mit_buchungen: "with 2+ bookings", registrierte_kontakte: "registered contacts",
+    name: "Name", telefon: "Phone number", notizen: "Notes", letzte_buchung: "Last booking",
+    waehle_kunde: "Select a customer on the left to see details.", buchungshistorie: "Booking History",
+    einstellungen_title: "Settings", einstellungen_sub: "Dashboard configuration", sprache: "Language",
+    speichern: "Save", gespeichert: "Saved!", abholung: "Pickup", rueckgabe: "Return",
+    fahrzeug: "Vehicle", zeitraum: "Period", gesamtpreis: "Total price", kunde: "Customer",
+    fehler_speichern: "Error saving. Please try again.", wird_gespeichert: "Saving...",
+    live_chat: "Live Chat", keine_chats: "No WhatsApp chats yet.", ki_formuliert: "AI is composing a reply via n8n...",
+    pro_tag: "/ day", belegt_bis: "Booked until", naechste_buchung: "Next booking:",
+    keine_buchungen_gefunden: "No bookings found.", von_von: "of",
+    abholdatum: "Pickup date", ruckgabedatum: "Return date", neue_buchung_titel: "New Booking (Phone)",
+    manuell_eingetragen: "Manually entered by staff", kundenname: "Customer name", fahrzeug_label: "Vehicle",
+    von_feld: "From (DD.MM.YYYY)", bis_feld: "To (DD.MM.YYYY)", gesamtpreis_eur: "Total price (EUR)",
+    buchung_speichern: "Save booking", buchung_stornieren_titel: "Cancel booking",
+    kostenlose_stornierung: "Free cancellation available", stornogebuehr_faellig: "Cancellation fee applies",
+    stornierung_bestaetigen: "Confirm cancellation", wird_storniert: "Cancelling...",
+    pflichtfelder: "Please fill in all fields.", noch_keine_fahrzeuge: "No vehicles in fleet yet.",
+    keine_fahrzeuge_gefunden: "No vehicles found.", lade_flotte: "Loading fleet...",
+    fahrzeug_hinzufuegen_titel: "Add Vehicle", fahrzeug_bearbeiten_titel: "Edit Vehicle",
+    aenderungen_speichern: "Save changes", fahrzeug_deaktivieren_frage: "Deactivate vehicle?",
+    kein_telefon: "Phone and name are required.", kunde_hinzufuegen_titel: "Add Customer",
+    keine_kunden_gefunden: "No customers found.", noch_keine_kunden: "No customers yet.",
+    unbekannt: "Unknown", uebernommen: "taken over", ki_aktiv_anzahl: "AI active", warte_antwort: "Awaiting reply",
+    ki_antwortet: "AI is replying...", mitarbeiter_antwortet: "Staff is replying", mitarbeiter_modus: "Staff mode active – AI paused for this customer. Reply directly via WhatsApp on your phone.",
+    live_aktualisiert: "Live · updates every 10 seconds", kein_telefon_hinweis: "The customer will NOT be automatically notified.", erscheint_10s: "Data will appear below within 10 seconds", buchung_storniert_msg: "Booking has been cancelled.",
+    datum_unklar: "Could not evaluate date. Please check manually.", kostenlos_moeglich: "Free cancellation available – pickup is in", stunden_entfernt: "hours (more than 24h away).",
+    gebuehr_faellig_msg: "Cancellation fee applies – pickup is in only", stunden_entfernt_weniger: "hours (less than 24h away).",
+    von_feld_kurz: "From", bis_feld_kurz: "To", aktiv_caps: "Active", optional: "optional", notizen_platzhalter: "e.g. date of birth, license held since...", sprache_hinweis: "Applies to everyone who opens this dashboard.",
+    design_title: "Design", design_hinweis: "Choose the dashboard's appearance.", design_classic: "Classic", design_classic_sub: "The current dark design", design_pro: "Professional", design_pro_sub: "New light, modern design",
+    design_led: "Color Cycle (RGB)", design_led_sub: "Like an LED light – accent color keeps shifting",
+    notif_title: "Notifications", notif_hinweis: "Get notified when something new happens.",
+    notif_sound_buchung: "Sound on new booking", notif_sound_buchung_sub: "Plays a sound when a new booking comes in",
+    notif_sound_chat: "Sound on new chat message", notif_sound_chat_sub: "Plays a sound when a customer writes",
+    notif_push: "Browser notifications", notif_push_sub: "Shows a system notification (permission required)",
+    notif_test: "🔊 Play test sound", notif_neue_buchung_titel: "New booking", notif_neue_nachricht_titel: "New message",
+    export_title: "Export", export_hinweis: "Download your data as a CSV file, e.g. for backups or your accountant.",
+    export_buchungen: "Export bookings", export_fahrzeuge: "Export vehicles", export_kunden: "Export customers",
+    datenquelle_title: "Data Source", datenquelle_hinweis: "Connect the dashboard to a different Google Sheet – handy when onboarding new customers.",
+    sheet_id_label: "Google Sheet ID", api_key_label: "Google API Key", zuruecksetzen: "Reset",
+    datenquelle_reload_hinweis: "The page will reload after saving so the new connection takes effect.",
+    verbindung_testen: "Test connection", verbindung_erfolgreich: "✅ Connection successful", verbindung_fehlgeschlagen: "❌ Connection failed – please check ID/key", verbindung_testet: "⏳ Testing connection...",
+    schritt_label: "Step", weiter: "Next", zurueck: "Back",
+    ds_step1_title: "Google Sheet ID", ds_step1_hinweis: "You'll find it in your sheet's URL, between /d/ and /edit.",
+    ds_step2_title: "Google API Key", ds_step2_hinweis: "The key the dashboard uses to access Google Sheets.",
+    ds_step3_title: "WhatsApp number (optional)", ds_step3_hinweis: "Just for your own reference – will be shown in the sidebar, for example.",
+    ds_step4_title: "Summary", ds_step4_hinweis: "Please review, then save.",
+    ds_whatsapp_label: "WhatsApp number", ds_whatsapp_placeholder: "+1 555 xxx xxxx", ds_keine_angabe: "Not set",
+    intervall_title: "Refresh Interval", intervall_hinweis: "How often the dashboard pulls fresh data from Google Sheets – longer intervals save your API quota.",
+    nav_rueckgabe: "Return",
+    rueckgabe_title: "Return", rueckgabe_sub: "Document vehicle condition, mileage and deposit at return",
+    tab_neuer_eintrag: "New Entry", tab_alte_eintraege: "Previous Entries",
+    typ_abholung: "Pickup", typ_rueckgabe: "Return", fahrzeug_waehlen: "Select booking",
+    kategorie_schaden: "Category", beschaedigtes_teil: "Affected part",
+    kat_kratzer: "Scratch", kat_riss: "Crack", kat_beule: "Dent", kat_sonstiges: "Other",
+    notiz_schaden: "Note (e.g. scratch rear left)", foto_hochladen: "Upload photo",
+    schaeden_markieren: "Mark damage", keine_markierungen: "No spots marked yet.",
+    markierte_stellen: "Marked spots",
+    km_stand_abholung: "Mileage at pickup", km_stand_rueckgabe: "Mileage at return",
+    km_kosten: "Mileage cost", gefahrene_km: "Distance driven", preis_pro_km: "Price per km",
+    bei_abholung: "at pickup", kein_abholung_eintrag: "No pickup entry found. Please record pickup first.",
+    fuellstand: "Fuel level", nachtanken: "Refuel (liters)", tank_kosten: "Fuel cost",
+    kaution_info: "Deposit (info)", kaution_hoehe: "Deposit held",
+    kaution_hinweis: "Refund is handled manually by staff outside this system.",
+    eintrag_speichern: "Save entry", wird_hochgeladen: "Uploading...",
+    keine_eintraege: "No entries yet.", bitte_buchung_waehlen: "Please select a booking.",
+    bitte_foto_waehlen: "Please select a photo.",
+    abholung_dokumentiert: "Condition at pickup", rueckgabe_dokumentiert: "Condition at return",
+    foto_ansehen: "View photo", kilometerstand: "Mileage",
+  },
+  fr: {
+    nav_uebersicht: "Aperçu", nav_buchungen: "Réservations", nav_fahrzeuge: "Véhicules", nav_chats: "Discussions", nav_kunden: "Clients", nav_einstellungen: "Paramètres",
+    sidebar_admin: "Tableau de bord", sidebar_ki_aktiv: "IA active",
+    uebersicht_title: "Aperçu", uebersicht_sub: "Dernière mise à jour :", uebersicht_live: "En direct · toutes les 10s",
+    metric_verfuegbar: "Disponible", metric_buchungen: "Réservations", metric_umsatz: "Chiffre d'affaires", metric_aktive_chats: "Discussions actives",
+    metric_gesamt_gebucht: "actuellement réservé", metric_gesamt_sub: "total", metric_umsatz_sub: "de toutes les réservations", metric_chats_sub: "conversations WhatsApp",
+    letzte_buchungen: "Réservations récentes",
+    buchungen_title: "Réservations", buchungen_sub: "Gérer toutes les réservations", buchungen_neu: "+ Nouvelle réservation",
+    buchungen_gesamt: "Total", buchungen_bestaetigt: "Confirmées", buchungen_abgeschlossen: "Terminées",
+    buchungen_gefilterte: "entrées filtrées", buchungen_aktive: "réservations actives", buchungen_vergangene: "réservations passées",
+    suche_platzhalter: "Rechercher par nom, ID, véhicule...", alle: "Toutes", storniert_gratis: "Annulée (gratuite)", storniert_gebuehr: "Annulée (frais dus)",
+    stornieren: "Annuler", abbrechen: "Annuler", aktion: "Action", von_label: "sur", buchungen_label: "réservations",
+    fahrzeuge_title: "Véhicules", fahrzeuge_sub: "Gérer la flotte et vérifier la disponibilité", fahrzeuge_neu: "+ Ajouter véhicule",
+    flotte_gesamt: "Flotte totale", aktuell_gebucht: "Actuellement réservé", verfuegbar_jetzt: "Disponible maintenant", aktiv: "actif",
+    bereit_abholung: "prêt pour le retrait", von_aktiven: "des actifs",
+    suche_fahrzeug: "Rechercher par modèle ou plaque...", bearbeiten: "Modifier", deaktivieren: "Désactiver",
+    kennzeichen: "Plaque", modell: "Modèle", baujahr: "Année", preis_tag: "Prix/jour", status: "Statut", verfuegbarkeit: "Disponibilité",
+    gebucht: "Réservé", verfuegbar: "Disponible", frei_ab: "libre dès", inaktiv: "Inactif", in_wartung: "En entretien",
+    chats_title: "Discussions", chats_sub: "Conversations WhatsApp en direct", filter_aktiv: "Actives", filter_heute: "Aujourd'hui", filter_alle: "Toutes",
+    uebernehmen: "Prendre le relais", ki_reaktivieren: "Réactiver l'IA", nachrichten: "messages",
+    kunden_title: "Clients", kunden_sub: "Clients réguliers et historique des réservations", kunden_neu: "+ Ajouter client",
+    kunden_gesamt: "Total clients", stammkunden: "Clients fidèles", mit_buchungen: "avec 2+ réservations", registrierte_kontakte: "contacts enregistrés",
+    name: "Nom", telefon: "Numéro de téléphone", notizen: "Notes", letzte_buchung: "Dernière réservation",
+    waehle_kunde: "Sélectionnez un client à gauche pour voir les détails.", buchungshistorie: "Historique des réservations",
+    einstellungen_title: "Paramètres", einstellungen_sub: "Configuration du tableau de bord", sprache: "Langue",
+    speichern: "Enregistrer", gespeichert: "Enregistré !", abholung: "Prise en charge", rueckgabe: "Retour",
+    fahrzeug: "Véhicule", zeitraum: "Période", gesamtpreis: "Prix total", kunde: "Client",
+    fehler_speichern: "Erreur lors de l'enregistrement. Veuillez réessayer.", wird_gespeichert: "Enregistrement...",
+    live_chat: "Chat en direct", keine_chats: "Pas encore de discussions WhatsApp.", ki_formuliert: "L'IA compose une réponse via n8n...",
+    pro_tag: "/ jour", belegt_bis: "Réservé jusqu'au", naechste_buchung: "Prochaine réservation :",
+    keine_buchungen_gefunden: "Aucune réservation trouvée.", von_von: "sur",
+    abholdatum: "Date de prise en charge", ruckgabedatum: "Date de retour", neue_buchung_titel: "Nouvelle réservation (téléphone)",
+    manuell_eingetragen: "Saisi manuellement par le personnel", kundenname: "Nom du client", fahrzeug_label: "Véhicule",
+    von_feld: "Du (JJ.MM.AAAA)", bis_feld: "Au (JJ.MM.AAAA)", gesamtpreis_eur: "Prix total (EUR)",
+    buchung_speichern: "Enregistrer la réservation", buchung_stornieren_titel: "Annuler la réservation",
+    kostenlose_stornierung: "Annulation gratuite possible", stornogebuehr_faellig: "Frais d'annulation applicables",
+    stornierung_bestaetigen: "Confirmer l'annulation", wird_storniert: "Annulation en cours...",
+    pflichtfelder: "Veuillez remplir tous les champs.", noch_keine_fahrzeuge: "Pas encore de véhicules dans la flotte.",
+    keine_fahrzeuge_gefunden: "Aucun véhicule trouvé.", lade_flotte: "Chargement de la flotte...",
+    fahrzeug_hinzufuegen_titel: "Ajouter un véhicule", fahrzeug_bearbeiten_titel: "Modifier le véhicule",
+    aenderungen_speichern: "Enregistrer les modifications", fahrzeug_deaktivieren_frage: "Désactiver le véhicule ?",
+    kein_telefon: "Le téléphone et le nom sont requis.", kunde_hinzufuegen_titel: "Ajouter un client",
+    keine_kunden_gefunden: "Aucun client trouvé.", noch_keine_kunden: "Pas encore de clients.",
+    unbekannt: "Inconnu", uebernommen: "pris en charge", ki_aktiv_anzahl: "IA active", warte_antwort: "En attente de réponse",
+    ki_antwortet: "L'IA répond...", mitarbeiter_antwortet: "Le personnel répond", mitarbeiter_modus: "Mode personnel actif – IA en pause pour ce client. Répondez directement via WhatsApp sur votre téléphone.",
+    live_aktualisiert: "En direct · mise à jour toutes les 10 secondes", kein_telefon_hinweis: "Le client ne sera PAS notifié automatiquement.", erscheint_10s: "Les données apparaîtront ci-dessous dans les 10 secondes", buchung_storniert_msg: "La réservation a été annulée.",
+    datum_unklar: "Impossible d'évaluer la date. Veuillez vérifier manuellement.", kostenlos_moeglich: "Annulation gratuite possible – la prise en charge est dans", stunden_entfernt: "heures (plus de 24h).",
+    gebuehr_faellig_msg: "Frais d'annulation applicables – la prise en charge est dans seulement", stunden_entfernt_weniger: "heures (moins de 24h).",
+    von_feld_kurz: "Du", bis_feld_kurz: "Au", aktiv_caps: "Actif", optional: "facultatif", notizen_platzhalter: "ex. date de naissance, permis depuis...", sprache_hinweis: "S'applique à tous ceux qui ouvrent ce tableau de bord.",
+    design_title: "Design", design_hinweis: "Choisissez l'apparence du tableau de bord.", design_classic: "Classique", design_classic_sub: "Le design sombre actuel", design_pro: "Professionnel", design_pro_sub: "Nouveau design clair et moderne",
+    design_led: "Cycle de couleurs (RGB)", design_led_sub: "Comme une lampe LED – la couleur d'accent change sans cesse",
+    notif_title: "Notifications", notif_hinweis: "Soyez informé dès que quelque chose de nouveau se passe.",
+    notif_sound_buchung: "Son pour une nouvelle réservation", notif_sound_buchung_sub: "Joue un son lorsqu'une nouvelle réservation arrive",
+    notif_sound_chat: "Son pour un nouveau message", notif_sound_chat_sub: "Joue un son lorsqu'un client écrit",
+    notif_push: "Notifications du navigateur", notif_push_sub: "Affiche une notification système (autorisation requise)",
+    notif_test: "🔊 Jouer le son test", notif_neue_buchung_titel: "Nouvelle réservation", notif_neue_nachricht_titel: "Nouveau message",
+    export_title: "Export", export_hinweis: "Téléchargez vos données en CSV, par ex. pour une sauvegarde ou votre comptable.",
+    export_buchungen: "Exporter les réservations", export_fahrzeuge: "Exporter les véhicules", export_kunden: "Exporter les clients",
+    datenquelle_title: "Source de données", datenquelle_hinweis: "Connectez le tableau de bord à une autre feuille Google – pratique pour intégrer de nouveaux clients.",
+    sheet_id_label: "ID de la feuille Google", api_key_label: "Clé API Google", zuruecksetzen: "Réinitialiser",
+    datenquelle_reload_hinweis: "La page sera rechargée après l'enregistrement pour activer la nouvelle connexion.",
+    verbindung_testen: "Tester la connexion", verbindung_erfolgreich: "✅ Connexion réussie", verbindung_fehlgeschlagen: "❌ Connexion échouée – vérifiez l'ID/la clé", verbindung_testet: "⏳ Test de la connexion...",
+    schritt_label: "Étape", weiter: "Suivant", zurueck: "Retour",
+    ds_step1_title: "ID de la feuille Google", ds_step1_hinweis: "Vous la trouverez dans l'URL de votre feuille, entre /d/ et /edit.",
+    ds_step2_title: "Clé API Google", ds_step2_hinweis: "La clé que le tableau de bord utilise pour accéder à Google Sheets.",
+    ds_step3_title: "Numéro WhatsApp (optionnel)", ds_step3_hinweis: "Juste pour votre propre repère – affiché par exemple dans la barre latérale.",
+    ds_step4_title: "Récapitulatif", ds_step4_hinweis: "Veuillez vérifier, puis enregistrer.",
+    ds_whatsapp_label: "Numéro WhatsApp", ds_whatsapp_placeholder: "+33 6 xx xx xx xx", ds_keine_angabe: "Non renseigné",
+    intervall_title: "Intervalle d'actualisation", intervall_hinweis: "À quelle fréquence le tableau de bord récupère les données depuis Google Sheets – des intervalles plus longs préservent votre quota API.",
+    nav_rueckgabe: "Retour",
+    rueckgabe_title: "Retour", rueckgabe_sub: "Documenter état, kilométrage et caution au retour",
+    tab_neuer_eintrag: "Nouvelle entrée", tab_alte_eintraege: "Entrées précédentes",
+    typ_abholung: "Prise en charge", typ_rueckgabe: "Retour", fahrzeug_waehlen: "Choisir réservation",
+    kategorie_schaden: "Catégorie", beschaedigtes_teil: "Pièce endommagée",
+    kat_kratzer: "Rayure", kat_riss: "Fissure", kat_beule: "Bosse", kat_sonstiges: "Autre",
+    notiz_schaden: "Note (ex. rayure arrière)", foto_hochladen: "Télécharger photo",
+    schaeden_markieren: "Marquer dommage", keine_markierungen: "Aucun emplacement marqué.",
+    markierte_stellen: "Emplacements marqués",
+    km_stand_abholung: "Kilométrage prise", km_stand_rueckgabe: "Kilométrage retour",
+    km_kosten: "Coût km", gefahrene_km: "Distance parcourue", preis_pro_km: "Prix par km",
+    bei_abholung: "à la prise", kein_abholung_eintrag: "Aucune entrée de prise trouvée.",
+    fuellstand: "Carburant", nachtanken: "Plein (litres)", tank_kosten: "Coût carburant",
+    kaution_info: "Caution (info)", kaution_hoehe: "Caution déposée",
+    kaution_hinweis: "Remboursement effectué manuellement par un employé.",
+    eintrag_speichern: "Enregistrer", wird_hochgeladen: "Téléchargement...",
+    keine_eintraege: "Aucune entrée.", bitte_buchung_waehlen: "Sélectionnez une réservation.",
+    bitte_foto_waehlen: "Sélectionnez une photo.",
+    abholung_dokumentiert: "État à la prise", rueckgabe_dokumentiert: "État au retour",
+    foto_ansehen: "Voir photo", kilometerstand: "Kilométrage",
+  },
+  ar: {
+    nav_uebersicht: "نظرة عامة", nav_buchungen: "الحجوزات", nav_fahrzeuge: "السيارات", nav_chats: "المحادثات", nav_kunden: "العملاء", nav_einstellungen: "الإعدادات",
+    sidebar_admin: "لوحة التحكم", sidebar_ki_aktiv: "الذكاء الاصطناعي نشط",
+    uebersicht_title: "نظرة عامة", uebersicht_sub: "آخر تحديث:", uebersicht_live: "مباشر · كل 10 ثواني",
+    metric_verfuegbar: "متوفر", metric_buchungen: "الحجوزات", metric_umsatz: "الإيرادات", metric_aktive_chats: "محادثات نشطة",
+    metric_gesamt_gebucht: "محجوز حاليًا", metric_gesamt_sub: "الإجمالي", metric_umsatz_sub: "من جميع الحجوزات", metric_chats_sub: "محادثات واتساب",
+    letzte_buchungen: "آخر الحجوزات",
+    buchungen_title: "الحجوزات", buchungen_sub: "إدارة جميع حجوزات التأجير", buchungen_neu: "+ حجز جديد",
+    buchungen_gesamt: "الإجمالي", buchungen_bestaetigt: "مؤكدة", buchungen_abgeschlossen: "مكتملة",
+    buchungen_gefilterte: "نتائج مفلترة", buchungen_aktive: "حجوزات نشطة", buchungen_vergangene: "حجوزات سابقة",
+    suche_platzhalter: "البحث بالاسم أو الرقم أو السيارة...", alle: "الكل", storniert_gratis: "ملغى (مجاني)", storniert_gebuehr: "ملغى (رسوم مستحقة)",
+    stornieren: "إلغاء", abbrechen: "إلغاء", aktion: "إجراء", von_label: "من", buchungen_label: "حجوزات",
+    fahrzeuge_title: "السيارات", fahrzeuge_sub: "إدارة الأسطول والتحقق من التوفر", fahrzeuge_neu: "+ إضافة سيارة",
+    flotte_gesamt: "إجمالي الأسطول", aktuell_gebucht: "محجوز حاليًا", verfuegbar_jetzt: "متوفر الآن", aktiv: "نشط",
+    bereit_abholung: "جاهز للاستلام", von_aktiven: "من النشطة",
+    suche_fahrzeug: "البحث بالموديل أو رقم اللوحة...", bearbeiten: "تعديل", deaktivieren: "تعطيل",
+    kennzeichen: "رقم اللوحة", modell: "الموديل", baujahr: "سنة الصنع", preis_tag: "السعر/اليوم", status: "الحالة", verfuegbarkeit: "التوفر",
+    gebucht: "محجوز", verfuegbar: "متوفر", frei_ab: "متوفر من", inaktiv: "غير نشط", in_wartung: "قيد الصيانة",
+    chats_title: "المحادثات", chats_sub: "محادثات واتساب المباشرة", filter_aktiv: "نشطة", filter_heute: "اليوم", filter_alle: "الكل",
+    uebernehmen: "تولي المحادثة", ki_reaktivieren: "إعادة تفعيل الذكاء الاصطناعي", nachrichten: "رسائل",
+    kunden_title: "العملاء", kunden_sub: "العملاء الدائمون وسجل الحجوزات", kunden_neu: "+ إضافة عميل",
+    kunden_gesamt: "إجمالي العملاء", stammkunden: "عملاء دائمون", mit_buchungen: "بحجزين أو أكثر", registrierte_kontakte: "جهات اتصال مسجلة",
+    name: "الاسم", telefon: "رقم الهاتف", notizen: "ملاحظات", letzte_buchung: "آخر حجز",
+    waehle_kunde: "اختر عميلاً من القائمة على اليسار لعرض التفاصيل.", buchungshistorie: "سجل الحجوزات",
+    einstellungen_title: "الإعدادات", einstellungen_sub: "إعدادات لوحة التحكم", sprache: "اللغة",
+    speichern: "حفظ", gespeichert: "تم الحفظ!", abholung: "الاستلام", rueckgabe: "الإرجاع",
+    fahrzeug: "السيارة", zeitraum: "المدة", gesamtpreis: "السعر الإجمالي", kunde: "العميل",
+    fehler_speichern: "خطأ في الحفظ. حاول مرة أخرى.", wird_gespeichert: "جارٍ الحفظ...",
+    live_chat: "محادثة مباشرة", keine_chats: "لا توجد محادثات واتساب حتى الآن.", ki_formuliert: "الذكاء الاصطناعي يصيغ ردًا عبر n8n...",
+    pro_tag: "/ اليوم", belegt_bis: "محجوز حتى", naechste_buchung: "الحجز التالي:",
+    keine_buchungen_gefunden: "لم يتم العثور على حجوزات.", von_von: "من",
+    abholdatum: "تاريخ الاستلام", ruckgabedatum: "تاريخ الإرجاع", neue_buchung_titel: "حجز جديد (هاتف)",
+    manuell_eingetragen: "تم إدخاله يدويًا من الموظف", kundenname: "اسم العميل", fahrzeug_label: "السيارة",
+    von_feld: "من (يوم.شهر.سنة)", bis_feld: "إلى (يوم.شهر.سنة)", gesamtpreis_eur: "السعر الإجمالي (يورو)",
+    buchung_speichern: "حفظ الحجز", buchung_stornieren_titel: "إلغاء الحجز",
+    kostenlose_stornierung: "الإلغاء المجاني متاح", stornogebuehr_faellig: "رسوم الإلغاء مستحقة",
+    stornierung_bestaetigen: "تأكيد الإلغاء", wird_storniert: "جارٍ الإلغاء...",
+    pflichtfelder: "يرجى تعبئة جميع الحقول.", noch_keine_fahrzeuge: "لا توجد سيارات في الأسطول حتى الآن.",
+    keine_fahrzeuge_gefunden: "لم يتم العثور على سيارات.", lade_flotte: "جارٍ تحميل الأسطول...",
+    fahrzeug_hinzufuegen_titel: "إضافة سيارة", fahrzeug_bearbeiten_titel: "تعديل السيارة",
+    aenderungen_speichern: "حفظ التغييرات", fahrzeug_deaktivieren_frage: "تعطيل السيارة؟",
+    kein_telefon: "الهاتف والاسم مطلوبان.", kunde_hinzufuegen_titel: "إضافة عميل",
+    keine_kunden_gefunden: "لم يتم العثور على عملاء.", noch_keine_kunden: "لا يوجد عملاء حتى الآن.",
+    unbekannt: "غير معروف", uebernommen: "تم الاستلام", ki_aktiv_anzahl: "الذكاء الاصطناعي نشط", warte_antwort: "في انتظار الرد",
+    ki_antwortet: "الذكاء الاصطناعي يرد...", mitarbeiter_antwortet: "الموظف يرد", mitarbeiter_modus: "وضع الموظف نشط – الذكاء الاصطناعي متوقف لهذا العميل. الرد مباشرة عبر واتساب على هاتفك.",
+    live_aktualisiert: "مباشر · يتم التحديث كل 10 ثوانٍ", kein_telefon_hinweis: "لن يتم إخطار العميل تلقائيًا.", erscheint_10s: "ستظهر البيانات أدناه في غضون 10 ثوانٍ", buchung_storniert_msg: "تم إلغاء الحجز.",
+    datum_unklar: "تعذر تقييم التاريخ. يرجى التحقق يدويًا.", kostenlos_moeglich: "الإلغاء المجاني متاح – الاستلام بعد", stunden_entfernt: "ساعة (أكثر من 24 ساعة).",
+    gebuehr_faellig_msg: "رسوم الإلغاء مستحقة – الاستلام بعد", stunden_entfernt_weniger: "ساعة فقط (أقل من 24 ساعة).",
+    von_feld_kurz: "من", bis_feld_kurz: "إلى", aktiv_caps: "نشط", optional: "اختياري", notizen_platzhalter: "مثال: تاريخ الميلاد، رخصة القيادة منذ...", sprache_hinweis: "ينطبق على كل من يفتح لوحة التحكم هذه.",
+    design_title: "التصميم", design_hinweis: "اختر مظهر لوحة التحكم.", design_classic: "كلاسيكي", design_classic_sub: "التصميم الداكن الحالي", design_pro: "احترافي", design_pro_sub: "تصميم جديد فاتح وعصري",
+    design_led: "تبديل الألوان (RGB)", design_led_sub: "كأنوار LED – لون التمييز يتغير باستمرار",
+    notif_title: "الإشعارات", notif_hinweis: "احصل على إشعار عند حدوث شيء جديد.",
+    notif_sound_buchung: "صوت عند حجز جديد", notif_sound_buchung_sub: "يصدر صوتًا عند وصول حجز جديد",
+    notif_sound_chat: "صوت عند رسالة جديدة", notif_sound_chat_sub: "يصدر صوتًا عندما يكتب العميل",
+    notif_push: "إشعارات المتصفح", notif_push_sub: "يعرض إشعار النظام (يتطلب إذنًا)",
+    notif_test: "🔊 تشغيل صوت تجريبي", notif_neue_buchung_titel: "حجز جديد", notif_neue_nachricht_titel: "رسالة جديدة",
+    export_title: "تصدير", export_hinweis: "نزّل بياناتك كملف CSV، مثلاً للنسخ الاحتياطي أو للمحاسب.",
+    export_buchungen: "تصدير الحجوزات", export_fahrzeuge: "تصدير السيارات", export_kunden: "تصدير العملاء",
+    datenquelle_title: "مصدر البيانات", datenquelle_hinweis: "اربط لوحة التحكم بجدول جوجل آخر – مفيد عند إضافة عميل جديد.",
+    sheet_id_label: "معرف جدول جوجل", api_key_label: "مفتاح API لجوجل", zuruecksetzen: "إعادة تعيين",
+    datenquelle_reload_hinweis: "ستتم إعادة تحميل الصفحة بعد الحفظ لتفعيل الاتصال الجديد.",
+    verbindung_testen: "اختبار الاتصال", verbindung_erfolgreich: "✅ الاتصال ناجح", verbindung_fehlgeschlagen: "❌ فشل الاتصال – تحقق من المعرف/المفتاح", verbindung_testet: "⏳ جارٍ اختبار الاتصال...",
+    schritt_label: "خطوة", weiter: "التالي", zurueck: "رجوع",
+    ds_step1_title: "معرف جدول جوجل", ds_step1_hinweis: "ستجده في رابط جدولك، بين /d/ و /edit.",
+    ds_step2_title: "مفتاح API لجوجل", ds_step2_hinweis: "المفتاح الذي تستخدمه لوحة التحكم للوصول إلى Google Sheets.",
+    ds_step3_title: "رقم واتساب (اختياري)", ds_step3_hinweis: "فقط لمرجعك الخاص – يُعرض مثلاً في الشريط الجانبي.",
+    ds_step4_title: "ملخص", ds_step4_hinweis: "يرجى المراجعة ثم الحفظ.",
+    ds_whatsapp_label: "رقم واتساب", ds_whatsapp_placeholder: "+966 5x xxx xxxx", ds_keine_angabe: "غير محدد",
+    intervall_title: "فترة التحديث", intervall_hinweis: "كل متى تسحب لوحة التحكم بيانات جديدة من Google Sheets – الفترات الأطول توفر حصة API.",
+    nav_rueckgabe: "الإرجاع",
+    rueckgabe_title: "الإرجاع", rueckgabe_sub: "توثيق حالة السيارة والمسافة والتأمين عند الإرجاع",
+    tab_neuer_eintrag: "تسجيل جديد", tab_alte_eintraege: "التسجيلات السابقة",
+    typ_abholung: "الاستلام", typ_rueckgabe: "الإرجاع", fahrzeug_waehlen: "اختر الحجز",
+    kategorie_schaden: "الفئة", beschaedigtes_teil: "الجزء المتضرر",
+    kat_kratzer: "خدش", kat_riss: "تمزق", kat_beule: "انبعاج", kat_sonstiges: "أخرى",
+    notiz_schaden: "ملاحظة", foto_hochladen: "تحميل صورة",
+    schaeden_markieren: "تحديد الضرر", keine_markierungen: "لا توجد مواضع محددة.",
+    markierte_stellen: "المواضع المحددة",
+    km_stand_abholung: "عداد الاستلام", km_stand_rueckgabe: "عداد الإرجاع",
+    km_kosten: "تكلفة الكيلومترات", gefahrene_km: "المسافة المقطوعة", preis_pro_km: "سعر الكيلومتر",
+    bei_abholung: "عند الاستلام", kein_abholung_eintrag: "لم يتم العثور على تسجيل استلام.",
+    fuellstand: "مستوى الوقود", nachtanken: "إعادة التعبئة (لتر)", tank_kosten: "تكلفة الوقود",
+    kaution_info: "التأمين (معلومة)", kaution_hoehe: "مبلغ التأمين",
+    kaution_hinweis: "تتم عملية الاسترداد يدويًا من قبل أحد الموظفين.",
+    eintrag_speichern: "حفظ", wird_hochgeladen: "جارٍ التحميل...",
+    keine_eintraege: "لا توجد تسجيلات.", bitte_buchung_waehlen: "يرجى اختيار حجز.",
+    bitte_foto_waehlen: "يرجى اختيار صورة.",
+    abholung_dokumentiert: "الحالة عند الاستلام", rueckgabe_dokumentiert: "الحالة عند الإرجاع",
+    foto_ansehen: "عرض الصورة", kilometerstand: "قراءة العداد",
+  }
+};
+
+const LOCALE_MAP = { de: "de-AT", en: "en-GB", fr: "fr-FR", ar: "ar-MA" };
+
+function useLanguage() {
+  const [lang, setLangState] = useState(() => {
+    try { return window.localStorage.getItem("testrent_lang") || "de"; } catch(e) { return "de"; }
+  });
+  function setLang(newLang) {
+    setLangState(newLang);
+    try { window.localStorage.setItem("testrent_lang", newLang); } catch(e) {}
+  }
+  const t = (key) => (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || TRANSLATIONS.de[key] || key;
+  return { lang, setLang, t };
+}
+
+function useTheme() {
+  const [design, setDesignState] = useState(() => {
+    let d = "classic";
+    try { d = window.localStorage.getItem("testrent_design") || "classic"; } catch(e) {}
+    document.documentElement.setAttribute("data-theme", d);
+    return d;
+  });
+  useEffect(() => {
+    if (design !== "led") return;
+    let raf;
+    function tick(timestamp) {
+      const hue = (timestamp / 30) % 360; // full color cycle roughly every ~11s
+      document.documentElement.style.setProperty("--rgb-hue", hue.toFixed(1));
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [design]);
+  function setDesign(newDesign) {
+    setDesignState(newDesign);
+    document.documentElement.setAttribute("data-theme", newDesign);
+    try { window.localStorage.setItem("testrent_design", newDesign); } catch(e) {}
+  }
+  return { design, setDesign };
+}
+
+function useRefreshInterval() {
+  const [intervalMs, setIntervalMsState] = useState(() => {
+    let v = 10000;
+    try { v = parseInt(window.localStorage.getItem("testrent_refresh_interval"), 10) || 10000; } catch(e) {}
+    return v;
+  });
+  function setIntervalMs(newVal) {
+    setIntervalMsState(newVal);
+    try { window.localStorage.setItem("testrent_refresh_interval", String(newVal)); } catch(e) {}
+  }
+  return { refreshInterval: intervalMs, setRefreshInterval: setIntervalMs };
+}
+
+function useNotificationSettings() {
+  const [settings, setSettingsState] = useState(() => {
+    let s = { soundBooking: true, soundChat: true, push: false };
+    try {
+      const saved = window.localStorage.getItem("testrent_notifications");
+      if (saved) s = { ...s, ...JSON.parse(saved) };
+    } catch(e) {}
+    return s;
+  });
+  function updateSettings(patch) {
+    setSettingsState(prev => {
+      const next = { ...prev, ...patch };
+      try { window.localStorage.setItem("testrent_notifications", JSON.stringify(next)); } catch(e) {}
+      return next;
+    });
+  }
+  return { notifSettings: settings, updateNotifSettings: updateSettings };
+}
+
+function useNotificationSound() {
+  const ctxRef = useRef(null);
+  return function playBeep() {
+    try {
+      if (!ctxRef.current) ctxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      const ctx = ctxRef.current;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 880;
+      osc.connect(gain); gain.connect(ctx.destination);
+      const now = ctx.currentTime;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.36);
+    } catch(e) {}
+  };
+}
+
+function sendPushNotification(title, body) {
+  try {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "granted") new Notification(title, { body });
+  } catch(e) {}
+}
+
+const NAV_KEYS = [["📊","nav_uebersicht"],["📅","nav_buchungen"],["🚗","nav_fahrzeuge"],["💬","nav_chats"],["👥","nav_kunden"],["🛠️","nav_rueckgabe"],["⚙️","nav_einstellungen"]];
+
+
+async function fetchSheet(range) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${range}?key=${GOOGLE_API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.values || [];
+}
+
+async function fetchSheetBatch(ranges) {
+  const params = ranges.map(r => `ranges=${encodeURIComponent(r)}`).join("&");
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchGet?${params}&key=${GOOGLE_API_KEY}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return (data.valueRanges || []).map(vr => vr.values || []);
+}
+
+function useSheetData(intervalMs) {
+  const [bookings, setBookings] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [damages, setDamages] = useState([]);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+
+  const load = async () => {
+    try {
+      const [bRows, cRows, vRows, kRows, dRows] = await fetchSheetBatch([
+        "Buchungen!A2:H200", "Chats!A2:E500", "Fahrzeuge!A2:E300", "Kunden!A2:E500", "Schaeden!A2:F500"
+      ]);
+      setBookings(bRows.map(r => ({
+        id: r[0]||"", name: r[1]||"", telefon: r[2]||"", auto: r[3]||"",
+        von: r[4]||"", bis: r[5]||"", preis: r[6]||"", status: r[7]||""
+      })).filter(r => r.id));
+      setChats(cRows.map(r => ({
+        zeitstempel: r[0]||"", telefon: r[1]||"", name: r[2]||"",
+        rolle: r[3]||"", nachricht: r[4]||""
+      })).filter(r => r.nachricht));
+      setVehicles(vRows.map(r => ({
+        kennzeichen: r[0]||"", modell: r[1]||"", baujahr: r[2]||"",
+        preis: r[3]||"", status: r[4]||"Aktiv"
+      })).filter(r => r.kennzeichen));
+      setCustomers(kRows.map(r => ({
+        telefon: r[0]||"", name: r[1]||"", letzteBuchung: r[2]||"",
+        anzahlBuchungen: r[3]||"0", notizen: r[4]||""
+      })).filter(r => r.telefon));
+      setDamages((dRows||[]).map(r => ({
+        buchungsId: r[0]||"", typ: r[1]||"", notiz: r[2]||"",
+        fotoLink: r[3]||"", zeitstempel: r[4]||"", kmStand: r[5]||""
+      })).filter(r => r.buchungsId));
+      setLastUpdated(new Date());
+    } catch(e) { console.error(e); }
+  };
+
+  useEffect(() => { load(); const t = setInterval(load, intervalMs); return () => clearInterval(t); }, [intervalMs]);
+  return { bookings, chats, vehicles, customers, damages, lastUpdated };
+}
+
+function parseDate(str) {
+  const p = (str||"").split(".");
+  if (p.length !== 3) return null;
+  return new Date(`${p[2]}-${p[1]}-${p[0]}`);
+}
+
+function getCarStatus(bookings, fleet) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const statusMap = {};
+  fleet.forEach(car => {
+    const carBookings = bookings
+      .filter(b => b.auto === car.name && b.status === "Bestätigt")
+      .map(b => ({ ...b, vonDate: parseDate(b.von), bisDate: parseDate(b.bis) }))
+      .filter(b => b.vonDate && b.bisDate)
+      .sort((a, b) => a.vonDate - b.vonDate);
+    const currentBooking = carBookings.find(b => today >= b.vonDate && today <= b.bisDate);
+    if (currentBooking) {
+      let nextFree = new Date(currentBooking.bisDate);
+      nextFree.setDate(nextFree.getDate() + 1);
+      let checking = true;
+      while (checking) {
+        const overlap = carBookings.find(b => b !== currentBooking && nextFree >= b.vonDate && nextFree <= b.bisDate);
+        if (overlap) { nextFree = new Date(overlap.bisDate); nextFree.setDate(nextFree.getDate() + 1); }
+        else checking = false;
+      }
+      statusMap[car.name] = { booked: true, until: currentBooking.bis, nextFree: nextFree.toLocaleDateString("de-AT", {day:"2-digit",month:"2-digit",year:"numeric"}), customer: currentBooking.name };
+    } else {
+      const nextBooking = carBookings.find(b => b.vonDate > today);
+      statusMap[car.name] = { booked: false, nextBooking: nextBooking ? { from: nextBooking.von, name: nextBooking.name } : null };
+    }
+  });
+  return statusMap;
+}
+
+function getBookedCars(bookings, fleet) {
+  const statusMap = getCarStatus(bookings, fleet);
+  const booked = new Set();
+  Object.entries(statusMap).forEach(([name, s]) => { if (s.booked) booked.add(name); });
+  return booked;
+}
+
+function getTotalRevenue(b) {
+  return b.reduce((s,x) => { const p=parseFloat((x.preis||"0").replace(/[^\d.]/g,"")); return s+(isNaN(p)?0:p); }, 0);
+}
+
+function groupChatsByPhone(chats) {
+  const g = {};
+  chats.forEach(c => { if(!g[c.telefon]) g[c.telefon]=[]; g[c.telefon].push(c); });
+  return g;
+}
+
+function exportCSV(filename, rows, columns) {
+  const escape = (v) => {
+    const s = v === undefined || v === null ? "" : String(v);
+    if (s.includes(",") || s.includes('"') || s.includes("\n")) {
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    return s;
+  };
+  const headerLine = columns.map(c => escape(c.label)).join(",");
+  const dataLines = rows.map(row => columns.map(c => escape(row[c.key])).join(","));
+  const csv = "\uFEFF" + [headerLine, ...dataLines].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function StatusBadge({ status }) {
+  const s = status === "Bestätigt" ? {background:"var(--c-success-bg)",color:"var(--c-success)",border:"1px solid var(--c-success-border)"}
+    : status === "Abgeschlossen" ? {background:"var(--c-border)",color:"var(--c-text-faint)",border:"1px solid var(--c-border-strong)"}
+    : status === "Storniert (gratis)" ? {background:"var(--c-warning-bg)",color:"var(--c-warning)",border:"1px solid var(--c-warning-border)"}
+    : status === "Storniert (Gebühr fällig)" ? {background:"var(--c-danger-bg)",color:"var(--c-danger)",border:"1px solid var(--c-danger-border)"}
+    : {background:"var(--c-danger-bg)",color:"var(--c-danger)",border:"1px solid var(--c-danger-border)"};
+  return <span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:500,...s}}>{status||"—"}</span>;
+}
+
+function Sidebar({ page, setPage, time, t, lang }) {
+  const locale = LOCALE_MAP[lang] || "de-AT";
+  return (
+    <aside className="card" style={{width:220,background:"var(--c-surface)",borderRight:"1px solid var(--c-border)",display:"flex",flexDirection:"column",padding:"1.5rem 1rem",position:"fixed",top:0,bottom:0,left:0,zIndex:10}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:"2rem"}}>
+        <div style={{width:36,height:36,borderRadius:10,background:"linear-gradient(135deg,var(--c-accent),var(--c-accent-light))",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:600,fontSize:18,color:"var(--c-on-accent)",flexShrink:0}}>T</div>
+        <div><div style={{fontWeight:600,fontSize:15,color:"var(--c-text-heading)"}}>Testrent</div><div style={{fontSize:11,color:"var(--c-text-faint)"}}>{t("sidebar_admin")}</div></div>
+      </div>
+      <div style={{display:"flex",alignItems:"center",gap:8,background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",borderRadius:10,padding:"10px 12px",marginBottom:"1.5rem"}}>
+        <div style={{width:8,height:8,borderRadius:"50%",background:"var(--c-success)",boxShadow:"0 0 8px var(--c-success)",animation:"pulse 1.5s infinite",flexShrink:0}} />
+        <div><div style={{fontSize:12,fontWeight:500,color:"var(--c-success)"}}>{t("sidebar_ki_aktiv")}</div><div style={{fontSize:10,color:"var(--c-success-text-light)",opacity:0.8}}>llama-3.3 · Groq</div></div>
+      </div>
+      <nav style={{display:"flex",flexDirection:"column",gap:2,marginBottom:"1rem"}}>
+        {NAV_KEYS.map(([icon,labelKey],i) => (
+          <div key={i} onClick={() => setPage(i)} style={{padding:"8px 12px",borderRadius:8,fontSize:13,fontWeight:i===page?600:400,color:i===page?"var(--c-nav-active-text)":"var(--c-text-faint)",background:i===page?"var(--c-nav-active-bg)":"transparent",cursor:"pointer",display:"flex",alignItems:"center",gap:8,transition:"all 0.15s"}}>
+            <span>{icon}</span>{t(labelKey)}
+          </div>
+        ))}
+      </nav>
+      <div style={{marginTop:"auto",paddingTop:"1rem",borderTop:"1px solid var(--c-border)"}}>
+        <div style={{fontSize:22,fontWeight:600,color:"var(--c-text-body)",fontVariantNumeric:"tabular-nums"}}>
+          {time.toLocaleTimeString(locale,{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+        </div>
+        <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:3}}>{time.toLocaleDateString(locale,{weekday:"long",day:"numeric",month:"long"})}</div>
+        <div style={{marginTop:12,fontSize:11,color:"var(--c-text-faintest)"}}>{WHATSAPP_NUMBER ? `📱 ${WHATSAPP_NUMBER}` : "n8n · Twilio · Google Sheets"}</div>
+      </div>
+    </aside>
+  );
+}
+
+function MetricCard({ label, value, sub, color, icon }) {
+  return (
+    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1rem 1.25rem",position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:color}} />
+      <div style={{fontSize:11,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:6}}>{icon} {label}</div>
+      <div style={{fontSize:26,fontWeight:600,color:"var(--c-text-heading)"}}>{value}</div>
+      <div style={{fontSize:11,color:"var(--c-text-faint2)",marginTop:3}}>{sub}</div>
+    </div>
+  );
+}
+
+function LiveChat({ chats, t }) {
+  const groups = groupChatsByPhone(chats);
+  const phones = Object.keys(groups);
+  const [selected, setSelected] = useState(0);
+  const chatRef = useRef(null);
+  useEffect(() => { if(chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight; }, [selected, chats]);
+  if (phones.length === 0) return (
+    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
+      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>💬 {t("live_chat")}</div>
+      <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"2rem"}}>{t("keine_chats")}</div>
+    </div>
+  );
+  const messages = groups[phones[selected]] || [];
+  const isAiTyping = messages[messages.length-1]?.rolle === "user";
+  return (
+    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",display:"flex",flexDirection:"column"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"}}>
+        <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>💬 {t("live_chat")}</span>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+          {phones.map((p,i) => <button key={i} onClick={() => setSelected(i)} style={{fontSize:11,padding:"3px 10px",borderRadius:20,border:`1px solid ${i===selected?"var(--c-border-strong)":"var(--c-border)"}`,background:i===selected?"var(--c-border)":"transparent",color:i===selected?"var(--c-text-body)":"var(--c-text-faint)",cursor:"pointer"}}>{p.replace("whatsapp:","").slice(-8)}</button>)}
+        </div>
+      </div>
+      <div ref={chatRef} style={{display:"flex",flexDirection:"column",gap:10,maxHeight:280,overflowY:"auto",paddingRight:4}}>
+        {messages.map((msg,i) => (
+          <div key={i} style={{display:"flex",alignItems:"flex-end",gap:8,justifyContent:msg.rolle==="user"?"flex-end":"flex-start"}}>
+            {msg.rolle==="ai" && <div style={{width:24,height:24,borderRadius:"50%",background:"var(--c-info-bg)",color:"var(--c-info-light)",fontSize:9,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>KI</div>}
+            <div style={{maxWidth:"75%",padding:"8px 12px",borderRadius:12,fontSize:13,lineHeight:1.5,...(msg.rolle==="user"?{background:"var(--c-accent-bg)",color:"var(--c-accent-text-light)",borderBottomRightRadius:3}:{background:"var(--c-success-bg2)",color:"var(--c-success-text2)",borderBottomLeftRadius:3})}}>
+              <div>{msg.nachricht}</div>
+              <div style={{fontSize:10,opacity:0.5,marginTop:3}}>{msg.zeitstempel.split(",")[1]?.trim()||msg.zeitstempel}</div>
+            </div>
+            {msg.rolle==="user" && <div style={{width:24,height:24,borderRadius:"50%",background:"var(--c-accent-bg2)",color:"var(--c-accent-text)",fontSize:11,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>K</div>}
+          </div>
+        ))}
+        {isAiTyping && (
+          <div style={{display:"flex",alignItems:"flex-end",gap:8}}>
+            <div style={{width:24,height:24,borderRadius:"50%",background:"var(--c-info-bg)",color:"var(--c-info-light)",fontSize:9,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>KI</div>
+            <div style={{padding:"10px 14px",borderRadius:12,background:"var(--c-success-bg2)",borderBottomLeftRadius:3,display:"flex",gap:4,alignItems:"center"}}>
+              {[0,200,400].map(d => <span key={d} style={{width:6,height:6,borderRadius:"50%",background:"var(--c-success-text2)",display:"inline-block",animation:`blink 1.2s ${d}ms infinite`}} />)}
+            </div>
+          </div>
+        )}
+      </div>
+      {isAiTyping && <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"var(--c-success)",padding:"8px 10px",background:"var(--c-success-bg)",borderRadius:8,marginTop:10}}><div style={{width:6,height:6,borderRadius:"50%",background:"var(--c-success)",animation:"pulse 1s infinite"}} />{t("ki_formuliert")}</div>}
+    </div>
+  );
+}
+
+function CarStatus({ cars, bookings, t }) {
+  const statusMap = getCarStatus(bookings, cars);
+  return (
+    <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
+      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>🚗 {t("fahrzeuge_title")}</div>
+      {cars.map(car => {
+        const s = statusMap[car.name] || { booked: false };
+        return (
+          <div key={car.id} style={{borderRadius:8,background:"var(--c-surface-alt)",marginBottom:4,padding:"10px"}}>
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <div style={{width:40,height:40,borderRadius:8,background:s.booked?"var(--c-danger-bg)":"var(--c-success-bg)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>🚘</div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)"}}>{car.name}</div>
+                <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{car.price} € {t("pro_tag")}</div>
+              </div>
+              <div style={{fontSize:11,padding:"4px 10px",borderRadius:20,fontWeight:500,...(s.booked?{background:"var(--c-danger-bg)",color:"var(--c-danger)",border:"1px solid var(--c-danger-border)"}:{background:"var(--c-success-bg)",color:"var(--c-success)",border:"1px solid var(--c-success-border)"})}}>
+                {s.booked ? t("gebucht") : t("verfuegbar")}
+              </div>
+            </div>
+            {s.booked && (
+              <div style={{marginTop:6,paddingLeft:50,fontSize:11,color:"var(--c-text-muted)"}}>
+                <span style={{color:"var(--c-danger)"}}>{t("belegt_bis")} {s.until}</span>
+                <span style={{color:"var(--c-text-faint)"}}> · {t("frei_ab")} </span>
+                <span style={{color:"var(--c-success)"}}>{s.nextFree}</span>
+              </div>
+            )}
+            {!s.booked && s.nextBooking && (
+              <div style={{marginTop:6,paddingLeft:50,fontSize:11,color:"var(--c-text-faint)"}}>
+                {t("naechste_buchung")} <span style={{color:"var(--c-warning)"}}>{s.nextBooking.from}</span>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const WEBHOOK_URL = "https://patrickscloud.app.n8n.cloud/webhook/manuelle-buchung";
+
+function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
+  const [form, setForm] = useState({
+    name: "", telefon: "", auto: fleet[0]?.name || "", von: "", bis: "", preis: "", status: "Bestätigt"
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  function update(field, value) {
+    setForm(f => ({ ...f, [field]: value }));
+  }
+
+  function generateId() {
+    const n = Math.floor(Math.random() * 900) + 100;
+    return `BK-2026-${n}`;
+  }
+
+  async function handleSubmit() {
+    if (!form.name || !form.telefon || !form.von || !form.bis || !form.preis) {
+      setError(t("pflichtfelder"));
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      const phone = form.telefon.startsWith("whatsapp:") ? form.telefon : `whatsapp:${form.telefon.startsWith("+") ? form.telefon : "+" + form.telefon}`;
+      const payload = {
+        buchungsId: generateId(),
+        sheetId: SHEET_ID,
+        name: form.name,
+        telefon: phone,
+        auto: form.auto,
+        von: form.von,
+        bis: form.bis,
+        preis: form.preis.includes("EUR") ? form.preis : `${form.preis} EUR`,
+        status: form.status
+      };
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("Server-Fehler");
+      onSuccess();
+    } catch (e) {
+      setError(t("fehler_speichern"));
+    }
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:440,maxWidth:"90vw",maxHeight:"85vh",overflowY:"auto"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
+          <div>
+            <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>📞 {t("neue_buchung_titel")}</div>
+            <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:2}}>{t("manuell_eingetragen")}</div>
+          </div>
+          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
+        </div>
+
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("kundenname")}</label>
+            <input value={form.name} onChange={e => update("name", e.target.value)} placeholder="Max Mustermann" style={{width:"100%"}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("telefon")}</label>
+            <input value={form.telefon} onChange={e => update("telefon", e.target.value)} placeholder="+436XXXXXXXX" style={{width:"100%"}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("fahrzeug_label")}</label>
+            <select value={form.auto} onChange={e => update("auto", e.target.value)} style={{width:"100%"}}>
+              {fleet.map(c => <option key={c.name} value={c.name}>{c.name} ({c.price}€{t("pro_tag")})</option>)}
+            </select>
+          </div>
+          <div style={{display:"flex",gap:10}}>
+            <div style={{flex:1}}>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("von_feld")}</label>
+              <input value={form.von} onChange={e => update("von", e.target.value)} placeholder="20.06.2026" style={{width:"100%"}} />
+            </div>
+            <div style={{flex:1}}>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("bis_feld")}</label>
+              <input value={form.bis} onChange={e => update("bis", e.target.value)} placeholder="25.06.2026" style={{width:"100%"}} />
+            </div>
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("gesamtpreis_eur")}</label>
+            <input value={form.preis} onChange={e => update("preis", e.target.value)} placeholder="400" style={{width:"100%"}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("status")}</label>
+            <select value={form.status} onChange={e => update("status", e.target.value)} style={{width:"100%"}}>
+              <option value="Bestätigt">{t("buchungen_bestaetigt")}</option>
+              <option value="Abgeschlossen">{t("buchungen_abgeschlossen")}</option>
+              <option value="Storniert">{t("storniert_gratis")}</option>
+            </select>
+          </div>
+
+          {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
+
+          <button onClick={handleSubmit} disabled={submitting} style={{marginTop:8,padding:"10px",borderRadius:8,border:"none",background:submitting?"var(--c-border-strong)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+            {submitting ? t("wird_gespeichert") : `✅ ${t("buchung_speichern")}`}
+          </button>
+          <div style={{fontSize:11,color:"var(--c-text-faint2)",textAlign:"center"}}>{t("kein_telefon_hinweis")}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const CANCEL_WEBHOOK_URL = "https://patrickscloud.app.n8n.cloud/webhook/buchung-stornieren";
+
+function StornierenModal({ booking, onClose, onSuccess, t }) {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const vonDate = parseDate(booking.von);
+  const now = new Date();
+  const hoursUntilStart = vonDate ? (vonDate - now) / (1000 * 60 * 60) : null;
+  const isFreeCancel = hoursUntilStart !== null && hoursUntilStart >= 24;
+
+  async function handleCancel() {
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch(CANCEL_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          buchungsId: booking.id,
+          sheetId: SHEET_ID,
+          name: booking.name,
+          telefon: booking.telefon,
+          von: booking.von
+        })
+      });
+      if (!res.ok) throw new Error("Server-Fehler");
+      onSuccess();
+    } catch (e) {
+      setError(t("fehler_speichern"));
+    }
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:420,maxWidth:"90vw"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>❌ {t("buchung_stornieren_titel")}</div>
+          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
+        </div>
+
+        <div style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"12px",marginBottom:"1rem"}}>
+          <div style={{fontSize:13,color:"var(--c-text-body)",fontWeight:500}}>{booking.name}</div>
+          <div style={{fontSize:12,color:"var(--c-text-faint)",marginTop:2}}>{booking.auto} · {booking.von} – {booking.bis}</div>
+          <div style={{fontSize:12,color:"var(--c-text-muted)",marginTop:2}}>{booking.preis}</div>
+        </div>
+
+        {hoursUntilStart === null ? (
+          <div style={{fontSize:13,color:"var(--c-warning)",background:"var(--c-warning-bg)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
+            ⚠️ {t("datum_unklar")}
+          </div>
+        ) : isFreeCancel ? (
+          <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
+            ✅ {t("kostenlos_moeglich")} {Math.round(hoursUntilStart)} {t("stunden_entfernt")}
+          </div>
+        ) : (
+          <div style={{fontSize:13,color:"var(--c-danger)",background:"var(--c-danger-bg)",border:"1px solid var(--c-danger-border)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
+            ⚠️ {t("gebuehr_faellig_msg")} {Math.max(0,Math.round(hoursUntilStart))} {t("stunden_entfernt_weniger")}
+          </div>
+        )}
+
+        {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8,marginBottom:"1rem"}}>{error}</div>}
+
+        <div style={{display:"flex",gap:8}}>
+          <button onClick={onClose} style={{flex:1,padding:"10px",borderRadius:8,border:"1px solid var(--c-border-strong)",background:"transparent",color:"var(--c-text-muted)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+            {t("abbrechen")}
+          </button>
+          <button onClick={handleCancel} disabled={submitting} style={{flex:1,padding:"10px",borderRadius:8,border:"none",background:submitting?"var(--c-border-strong)":"var(--c-danger-strong)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+            {submitting ? t("wird_storniert") : t("stornierung_bestaetigen")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BuchungenPage({ bookings, fleet, t }) {
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("Alle");
+  const [filterAuto, setFilterAuto] = useState("Alle");
+  const [sortBy, setSortBy] = useState("von");
+  const [sortDir, setSortDir] = useState("desc");
+  const [showModal, setShowModal] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+  const [cancelTarget, setCancelTarget] = useState(null);
+  const [justCancelled, setJustCancelled] = useState(false);
+
+  const filtered = useMemo(() => {
+    return bookings
+      .filter(b => {
+        const q = search.toLowerCase();
+        const matchSearch = !q || b.name.toLowerCase().includes(q) || b.id.toLowerCase().includes(q) || b.auto.toLowerCase().includes(q) || b.telefon.includes(q);
+        const matchStatus = filterStatus === "Alle" || b.status === filterStatus;
+        const matchAuto = filterAuto === "Alle" || b.auto === filterAuto;
+        return matchSearch && matchStatus && matchAuto;
+      })
+      .sort((a, b) => {
+        let va = a[sortBy]||"", vb = b[sortBy]||"";
+        if (sortBy === "preis") { va = parseFloat(va.replace(/[^\d.]/g,"")||0); vb = parseFloat(vb.replace(/[^\d.]/g,"")||0); }
+        return sortDir === "asc" ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+      });
+  }, [bookings, search, filterStatus, filterAuto, sortBy, sortDir]);
+
+  const totalRevenue = getTotalRevenue(filtered);
+  const confirmed = filtered.filter(b => b.status === "Bestätigt").length;
+  const completed = filtered.filter(b => b.status === "Abgeschlossen").length;
+
+  function toggleSort(col) {
+    if (sortBy === col) setSortDir(d => d === "asc" ? "desc" : "asc");
+    else { setSortBy(col); setSortDir("desc"); }
+  }
+
+  function SortIcon({ col }) {
+    if (sortBy !== col) return <span style={{opacity:0.3}}>↕</span>;
+    return <span>{sortDir === "asc" ? "↑" : "↓"}</span>;
+  }
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"1.5rem"}}>
+        <div>
+          <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("buchungen_title")}</h1>
+          <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("buchungen_sub")}</p>
+        </div>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+          📞 {t("buchungen_neu")}
+        </button>
+      </div>
+
+      {justAdded && (
+        <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
+          ✅ {t("buchung_speichern")}! ({t("erscheint_10s")})
+        </div>
+      )}
+
+      {justCancelled && (
+        <div style={{fontSize:13,color:"var(--c-warning)",background:"var(--c-warning-bg)",border:"1px solid var(--c-warning-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
+          ❌ {t("buchung_storniert_msg")} ({t("erscheint_10s")})
+        </div>
+      )}
+
+      {cancelTarget && (
+        <StornierenModal
+          booking={cancelTarget}
+          t={t}
+          onClose={() => setCancelTarget(null)}
+          onSuccess={() => { setCancelTarget(null); setJustCancelled(true); setTimeout(() => setJustCancelled(false), 6000); }}
+        />
+      )}
+
+      {showModal && (
+        <NeueBuchungModal
+          fleet={fleet}
+          t={t}
+          onClose={() => setShowModal(false)}
+          onSuccess={() => { setShowModal(false); setJustAdded(true); setTimeout(() => setJustAdded(false), 6000); }}
+        />
+      )}
+
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:"1.5rem"}}>
+        <MetricCard label={t("buchungen_gesamt")} value={filtered.length} sub={t("buchungen_gefilterte")} color="var(--c-info)" icon="📅" />
+        <MetricCard label={t("buchungen_bestaetigt")} value={confirmed} sub={t("buchungen_aktive")} color="var(--c-success)" icon="✅" />
+        <MetricCard label={t("buchungen_abgeschlossen")} value={completed} sub={t("buchungen_vergangene")} color="var(--c-text-faint)" icon="🏁" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("buchungen_gefilterte")} color="var(--c-accent-light)" icon="💰" />
+      </div>
+
+      <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
+        <div style={{display:"flex",gap:10,marginBottom:"1.25rem",flexWrap:"wrap"}}>
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("suche_platzhalter")}`} style={{flex:1,minWidth:200}} />
+          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+            <option value="Alle">{t("alle")}</option>
+            <option value="Bestätigt">{t("buchungen_bestaetigt")}</option>
+            <option value="Abgeschlossen">{t("buchungen_abgeschlossen")}</option>
+            <option value="Storniert (gratis)">{t("storniert_gratis")}</option>
+            <option value="Storniert (Gebühr fällig)">{t("storniert_gebuehr")}</option>
+          </select>
+          <select value={filterAuto} onChange={e => setFilterAuto(e.target.value)}>
+            <option value="Alle">{t("alle")}</option>
+            {fleet.map(c => <option key={c.name}>{c.name}</option>)}
+          </select>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"3rem"}}>{t("keine_buchungen_gefunden")}</div>
+        ) : (
+          <div style={{overflowX:"auto"}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+              <thead>
+                <tr>
+                  {[["id","ID"],["name",t("kunde")],["auto",t("fahrzeug_label")],["von",t("von_feld_kurz")],["bis",t("bis_feld_kurz")],["preis",t("gesamtpreis")],["status",t("status")]].map(([col,label]) => (
+                    <th key={col} onClick={() => toggleSort(col)} style={{textAlign:"left",padding:"8px 12px",fontSize:11,color:"var(--c-text-faint2)",textTransform:"uppercase",letterSpacing:"0.05em",borderBottom:"1px solid var(--c-border)",cursor:"pointer",userSelect:"none",whiteSpace:"nowrap"}}>
+                      {label} <SortIcon col={col} />
+                    </th>
+                  ))}
+                  <th style={{textAlign:"left",padding:"8px 12px",fontSize:11,color:"var(--c-text-faint2)",textTransform:"uppercase",letterSpacing:"0.05em",borderBottom:"1px solid var(--c-border)"}}>{t("aktion")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((b,i) => (
+                  <tr key={i} style={{borderBottom:"1px solid var(--c-surface-alt)"}}>
+                    <td style={{padding:"10px 12px"}}><span style={{fontSize:11,fontFamily:"monospace",color:"var(--c-accent-text)",background:"var(--c-accent-bg)",padding:"2px 7px",borderRadius:4}}>{b.id}</span></td>
+                    <td style={{padding:"10px 12px",color:"var(--c-text-subtle)"}}>
+                      <div>{b.name}</div>
+                      <div style={{fontSize:11,color:"var(--c-text-faint2)"}}>{b.telefon.replace("whatsapp:","")}</div>
+                    </td>
+                    <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.auto}</td>
+                    <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.von}</td>
+                    <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.bis}</td>
+                    <td style={{padding:"10px 12px",fontWeight:500,color:"var(--c-accent-light)"}}>{b.preis}</td>
+                    <td style={{padding:"10px 12px"}}><StatusBadge status={b.status} /></td>
+                    <td style={{padding:"10px 12px"}}>
+                      {b.status === "Bestätigt" ? (
+                        <button onClick={() => setCancelTarget(b)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-danger-border)",background:"var(--c-danger-bg)",color:"var(--c-danger)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                          {t("stornieren")}
+                        </button>
+                      ) : (
+                        <span style={{fontSize:11,color:"var(--c-text-faintest)"}}>—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <div style={{fontSize:12,color:"var(--c-text-faintest)",marginTop:"1rem",textAlign:"right"}}>{filtered.length} {t("von_label")} {bookings.length} {t("buchungen_label")}</div>
+      </div>
+    </div>
+  );
+}
+
+function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
+  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")) }));
+  const carStatusMap = getCarStatus(bookings, activeFleet);
+  const bookedCars = getBookedCars(bookings, activeFleet);
+  const availableCount = activeFleet.filter(c => !carStatusMap[c.name]?.booked).length;
+  const totalRevenue = getTotalRevenue(bookings);
+  const phoneGroups = groupChatsByPhone(chats);
+  const activeChats = Object.keys(phoneGroups).length;
+
+  return (
+    <div>
+      <header style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"1.5rem"}}>
+        <div>
+          <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("uebersicht_title")}</h1>
+          <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("uebersicht_sub")} {lastUpdated.toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</p>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"5px 14px",borderRadius:20}}>
+          <div style={{width:6,height:6,borderRadius:"50%",background:"var(--c-success)",animation:"pulse 1.5s infinite"}} />
+          {t("uebersicht_live")}
+        </div>
+      </header>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:"1.5rem"}}>
+        <MetricCard label={t("metric_verfuegbar")} value={`${availableCount} / ${activeFleet.length}`} sub={`${activeFleet.length-availableCount} ${t("metric_gesamt_gebucht")}`} color="var(--c-success)" icon="🟢" />
+        <MetricCard label={t("metric_buchungen")} value={bookings.length} sub={t("metric_gesamt_sub")} color="var(--c-info)" icon="📅" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("metric_umsatz_sub")} color="var(--c-accent-light)" icon="💰" />
+        <MetricCard label={t("metric_aktive_chats")} value={activeChats} sub={t("metric_chats_sub")} color="var(--c-warning)" icon="💬" />
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
+        <LiveChat chats={chats} t={t} />
+        <CarStatus cars={activeFleet} bookings={bookings} t={t} />
+      </div>
+      <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",marginBottom:"1rem"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"}}>
+          <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>📅 {t("letzte_buchungen")}</span>
+        </div>
+        <div style={{overflowX:"auto"}}>
+          <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+            <thead><tr>{["ID",t("kunde"),t("fahrzeug_label"),t("von_feld_kurz"),t("bis_feld_kurz"),t("gesamtpreis"),t("status")].map(h => <th key={h} style={{textAlign:"left",padding:"8px 12px",fontSize:11,color:"var(--c-text-faint2)",textTransform:"uppercase",letterSpacing:"0.05em",borderBottom:"1px solid var(--c-border)"}}>{h}</th>)}</tr></thead>
+            <tbody>
+              {bookings.slice(-5).reverse().map((b,i) => (
+                <tr key={i} style={{borderBottom:"1px solid var(--c-surface-alt)"}}>
+                  <td style={{padding:"10px 12px"}}><span style={{fontSize:11,fontFamily:"monospace",color:"var(--c-accent-text)",background:"var(--c-accent-bg)",padding:"2px 7px",borderRadius:4}}>{b.id}</span></td>
+                  <td style={{padding:"10px 12px",color:"var(--c-text-subtle)"}}>{b.name}</td>
+                  <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.auto}</td>
+                  <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.von}</td>
+                  <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{b.bis}</td>
+                  <td style={{padding:"10px 12px",fontWeight:500,color:"var(--c-accent-light)"}}>{b.preis}</td>
+                  <td style={{padding:"10px 12px"}}><StatusBadge status={b.status} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style={{fontSize:11,color:"var(--c-text-faintest)",textAlign:"center"}}>Testrent Dashboard · Powered by n8n · Twilio · Google Sheets · Groq AI</div>
+    </div>
+  );
+}
+
+const FLEET_WEBHOOK_URL = "https://patrickscloud.app.n8n.cloud/webhook/fahrzeug-verwalten";
+
+function useFleetData(intervalMs) {
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const load = async () => {
+    try {
+      const rows = await fetchSheet("Fahrzeuge!A2:E300");
+      setVehicles(rows.map(r => ({
+        kennzeichen: r[0]||"", modell: r[1]||"", baujahr: r[2]||"",
+        preis: r[3]||"", status: r[4]||"Aktiv"
+      })).filter(r => r.kennzeichen));
+    } catch(e) { console.error(e); }
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); const t = setInterval(load, intervalMs); return () => clearInterval(t); }, [intervalMs]);
+  return { vehicles, loading };
+}
+
+function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
+  const isEdit = !!vehicle;
+  const [form, setForm] = useState({
+    kennzeichen: vehicle?.kennzeichen || "",
+    modell: vehicle?.modell || "",
+    baujahr: vehicle?.baujahr || "",
+    preis: vehicle?.preis?.replace(/[^\d.]/g,"") || "",
+    status: vehicle?.status || "Aktiv"
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  function update(field, value) { setForm(f => ({ ...f, [field]: value })); }
+
+  async function handleSubmit() {
+    if (!form.kennzeichen || !form.modell || !form.preis) {
+      setError(t("pflichtfelder"));
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      const payload = {
+        action: isEdit ? "update" : "add",
+        sheetId: SHEET_ID,
+        kennzeichen: form.kennzeichen,
+        modell: form.modell,
+        baujahr: form.baujahr,
+        preis: form.preis.includes("EUR") ? form.preis : `${form.preis} EUR`,
+        status: form.status
+      };
+      const res = await fetch(FLEET_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("Server-Fehler");
+      onSuccess();
+    } catch (e) {
+      setError(t("fehler_speichern"));
+    }
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:420,maxWidth:"90vw"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{isEdit ? `✏️ ${t("fahrzeug_bearbeiten_titel")}` : `🚘 ${t("fahrzeug_hinzufuegen_titel")}`}</div>
+          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("kennzeichen")}</label>
+            <input value={form.kennzeichen} onChange={e => update("kennzeichen", e.target.value)} placeholder="W-12345" disabled={isEdit} style={{width:"100%",opacity:isEdit?0.6:1}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("modell")}</label>
+            <input value={form.modell} onChange={e => update("modell", e.target.value)} placeholder="VW Polo 2020" style={{width:"100%"}} />
+          </div>
+          <div style={{display:"flex",gap:10}}>
+            <div style={{flex:1}}>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("baujahr")}</label>
+              <input value={form.baujahr} onChange={e => update("baujahr", e.target.value)} placeholder="2020" style={{width:"100%"}} />
+            </div>
+            <div style={{flex:1}}>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("preis_tag")} (EUR)</label>
+              <input value={form.preis} onChange={e => update("preis", e.target.value)} placeholder="60" style={{width:"100%"}} />
+            </div>
+          </div>
+          {isEdit && (
+            <div>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("status")}</label>
+              <select value={form.status} onChange={e => update("status", e.target.value)} style={{width:"100%"}}>
+                <option value="Aktiv">{t("aktiv_caps")}</option>
+                <option value="Inaktiv">{t("inaktiv")}</option>
+                <option value="In Wartung">{t("in_wartung")}</option>
+              </select>
+            </div>
+          )}
+          {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
+          <button onClick={handleSubmit} disabled={submitting} style={{marginTop:8,padding:"10px",borderRadius:8,border:"none",background:submitting?"var(--c-border-strong)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+            {submitting ? t("wird_gespeichert") : isEdit ? t("aenderungen_speichern") : t("fahrzeug_hinzufuegen_titel")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FahrzeugePage({ bookings, t, refreshInterval }) {
+  const { vehicles, loading } = useFleetData(refreshInterval);
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("Alle");
+  const [showModal, setShowModal] = useState(false);
+  const [editTarget, setEditTarget] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [toast, setToast] = useState("");
+
+  function isCurrentlyBooked(modell) {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    return bookings.some(b => {
+      if (b.auto !== modell || b.status !== "Bestätigt") return false;
+      const von = parseDate(b.von), bis = parseDate(b.bis);
+      if (!von || !bis) return false;
+      return today >= von && today <= bis;
+    });
+  }
+
+  function getNextFreeDate(modell) {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const carBookings = bookings
+      .filter(b => b.auto === modell && b.status === "Bestätigt")
+      .map(b => ({ von: parseDate(b.von), bis: parseDate(b.bis) }))
+      .filter(b => b.von && b.bis)
+      .sort((a,b) => a.von - b.von);
+    const current = carBookings.find(b => today >= b.von && today <= b.bis);
+    if (!current) return null;
+    let nextFree = new Date(current.bis);
+    nextFree.setDate(nextFree.getDate() + 1);
+    return nextFree.toLocaleDateString("de-AT");
+  }
+
+  const filtered = vehicles.filter(v => {
+    const q = search.toLowerCase();
+    const matchSearch = !q || v.modell.toLowerCase().includes(q) || v.kennzeichen.toLowerCase().includes(q);
+    const matchStatus = filterStatus === "Alle" || v.status === filterStatus;
+    return matchSearch && matchStatus;
+  });
+
+  const activeCount = vehicles.filter(v => v.status === "Aktiv").length;
+  const bookedNow = vehicles.filter(v => v.status === "Aktiv" && isCurrentlyBooked(v.modell)).length;
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"1.5rem"}}>
+        <div>
+          <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("fahrzeuge_title")}</h1>
+          <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("fahrzeuge_sub")}</p>
+        </div>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+          🚘 {t("fahrzeuge_neu")}
+        </button>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:"1.5rem"}}>
+        <MetricCard label={t("flotte_gesamt")} value={vehicles.length} sub={`${activeCount} ${t("aktiv")}`} color="var(--c-info)" icon="🚘" />
+        <MetricCard label={t("aktuell_gebucht")} value={bookedNow} sub={`${activeCount} ${t("von_aktiven")}`} color="var(--c-danger)" icon="🔴" />
+        <MetricCard label={t("verfuegbar_jetzt")} value={Math.max(0,activeCount-bookedNow)} sub={t("bereit_abholung")} color="var(--c-success)" icon="🟢" />
+      </div>
+
+      {toast && (
+        <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>{toast}</div>
+      )}
+
+      {showModal && (
+        <FahrzeugFormModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`✅ ${t("fahrzeug_hinzufuegen_titel")}! ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
+      )}
+      {editTarget && (
+        <FahrzeugFormModal vehicle={editTarget} t={t} onClose={() => setEditTarget(null)} onSuccess={() => { setEditTarget(null); setToast(`✅ ${t("gespeichert")}`); setTimeout(()=>setToast(""),6000); }} />
+      )}
+      {deleteTarget && (
+        <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={() => setDeleteTarget(null)}>
+          <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:380,maxWidth:"90vw"}}>
+            <div style={{fontSize:15,fontWeight:600,color:"var(--c-text-heading)",marginBottom:8}}>{t("fahrzeug_deaktivieren_frage")}</div>
+            <div style={{fontSize:13,color:"var(--c-text-muted)",marginBottom:"1rem"}}>{deleteTarget.modell} ({deleteTarget.kennzeichen})</div>
+            <div style={{display:"flex",gap:8}}>
+              <button onClick={() => setDeleteTarget(null)} style={{flex:1,padding:"10px",borderRadius:8,border:"1px solid var(--c-border-strong)",background:"transparent",color:"var(--c-text-muted)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>{t("abbrechen")}</button>
+              <button onClick={async () => {
+                await fetch(FLEET_WEBHOOK_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ action:"delete", sheetId: SHEET_ID, kennzeichen: deleteTarget.kennzeichen }) });
+                setDeleteTarget(null); setToast(`✅ ${t("deaktivieren")}`); setTimeout(()=>setToast(""),6000);
+              }} style={{flex:1,padding:"10px",borderRadius:8,border:"none",background:"var(--c-danger-strong)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>{t("deaktivieren")}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
+        <div style={{display:"flex",gap:10,marginBottom:"1.25rem",flexWrap:"wrap"}}>
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("suche_fahrzeug")}`} style={{flex:1,minWidth:200}} />
+          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
+            <option value="Alle">{t("alle")}</option>
+            <option value="Aktiv">{t("aktiv_caps")}</option>
+            <option value="Inaktiv">{t("inaktiv")}</option>
+            <option value="In Wartung">{t("in_wartung")}</option>
+          </select>
+        </div>
+
+        {loading ? (
+          <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"3rem"}}>{t("lade_flotte")}</div>
+        ) : vehicles.length === 0 ? (
+          <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"3rem"}}>
+            {t("noch_keine_fahrzeuge")}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"3rem"}}>{t("keine_fahrzeuge_gefunden")}</div>
+        ) : (
+          <div style={{overflowX:"auto"}}>
+            <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+              <thead>
+                <tr>
+                  {[t("kennzeichen"),t("modell"),t("baujahr"),t("preis_tag"),t("status"),t("verfuegbarkeit"),t("aktion")].map(h => (
+                    <th key={h} style={{textAlign:"left",padding:"8px 12px",fontSize:11,color:"var(--c-text-faint2)",textTransform:"uppercase",letterSpacing:"0.05em",borderBottom:"1px solid var(--c-border)",whiteSpace:"nowrap"}}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((v,i) => {
+                  const booked = v.status === "Aktiv" && isCurrentlyBooked(v.modell);
+                  const nextFree = booked ? getNextFreeDate(v.modell) : null;
+                  return (
+                    <tr key={i} style={{borderBottom:"1px solid var(--c-surface-alt)"}}>
+                      <td style={{padding:"10px 12px"}}><span style={{fontSize:11,fontFamily:"monospace",color:"var(--c-accent-text)",background:"var(--c-accent-bg)",padding:"2px 7px",borderRadius:4}}>{v.kennzeichen}</span></td>
+                      <td style={{padding:"10px 12px",color:"var(--c-text-body)",fontWeight:500}}>{v.modell}</td>
+                      <td style={{padding:"10px 12px",color:"var(--c-text-muted)"}}>{v.baujahr}</td>
+                      <td style={{padding:"10px 12px",fontWeight:500,color:"var(--c-accent-light)"}}>{v.preis}</td>
+                      <td style={{padding:"10px 12px"}}>
+                        <span style={{fontSize:11,padding:"3px 10px",borderRadius:20,fontWeight:500,...(v.status==="Aktiv"?{background:"var(--c-success-bg)",color:"var(--c-success)",border:"1px solid var(--c-success-border)"}:v.status==="In Wartung"?{background:"var(--c-warning-bg)",color:"var(--c-warning)",border:"1px solid var(--c-warning-border)"}:{background:"var(--c-border)",color:"var(--c-text-faint)",border:"1px solid var(--c-border-strong)"})}}>{v.status==="Aktiv"?t("aktiv_caps"):v.status==="In Wartung"?t("in_wartung"):v.status==="Inaktiv"?t("inaktiv"):v.status}</span>
+                      </td>
+                      <td style={{padding:"10px 12px"}}>
+                        {v.status !== "Aktiv" ? (
+                          <span style={{fontSize:12,color:"var(--c-text-faint2)"}}>—</span>
+                        ) : booked ? (
+                          <span style={{fontSize:12,color:"var(--c-danger)"}}>{t("gebucht")}{nextFree?` · ${t("frei_ab")} ${nextFree}`:""}</span>
+                        ) : (
+                          <span style={{fontSize:12,color:"var(--c-success)"}}>{t("verfuegbar")}</span>
+                        )}
+                      </td>
+                      <td style={{padding:"10px 12px",display:"flex",gap:6}}>
+                        <button onClick={() => setEditTarget(v)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-border-strong)",background:"var(--c-border)",color:"var(--c-text-muted)",cursor:"pointer",fontFamily:"inherit"}}>{t("bearbeiten")}</button>
+                        {v.status === "Aktiv" && (
+                          <button onClick={() => setDeleteTarget(v)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-danger-border)",background:"var(--c-danger-bg)",color:"var(--c-danger)",cursor:"pointer",fontFamily:"inherit"}}>{t("deaktivieren")}</button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <div style={{fontSize:12,color:"var(--c-text-faintest)",marginTop:"1rem",textAlign:"right"}}>{filtered.length} {t("von_label")} {vehicles.length} {t("fahrzeuge_title")}</div>
+      </div>
+    </div>
+  );
+}
+
+const FILTER_LABELS = { Aktiv: "filter_aktiv", Heute: "filter_heute", Alle: "filter_alle" };
+
+function ChatsPage({ chats, t }) {
+  const groups = groupChatsByPhone(chats);
+  const allPhones = Object.keys(groups);
+  const [selected, setSelected] = useState(allPhones[0] || null);
+  const [filter, setFilter] = useState("Aktiv");
+  const [takenOver, setTakenOver] = useState({});
+  const chatRef = useRef(null);
+
+  const todayStr = new Date().toLocaleDateString("de-AT");
+
+  function formatPhone(p) { return p.replace("whatsapp:", ""); }
+  function getInitial(phone) { return phone.replace("whatsapp:+", "").slice(-4,-3) || "?"; }
+  function getLastMessage(phone) {
+    const msgs = groups[phone] || [];
+    const last = msgs[msgs.length - 1];
+    if (!last) return "";
+    return (last.rolle === "ai" ? "KI: " : "") + (last.nachricht||"").slice(0,40) + ((last.nachricht||"").length > 40 ? "..." : "");
+  }
+  function getLastTime(phone) {
+    const msgs = groups[phone] || [];
+    const last = msgs[msgs.length - 1];
+    return last ? (last.zeitstempel||"").split(",")[1]?.trim() || "" : "";
+  }
+  function isActive(phone) {
+    const msgs = groups[phone] || [];
+    return msgs[msgs.length - 1]?.rolle === "user";
+  }
+  function isFromToday(phone) {
+    const msgs = groups[phone] || [];
+    const last = msgs[msgs.length - 1];
+    return last ? (last.zeitstempel||"").includes(todayStr.split(".")[0]) : false;
+  }
+
+  const filteredPhones = allPhones.filter(p => {
+    if (filter === "Aktiv") return isActive(p) && !takenOver[p];
+    if (filter === "Heute") return isFromToday(p);
+    return true;
+  }).sort((a, b) => {
+    if (isActive(a) && !isActive(b)) return -1;
+    if (!isActive(a) && isActive(b)) return 1;
+    return 0;
+  });
+
+  useEffect(() => {
+    if (filteredPhones.length > 0 && (!selected || !filteredPhones.includes(selected))) {
+      setSelected(filteredPhones[0]);
+    }
+  }, [filter, chats.length]);
+
+  useEffect(() => {
+    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [selected, chats.length]);
+
+  const messages = selected ? (groups[selected] || []) : [];
+  const lastMsg = messages[messages.length - 1];
+  const isAiActive = lastMsg?.rolle === "user" && !takenOver[selected];
+  const isHumanMode = takenOver[selected];
+
+  if (allPhones.length === 0) return (
+    <div>
+      <div style={{marginBottom:"1.5rem"}}>
+        <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("chats_title")}</h1>
+        <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("chats_sub")}</p>
+      </div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"50vh",fontSize:14,color:"var(--c-text-faint2)"}}>{t("keine_chats")}</div>
+    </div>
+  );
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"1.5rem"}}>
+        <div>
+          <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("chats_title")}</h1>
+          <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{filteredPhones.length} / {allPhones.length} · {allPhones.filter(p => isActive(p) && !takenOver[p]).length} {t("ki_aktiv_anzahl")} · {Object.keys(takenOver).filter(p => takenOver[p]).length} {t("uebernommen")}</p>
+        </div>
+        <div style={{display:"flex",gap:6}}>
+          {["Aktiv","Heute","Alle"].map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{fontSize:12,padding:"6px 14px",borderRadius:20,border:`1px solid ${filter===f?"var(--c-accent)":"var(--c-border)"}`,background:filter===f?"var(--c-accent-bg)":"transparent",color:filter===f?"var(--c-accent-text)":"var(--c-text-faint)",cursor:"pointer",fontFamily:"inherit"}}>
+              {t(FILTER_LABELS[f])} {f==="Aktiv"?`(${allPhones.filter(p=>isActive(p)&&!takenOver[p]).length})`:f==="Heute"?`(${allPhones.filter(isFromToday).length})`:`(${allPhones.length})`}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"300px 1fr",gap:"1rem",height:"calc(100vh - 210px)"}}>
+        <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,overflow:"hidden",display:"flex",flexDirection:"column"}}>
+          <div style={{padding:"12px 16px",borderBottom:"1px solid var(--c-border)",fontSize:11,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>
+            {t(FILTER_LABELS[filter])}
+          </div>
+          <div style={{overflowY:"auto",flex:1}}>
+            {filteredPhones.length === 0 && (
+              <div style={{padding:"2rem",fontSize:13,color:"var(--c-text-faint2)",textAlign:"center"}}>{t("keine_kunden_gefunden")}</div>
+            )}
+            {filteredPhones.map(phone => {
+              const active = isActive(phone) && !takenOver[phone];
+              const humanMode = takenOver[phone];
+              const isSel = phone === selected;
+              return (
+                <div key={phone} onClick={() => setSelected(phone)} style={{padding:"12px 16px",cursor:"pointer",borderBottom:"1px solid var(--c-surface-alt)",background:isSel?"var(--c-border)":"transparent",display:"flex",alignItems:"center",gap:10}}>
+                  <div style={{position:"relative",flexShrink:0}}>
+                    <div style={{width:40,height:40,borderRadius:"50%",background:humanMode?"var(--c-success-bg3)":"var(--c-accent-bg2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,color:humanMode?"var(--c-success-text-light)":"var(--c-accent-text)",fontWeight:600}}>{getInitial(phone)}</div>
+                    <div style={{position:"absolute",bottom:0,right:0,width:10,height:10,borderRadius:"50%",background:humanMode?"var(--c-success-text-light)":active?"var(--c-success)":"var(--c-text-faint2)",border:"2px solid var(--c-surface)"}} />
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                      <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{formatPhone(phone)}</div>
+                      <div style={{fontSize:10,color:"var(--c-text-faint2)",flexShrink:0,marginLeft:4}}>{getLastTime(phone)}</div>
+                    </div>
+                    <div style={{fontSize:11,color:humanMode?"var(--c-success-text-light)":"var(--c-text-faint)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                      {humanMode ? "👤 Mitarbeiter übernommen" : getLastMessage(phone)}
+                    </div>
+                  </div>
+                  {active && !humanMode && <div style={{width:8,height:8,borderRadius:"50%",background:"var(--c-success)",flexShrink:0}} />}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+          <div style={{padding:"14px 20px",borderBottom:"1px solid var(--c-border)",display:"flex",alignItems:"center",gap:12}}>
+            <div style={{width:36,height:36,borderRadius:"50%",background:isHumanMode?"var(--c-success-bg3)":"var(--c-accent-bg2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,color:isHumanMode?"var(--c-success-text-light)":"var(--c-accent-text)",fontWeight:600}}>{selected?getInitial(selected):"?"}</div>
+            <div>
+              <div style={{fontSize:14,fontWeight:500,color:"var(--c-text-heading)"}}>{selected?formatPhone(selected):""}</div>
+              <div style={{fontSize:11,color:isHumanMode?"var(--c-success-text-light)":isAiActive?"var(--c-success)":"var(--c-text-faint)"}}>
+                {isHumanMode ? `👤 ${t("mitarbeiter_antwortet")}` : isAiActive ? `🤖 ${t("ki_antwortet")}` : `⏳ ${t("warte_antwort")}`}
+              </div>
+            </div>
+            <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:11,color:"var(--c-text-faint2)"}}>{messages.length} {t("nachrichten")}</span>
+              {selected && (
+                isHumanMode ? (
+                  <button onClick={() => setTakenOver(t => ({...t, [selected]: false}))} style={{fontSize:12,padding:"6px 14px",borderRadius:8,border:"1px solid var(--c-success-border)",background:"var(--c-success-bg)",color:"var(--c-success)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                    🤖 {t("ki_reaktivieren")}
+                  </button>
+                ) : (
+                  <button onClick={() => setTakenOver(t => ({...t, [selected]: true}))} style={{fontSize:12,padding:"6px 14px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                    👤 {t("uebernehmen")}
+                  </button>
+                )
+              )}
+            </div>
+          </div>
+
+          {isHumanMode && (
+            <div style={{padding:"8px 20px",background:"var(--c-success-bg)",borderBottom:"1px solid var(--c-success-border)",fontSize:12,color:"var(--c-success-text-light)",display:"flex",alignItems:"center",gap:6}}>
+              👤 Mitarbeiter-Modus aktiv – KI pausiert für diesen Kunden. Antworte direkt per WhatsApp auf deinem Handy.
+            </div>
+          )}
+
+          <div ref={chatRef} style={{flex:1,overflowY:"auto",padding:"16px",display:"flex",flexDirection:"column",gap:12}}>
+            {messages.map((msg,i) => (
+              <div key={i} style={{display:"flex",alignItems:"flex-end",gap:8,justifyContent:msg.rolle==="user"?"flex-end":"flex-start"}}>
+                {msg.rolle==="ai" && <div style={{width:28,height:28,borderRadius:"50%",background:"var(--c-info-bg)",color:"var(--c-info-light)",fontSize:10,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>KI</div>}
+                <div style={{maxWidth:"70%"}}>
+                  <div style={{padding:"10px 14px",borderRadius:14,fontSize:13,lineHeight:1.6,...(msg.rolle==="user"?{background:"var(--c-accent-bg)",color:"var(--c-accent-text-light)",borderBottomRightRadius:3}:{background:"var(--c-success-bg2)",color:"var(--c-success-text2)",borderBottomLeftRadius:3})}}>{msg.nachricht}</div>
+                  <div style={{fontSize:10,color:"var(--c-text-faintest)",marginTop:3,textAlign:msg.rolle==="user"?"right":"left"}}>{msg.zeitstempel}</div>
+                </div>
+                {msg.rolle==="user" && <div style={{width:28,height:28,borderRadius:"50%",background:"var(--c-accent-bg2)",color:"var(--c-accent-text)",fontSize:12,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{getInitial(selected||"")}</div>}
+              </div>
+            ))}
+            {isAiActive && (
+              <div style={{display:"flex",alignItems:"flex-end",gap:8}}>
+                <div style={{width:28,height:28,borderRadius:"50%",background:"var(--c-info-bg)",color:"var(--c-info-light)",fontSize:10,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>KI</div>
+                <div style={{padding:"12px 16px",borderRadius:14,background:"var(--c-success-bg2)",borderBottomLeftRadius:3,display:"flex",gap:5,alignItems:"center"}}>
+                  {[0,200,400].map(d => <span key={d} style={{width:7,height:7,borderRadius:"50%",background:"var(--c-success-text2)",display:"inline-block",animation:`blink 1.2s ${d}ms infinite`}} />)}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div style={{padding:"12px 20px",borderTop:"1px solid var(--c-border)",fontSize:11,color:"var(--c-text-faintest)",display:"flex",alignItems:"center",gap:6}}>
+            <div style={{width:6,height:6,borderRadius:"50%",background:"var(--c-success)",animation:"pulse 1.5s infinite"}} />
+            Live · aktualisiert alle 10 Sekunden
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const CUSTOMER_WEBHOOK_URL = "https://patrickscloud.app.n8n.cloud/webhook/kunde-hinzufuegen";
+
+function NeuerKundeModal({ onClose, onSuccess, t }) {
+  const [form, setForm] = useState({ name: "", telefon: "", notizen: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  function update(field, value) { setForm(f => ({ ...f, [field]: value })); }
+
+  async function handleSubmit() {
+    if (!form.name || !form.telefon) {
+      setError(t("kein_telefon"));
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      const phone = form.telefon.startsWith("whatsapp:") ? form.telefon : `whatsapp:${form.telefon.startsWith("+") ? form.telefon : "+" + form.telefon}`;
+      const res = await fetch(CUSTOMER_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: form.name, telefon: phone, notizen: form.notizen, anzahlBuchungen: 0, sheetId: SHEET_ID })
+      });
+      if (!res.ok) throw new Error("Server-Fehler");
+      onSuccess();
+    } catch (e) {
+      setError(t("fehler_speichern"));
+    }
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:400,maxWidth:"90vw"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>👤 {t("kunde_hinzufuegen_titel")}</div>
+          <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("name")}</label>
+            <input value={form.name} onChange={e => update("name", e.target.value)} placeholder="Max Mustermann" style={{width:"100%"}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("telefon")}</label>
+            <input value={form.telefon} onChange={e => update("telefon", e.target.value)} placeholder="+436XXXXXXXX" style={{width:"100%"}} />
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("notizen")} ({t("optional")})</label>
+            <input value={form.notizen} onChange={e => update("notizen", e.target.value)} placeholder={t("notizen_platzhalter")} style={{width:"100%"}} />
+          </div>
+          {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
+          <button onClick={handleSubmit} disabled={submitting} style={{marginTop:8,padding:"10px",borderRadius:8,border:"none",background:submitting?"var(--c-border-strong)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+            {submitting ? t("wird_gespeichert") : t("kunde_hinzufuegen_titel")}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KundenPage({ customers, bookings, t }) {
+  const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [toast, setToast] = useState("");
+
+  function getCustomerBookings(telefon) {
+    return bookings.filter(b => b.telefon === telefon || b.telefon.replace("whatsapp:","") === telefon.replace("whatsapp:",""));
+  }
+
+  function getCustomerRevenue(telefon) {
+    return getTotalRevenue(getCustomerBookings(telefon));
+  }
+
+  const enriched = customers.map(c => ({
+    ...c,
+    bookingCount: getCustomerBookings(c.telefon).length,
+    revenue: getCustomerRevenue(c.telefon)
+  }));
+
+  const filtered = enriched.filter(c => {
+    const q = search.toLowerCase();
+    return !q || c.name.toLowerCase().includes(q) || c.telefon.includes(q);
+  }).sort((a,b) => b.bookingCount - a.bookingCount);
+
+  const totalCustomers = customers.length;
+  const repeatCustomers = enriched.filter(c => c.bookingCount > 1).length;
+
+  const selectedBookings = selected ? getCustomerBookings(selected.telefon).sort((a,b) => (parseDate(b.von)||0) - (parseDate(a.von)||0)) : [];
+
+  return (
+    <div>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"1.5rem"}}>
+        <div>
+          <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("kunden_title")}</h1>
+          <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("kunden_sub")}</p>
+        </div>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+          👤 {t("kunden_neu")}
+        </button>
+      </div>
+
+      {toast && (
+        <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>{toast}</div>
+      )}
+
+      {showModal && (
+        <NeuerKundeModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`✅ ${t("gespeichert")} ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
+      )}
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:12,marginBottom:"1.5rem"}}>
+        <MetricCard label={t("kunden_gesamt")} value={totalCustomers} sub={t("registrierte_kontakte")} color="var(--c-info)" icon="👥" />
+        <MetricCard label={t("stammkunden")} value={repeatCustomers} sub={t("mit_buchungen")} color="var(--c-success)" icon="⭐" />
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"360px 1fr",gap:"1rem"}}>
+        <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,overflow:"hidden",display:"flex",flexDirection:"column",maxHeight:"calc(100vh - 280px)"}}>
+          <div style={{padding:"12px 16px",borderBottom:"1px solid var(--c-border)"}}>
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("name")} / ${t("telefon")}`} style={{width:"100%"}} />
+          </div>
+          <div style={{overflowY:"auto",flex:1}}>
+            {filtered.length === 0 ? (
+              <div style={{padding:"2rem",fontSize:13,color:"var(--c-text-faint2)",textAlign:"center"}}>
+                {customers.length === 0 ? t("noch_keine_kunden") : t("keine_kunden_gefunden")}
+              </div>
+            ) : filtered.map((c,i) => {
+              const isSel = selected?.telefon === c.telefon;
+              return (
+                <div key={i} onClick={() => setSelected(c)} style={{padding:"12px 16px",cursor:"pointer",borderBottom:"1px solid var(--c-surface-alt)",background:isSel?"var(--c-border)":"transparent",display:"flex",alignItems:"center",gap:10}}>
+                  <div style={{width:36,height:36,borderRadius:"50%",background:"var(--c-accent-bg2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,color:"var(--c-accent-text)",fontWeight:600,flexShrink:0}}>
+                    {(c.name||"?").slice(0,1).toUpperCase()}
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                      <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.name || t("unbekannt")}</div>
+                      {c.bookingCount > 1 && <span style={{fontSize:10,color:"var(--c-warning)"}}>⭐</span>}
+                    </div>
+                    <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:2}}>{c.telefon.replace("whatsapp:","")} · {c.bookingCount} {t("buchungen_label")}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+          {!selected ? (
+
+function FahrzeugDiagramm({ markers, onAddMarker, onRemoveMarker }) {
+  var views = [
+    { id: "seite_links",  label: "Seite links" },
+    { id: "seite_rechts", label: "Seite rechts" },
+    { id: "front",        label: "Front" },
+    { id: "heck",         label: "Heck" },
+  ];
+
+  function getSvg(id) {
+    var el = document.getElementById("car-svg-" + id);
+    return el ? el.getAttribute("data-svg") : "";
+  }
+
+  function handleClick(e, viewId) {
+    var mid = e.target.getAttribute("data-marker-id");
+    if (mid) { onRemoveMarker(mid); return; }
+    var overlay = e.currentTarget.querySelector(".car-overlay");
+    if (!overlay) return;
+    var rect = overlay.getBoundingClientRect();
+    var x = parseFloat(((e.clientX - rect.left) / rect.width * 100).toFixed(1));
+    var y = parseFloat(((e.clientY - rect.top) / rect.height * 100).toFixed(1));
+    onAddMarker({ view: viewId, x: x, y: y });
+  }
+
+  return (
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+      {views.map(function(view) {
+        var vMarkers = markers.filter(function(m) { return m.view === view.id; });
+        return (
+          <div key={view.id} style={{background:"var(--c-surface-alt)",borderRadius:10,padding:"8px 8px 4px",cursor:"crosshair",position:"relative"}} onClick={function(e) { handleClick(e, view.id); }}>
+            <div style={{fontSize:10,color:"var(--c-text-faint)",textAlign:"center",marginBottom:3,pointerEvents:"none"}}>{view.label}</div>
+            <div style={{position:"relative",pointerEvents:"none"}} dangerouslySetInnerHTML={{__html: getSvg(view.id)}} />
+            <svg className="car-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" style={{position:"absolute",top:0,left:0,width:"100%",height:"100%",pointerEvents:"none"}}>
+              {vMarkers.map(function(m) {
+                return (
+                  <g key={m.id} style={{pointerEvents:"all",cursor:"pointer"}}>
+                    <circle cx={m.x} cy={m.y} r="4.5" fill="white" stroke="#e53935" strokeWidth="2" data-marker-id={m.id} opacity="0.95"/>
+                    <line x1={m.x} y1={m.y-2.8} x2={m.x} y2={m.y+2.8} stroke="#e53935" strokeWidth="2" strokeLinecap="round" data-marker-id={m.id}/>
+                    <line x1={m.x-2.8} y1={m.y} x2={m.x+2.8} y2={m.y} stroke="#e53935" strokeWidth="2" strokeLinecap="round" data-marker-id={m.id}/>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+
+function RueckgabeNeuerEintrag({ bookings, damages, onSuccess, t }) {
+  const [buchungsId, setBuchungsId] = useState(bookings[0]?.id || "");
+  const [typ, setTyp] = useState("Rückgabe");
+  const [kategorie, setKategorie] = useState("Kratzer");
+  const [teil, setTeil] = useState("");
+  const [notiz, setNotiz] = useState("");
+  const [file, setFile] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [kmAbholung, setKmAbholung] = useState("");
+  const [kmRueckgabe, setKmRueckgabe] = useState("");
+  const [kmPreisProKm, setKmPreisProKm] = useState("");
+  const [tankLiter, setTankLiter] = useState("");
+  const [tankKosten, setTankKosten] = useState("");
+  const [kautionHoehe, setKautionHoehe] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const abholungsEintrag = damages.find(d => d.buchungsId === buchungsId && d.typ === "Abholung" && d.kmStand);
+  const referenzKm = abholungsEintrag ? parseFloat(abholungsEintrag.kmStand) : null;
+  const gefahreneKm = (typ === "Rückgabe" && referenzKm != null && kmRueckgabe) ? (parseFloat(kmRueckgabe) - referenzKm) : null;
+  const kmKostenBerechnet = (gefahreneKm != null && kmPreisProKm) ? Math.max(0, gefahreneKm) * parseFloat(kmPreisProKm) : null;
+
+  async function handleSubmit() {
+    if (!buchungsId) { setError(t("bitte_buchung_waehlen")); return; }
+    if (!file) { setError(t("bitte_foto_waehlen")); return; }
+    setError(""); setSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("buchungsId", buchungsId);
+      formData.append("typ", typ);
+      const kmWert = typ === "Abholung" ? kmAbholung : kmRueckgabe;
+      if (kmWert) formData.append("kmStand", kmWert);
+      const notizTeile = [
+        kategorie && `${t("kategorie_schaden")}: ${kategorie}`,
+        teil && `${t("beschaedigtes_teil")}: ${teil}`,
+        notiz,
+        markers.length > 0 && `${t("markierte_stellen")}: ${markers.length}`,
+        typ === "Abholung" && kmAbholung && `${t("km_stand_abholung")}: ${kmAbholung} km`,
+        typ === "Rückgabe" && kmRueckgabe && `${t("km_stand_rueckgabe")}: ${kmRueckgabe} km`,
+        referenzKm != null && typ === "Rückgabe" && `${t("km_stand_abholung")}: ${referenzKm} km`,
+        gefahreneKm != null && `${t("gefahrene_km")}: ${Math.max(0,gefahreneKm)} km`,
+        kmKostenBerechnet != null && `${t("km_kosten")}: ${kmKostenBerechnet.toFixed(2)} €`,
+        tankLiter && `${t("nachtanken")}: ${tankLiter} l`,
+        tankKosten && `${t("tank_kosten")}: ${tankKosten} €`,
+        kautionHoehe && `${t("kaution_hoehe")}: ${kautionHoehe} €`,
+      ].filter(Boolean).join(" | ");
+      formData.append("notiz", notizTeile);
+      formData.append("foto", file);
+      const res = await fetch("https://patrickscloud.app.n8n.cloud/webhook/schaden-erfassen", { method: "POST", body: formData });
+      if (!res.ok) throw new Error();
+      setBuchungsId(bookings[0]?.id||""); setTeil(""); setNotiz(""); setFile(null); setMarkers([]);
+      setKmAbholung(""); setKmRueckgabe(""); setKmPreisProKm(""); setTankLiter(""); setTankKosten(""); setKautionHoehe("");
+      onSuccess();
+    } catch(e) { setError(t("fehler_speichern")); }
+    setSubmitting(false);
+  }
+
+  const inpStyle = { width: "100%", marginTop: 4 };
+  const sectionStyle = { borderTop: "1px solid var(--c-border)", paddingTop: 14, marginTop: 4 };
+
+  return (
+    <div style={{display:"flex",flexDirection:"column",gap:14,maxWidth:560}}>
+      <div>
+        <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block",marginBottom:4}}>{t("fahrzeug_waehlen")}</label>
+        <select value={buchungsId} onChange={e => setBuchungsId(e.target.value)} style={{width:"100%"}}>
+          {bookings.map(b => <option key={b.id} value={b.id}>{b.id} · {b.name} · {b.auto}</option>)}
+        </select>
+      </div>
+
+      <div style={{display:"flex",gap:8}}>
+        {["Abholung","Rückgabe"].map(tp => (
+          <button key={tp} onClick={() => setTyp(tp)} style={{flex:1,padding:"10px",borderRadius:8,border:`1px solid ${typ===tp?"var(--c-accent)":"var(--c-border)"}`,background:typ===tp?"var(--c-accent-bg)":"var(--c-surface-alt)",color:typ===tp?"var(--c-accent-text)":"var(--c-text-muted)",cursor:"pointer",fontFamily:"inherit",fontWeight:typ===tp?500:400}}>
+            {tp === "Abholung" ? t("typ_abholung") : t("typ_rueckgabe")}
+          </button>
+        ))}
+      </div>
+
+      <div style={sectionStyle}>
+        <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-body)",marginBottom:10}}>🛠️ {t("schaeden_markieren")}</div>
+        <div style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:8}}>{t("beschaedigtes_teil")} — {t("kat_kratzer")}, {t("kat_riss")}, {t("kat_beule")}</div>
+        <FahrzeugDiagramm
+          markers={markers}
+          onAddMarker={m => setMarkers(prev => [...prev, { id: `m${Date.now()}`, ...m }])}
+          onRemoveMarker={id => setMarkers(prev => prev.filter(m => m.id !== id))}
+        />
+        <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:6}}>
+          {markers.length === 0 ? t("keine_markierungen") : `${t("markierte_stellen")}: ${markers.length}`}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:10}}>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("kategorie_schaden")}</label>
+            <select value={kategorie} onChange={e => setKategorie(e.target.value)} style={{width:"100%",marginTop:4}}>
+              <option value="Kratzer">{t("kat_kratzer")}</option>
+              <option value="Riss">{t("kat_riss")}</option>
+              <option value="Beule">{t("kat_beule")}</option>
+              <option value="Sonstiges">{t("kat_sonstiges")}</option>
+            </select>
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("beschaedigtes_teil")}</label>
+            <input value={teil} onChange={e => setTeil(e.target.value)} placeholder={t("beschaedigtes_teil")} style={inpStyle}/>
+          </div>
+        </div>
+        <div style={{marginTop:10}}>
+          <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("notiz_schaden")}</label>
+          <input value={notiz} onChange={e => setNotiz(e.target.value)} placeholder={t("notiz_schaden")} style={inpStyle}/>
+        </div>
+        <div style={{marginTop:10}}>
+          <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("foto_hochladen")}</label>
+          <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0]||null)} style={{...inpStyle,fontSize:13,color:"var(--c-text-body)"}}/>
+        </div>
+      </div>
+
+      <div style={sectionStyle}>
+        <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-body)",marginBottom:10}}>🛣️ {t("kilometerstand")}</div>
+        {typ === "Abholung" ? (
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("km_stand_abholung")}</label>
+            <input type="number" value={kmAbholung} onChange={e => setKmAbholung(e.target.value)} placeholder="km" style={inpStyle}/>
+          </div>
+        ) : (
+          <div>
+            {referenzKm != null ? (
+              <div style={{fontSize:12,color:"var(--c-text-muted)",background:"var(--c-surface-alt)",padding:"8px 12px",borderRadius:8,marginBottom:8}}>
+                {referenzKm} km {t("bei_abholung")}
+              </div>
+            ) : (
+              <div style={{fontSize:11,color:"var(--c-warning)",background:"var(--c-warning-bg)",padding:"8px 12px",borderRadius:8,marginBottom:8}}>
+                {t("kein_abholung_eintrag")}
+              </div>
+            )}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+              <div>
+                <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("km_stand_rueckgabe")}</label>
+                <input type="number" value={kmRueckgabe} onChange={e => setKmRueckgabe(e.target.value)} placeholder="km" style={inpStyle}/>
+              </div>
+              <div>
+                <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("preis_pro_km")}</label>
+                <input type="number" value={kmPreisProKm} onChange={e => setKmPreisProKm(e.target.value)} placeholder="€/km" style={inpStyle}/>
+              </div>
+            </div>
+            {gefahreneKm != null && (
+              <div style={{fontSize:12,color:"var(--c-text-muted)",marginTop:6}}>
+                {t("gefahrene_km")}: <strong>{Math.max(0,gefahreneKm)} km</strong>
+                {kmKostenBerechnet != null && <> · {t("km_kosten")}: <strong>{kmKostenBerechnet.toFixed(2)} €</strong></>}
+              </div>
+            )}
+          </div>
+        )}
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:10}}>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("nachtanken")}</label>
+            <input type="number" value={tankLiter} onChange={e => setTankLiter(e.target.value)} placeholder="l" style={inpStyle}/>
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("tank_kosten")}</label>
+            <input type="number" value={tankKosten} onChange={e => setTankKosten(e.target.value)} placeholder="€" style={inpStyle}/>
+          </div>
+        </div>
+      </div>
+
+      <div style={sectionStyle}>
+        <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-body)",marginBottom:6}}>💰 {t("kaution_info")}</div>
+        <div style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:8}}>{t("kaution_hinweis")}</div>
+        <div>
+          <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("kaution_hoehe")}</label>
+          <input type="number" value={kautionHoehe} onChange={e => setKautionHoehe(e.target.value)} placeholder="€" style={inpStyle}/>
+        </div>
+      </div>
+
+      {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
+
+      <button onClick={handleSubmit} disabled={submitting} style={{padding:"11px",borderRadius:8,border:"none",background:submitting?"var(--c-border)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+        {submitting ? t("wird_hochgeladen") : `💾 ${t("eintrag_speichern")}`}
+      </button>
+    </div>
+  );
+}
+
+function RueckgabePage({ bookings, damages, t }) {
+  const [tab, setTab] = useState("neu");
+  const [toast, setToast] = useState("");
+
+  const grouped = {};
+  (damages||[]).forEach(d => {
+    if (!grouped[d.buchungsId]) grouped[d.buchungsId] = [];
+    grouped[d.buchungsId].push(d);
+  });
+  const buchungsIds = Object.keys(grouped).sort().reverse();
+
+  return (
+    <div>
+      <div style={{marginBottom:"1.5rem"}}>
+        <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("rueckgabe_title")}</h1>
+        <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("rueckgabe_sub")}</p>
+      </div>
+
+      <div style={{display:"flex",gap:4,borderBottom:"1px solid var(--c-border)",marginBottom:"1.25rem"}}>
+        <button onClick={() => setTab("neu")} style={{padding:"10px 16px",border:"none",borderBottom:tab==="neu"?"2px solid var(--c-accent)":"2px solid transparent",background:"transparent",color:tab==="neu"?"var(--c-text-body)":"var(--c-text-faint)",fontWeight:tab==="neu"?600:400,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+          {t("tab_neuer_eintrag")}
+        </button>
+        <button onClick={() => setTab("alt")} style={{padding:"10px 16px",border:"none",borderBottom:tab==="alt"?"2px solid var(--c-accent)":"2px solid transparent",background:"transparent",color:tab==="alt"?"var(--c-text-body)":"var(--c-text-faint)",fontWeight:tab==="alt"?600:400,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+          {t("tab_alte_eintraege")} ({(damages||[]).length})
+        </button>
+      </div>
+
+      {toast && (
+        <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
+          {toast}
+        </div>
+      )}
+
+      {tab === "neu" && (
+        <RueckgabeNeuerEintrag
+          bookings={bookings}
+          damages={damages||[]}
+          t={t}
+          onSuccess={() => { setToast(`✅ ${t("gespeichert")}`); setTab("alt"); setTimeout(()=>setToast(""),5000); }}
+        />
+      )}
+
+      {tab === "alt" && (
+        buchungsIds.length === 0 ? (
+          <div style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"3rem",textAlign:"center",fontSize:13,color:"var(--c-text-faint)"}}>
+            {t("keine_eintraege")}
+          </div>
+        ) : (
+          <div style={{display:"flex",flexDirection:"column",gap:12}}>
+            {buchungsIds.map(bid => {
+              const entries = grouped[bid];
+              const booking = (bookings||[]).find(b => b.id === bid);
+              return (
+                <div key={bid} style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
+                  <div style={{fontSize:13,fontWeight:600,color:"var(--c-text-heading)",marginBottom:2}}>{bid}</div>
+                  <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:12}}>{booking ? `${booking.name} · ${booking.auto}` : ""}</div>
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
+                    {entries.map((d,i) => (
+                      <div key={i} style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"10px 12px"}}>
+                        <div style={{fontSize:11,fontWeight:600,color:d.typ==="Abholung"?"var(--c-accent-text)":"var(--c-warning)",textTransform:"uppercase",letterSpacing:"0.04em",marginBottom:4}}>
+                          {d.typ === "Abholung" ? t("abholung_dokumentiert") : t("rueckgabe_dokumentiert")}
+                        </div>
+                        {d.notiz && <div style={{fontSize:12,color:"var(--c-text-body)",marginBottom:6}}>{d.notiz}</div>}
+                        <div style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:6}}>{d.zeitstempel}</div>
+                        {d.fotoLink && (
+                          <a href={d.fotoLink} target="_blank" rel="noopener noreferrer" style={{fontSize:11,color:"var(--c-accent-text)",textDecoration:"none"}}>
+                            🖼️ {t("foto_ansehen")}
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      )}
+    </div>
+  );
+}
+
+
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%",minHeight:300,fontSize:13,color:"var(--c-text-faint2)"}}>
+              {t("waehle_kunde")}
+            </div>
+          ) : (
+            <div>
+              <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:"1.5rem"}}>
+                <div style={{width:56,height:56,borderRadius:"50%",background:"var(--c-accent-bg2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,color:"var(--c-accent-text)",fontWeight:600,flexShrink:0}}>
+                  {(selected.name||"?").slice(0,1).toUpperCase()}
+                </div>
+                <div>
+                  <div style={{fontSize:18,fontWeight:600,color:"var(--c-text-heading)"}}>{selected.name || t("unbekannt")}</div>
+                  <div style={{fontSize:13,color:"var(--c-text-faint)",marginTop:2}}>{selected.telefon.replace("whatsapp:","")}</div>
+                </div>
+              </div>
+
+              <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:"1.5rem"}}>
+                <div style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"10px 14px"}}>
+                  <div style={{fontSize:11,color:"var(--c-text-faint2)"}}>{t("buchungen_label")}</div>
+                  <div style={{fontSize:18,fontWeight:600,color:"var(--c-text-body)"}}>{selectedBookings.length}</div>
+                </div>
+                <div style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"10px 14px"}}>
+                  <div style={{fontSize:11,color:"var(--c-text-faint2)"}}>{t("metric_umsatz")}</div>
+                  <div style={{fontSize:18,fontWeight:600,color:"var(--c-accent-light)"}}>{Math.round(getCustomerRevenue(selected.telefon))} €</div>
+                </div>
+                <div style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"10px 14px"}}>
+                  <div style={{fontSize:11,color:"var(--c-text-faint2)"}}>{t("letzte_buchung")}</div>
+                  <div style={{fontSize:14,fontWeight:600,color:"var(--c-text-body)",marginTop:2}}>{selected.letzteBuchung || "—"}</div>
+                </div>
+              </div>
+
+              {selected.notizen && (
+                <div style={{marginBottom:"1.5rem"}}>
+                  <div style={{fontSize:11,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6}}>{t("notizen")}</div>
+                  <div style={{background:"var(--c-surface-alt)",borderRadius:8,padding:"10px 14px",fontSize:13,color:"var(--c-text-muted)",lineHeight:1.6}}>{selected.notizen}</div>
+                </div>
+              )}
+
+              <div>
+                <div style={{fontSize:11,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:8}}>{t("buchungshistorie")}</div>
+                {selectedBookings.length === 0 ? (
+                  <div style={{fontSize:13,color:"var(--c-text-faint2)",padding:"1rem 0"}}>{t("keine_buchungen_gefunden")}</div>
+                ) : (
+                  <div style={{overflowX:"auto"}}>
+                    <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+                      <thead>
+                        <tr>
+                          {["ID",t("fahrzeug_label"),t("von_feld_kurz"),t("bis_feld_kurz"),t("gesamtpreis"),t("status")].map(h => (
+                            <th key={h} style={{textAlign:"left",padding:"8px 10px",fontSize:11,color:"var(--c-text-faint2)",textTransform:"uppercase",letterSpacing:"0.05em",borderBottom:"1px solid var(--c-border)"}}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedBookings.map((b,i) => (
+                          <tr key={i} style={{borderBottom:"1px solid var(--c-surface-alt)"}}>
+                            <td style={{padding:"8px 10px"}}><span style={{fontSize:11,fontFamily:"monospace",color:"var(--c-accent-text)",background:"var(--c-accent-bg)",padding:"2px 7px",borderRadius:4}}>{b.id}</span></td>
+                            <td style={{padding:"8px 10px",color:"var(--c-text-muted)"}}>{b.auto}</td>
+                            <td style={{padding:"8px 10px",color:"var(--c-text-muted)"}}>{b.von}</td>
+                            <td style={{padding:"8px 10px",color:"var(--c-text-muted)"}}>{b.bis}</td>
+                            <td style={{padding:"8px 10px",fontWeight:500,color:"var(--c-accent-light)"}}>{b.preis}</td>
+                            <td style={{padding:"8px 10px"}}><StatusBadge status={b.status} /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ComingSoon({ label }) {
+  return (
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"60vh",gap:16}}>
+      <div style={{fontSize:48}}>🚧</div>
+      <div style={{fontSize:20,fontWeight:600,color:"var(--c-text-heading)"}}>{label}</div>
+      <div style={{fontSize:14,color:"var(--c-text-faint)"}}>Diese Seite wird bald verfügbar sein.</div>
+    </div>
+  );
+}
+
+function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, updateNotifSettings, onTestSound, refreshInterval, setRefreshInterval, bookings, vehicles, customers, t }) {
+  const [justSaved, setJustSaved] = useState(false);
+  const languages = [
+    { code: "de", label: "Deutsch", flag: "🇩🇪" },
+    { code: "en", label: "English", flag: "🇬🇧" },
+    { code: "fr", label: "Français", flag: "🇫🇷" },
+    { code: "ar", label: "العربية", flag: "🇲🇦" },
+  ];
+
+  function selectLang(code) {
+    setLang(code);
+    setJustSaved(true);
+    setTimeout(() => setJustSaved(false), 2500);
+  }
+
+  function selectDesign(d) {
+    setDesign(d);
+    setJustSaved(true);
+    setTimeout(() => setJustSaved(false), 2500);
+  }
+
+  const intervalOptions = [10000, 20000, 30000, 60000];
+  function selectInterval(ms) {
+    setRefreshInterval(ms);
+    setJustSaved(true);
+    setTimeout(() => setJustSaved(false), 2500);
+  }
+
+  function DesignPreview({ variant }) {
+    const c = variant === "pro"
+      ? { page:"#f1f3f9", surface:"#ffffff", border:"#e7e9f2", bar2:"#d3d7e6" }
+      : { page:"#0a0a0f", surface:"#111118", border:"#1e1e2e", bar2:"#334155" };
+    return (
+      <div style={{width:52,height:36,borderRadius:6,overflow:"hidden",display:"flex",flexShrink:0,background:c.page,border:`1px solid ${c.border}`}}>
+        <div style={{width:14,background:c.surface,borderRight:`1px solid ${c.border}`}} />
+        <div style={{flex:1,padding:4,display:"flex",flexDirection:"column",gap:3,justifyContent:"center"}}>
+          <div className={variant==="led" ? "led-demo" : undefined} style={{height:5,borderRadius:1,background:variant==="led" ? "hsl(280,85%,60%)" : "#7c3aed",width:"55%"}} />
+          <div style={{height:3,borderRadius:1,background:c.bar2,width:"85%"}} />
+          <div style={{height:3,borderRadius:1,background:c.bar2,width:"45%"}} />
+        </div>
+      </div>
+    );
+  }
+
+  function Toggle({ checked, onChange }) {
+    return (
+      <div onClick={() => onChange(!checked)} style={{width:40,height:22,borderRadius:20,background:checked?"var(--c-accent)":"var(--c-border-strong)",position:"relative",cursor:"pointer",transition:"background 0.15s",flexShrink:0}}>
+        <div style={{position:"absolute",top:2,left:checked?20:2,width:18,height:18,borderRadius:"50%",background:"#fff",transition:"left 0.15s"}} />
+      </div>
+    );
+  }
+
+  function handlePushToggle(v) {
+    if (v && "Notification" in window) {
+      Notification.requestPermission().then(perm => updateNotifSettings({ push: perm === "granted" }));
+    } else {
+      updateNotifSettings({ push: false });
+    }
+  }
+
+  function handleExportBuchungen() {
+    exportCSV("buchungen.csv", bookings, [
+      { key: "id", label: "ID" }, { key: "name", label: t("kunde") }, { key: "telefon", label: t("telefon") },
+      { key: "auto", label: t("fahrzeug_label") }, { key: "von", label: t("von_feld_kurz") }, { key: "bis", label: t("bis_feld_kurz") },
+      { key: "preis", label: t("gesamtpreis") }, { key: "status", label: t("status") },
+    ]);
+  }
+  function handleExportFahrzeuge() {
+    exportCSV("fahrzeuge.csv", vehicles, [
+      { key: "kennzeichen", label: t("kennzeichen") }, { key: "modell", label: t("modell") }, { key: "baujahr", label: t("baujahr") },
+      { key: "preis", label: t("preis_tag") }, { key: "status", label: t("status") },
+    ]);
+  }
+  function handleExportKunden() {
+    exportCSV("kunden.csv", customers, [
+      { key: "telefon", label: t("telefon") }, { key: "name", label: t("name") },
+      { key: "letzteBuchung", label: t("letzte_buchung") }, { key: "anzahlBuchungen", label: t("buchungen_label") }, { key: "notizen", label: t("notizen") },
+    ]);
+  }
+
+  const [wizardStep, setWizardStep] = useState(1);
+  const TOTAL_STEPS = 4;
+  const [sheetIdInput, setSheetIdInput] = useState(SHEET_ID);
+  const [apiKeyInput, setApiKeyInput] = useState(GOOGLE_API_KEY);
+  const [whatsappInput, setWhatsappInput] = useState(WHATSAPP_NUMBER);
+  const [testStatus, setTestStatus] = useState(null); // null | "testing" | "success" | "error"
+
+  async function handleTestConnection() {
+    setTestStatus("testing");
+    try {
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetIdInput}/values/Buchungen!A1:A1?key=${apiKeyInput}`;
+      const res = await fetch(url);
+      setTestStatus(res.ok ? "success" : "error");
+    } catch(e) {
+      setTestStatus("error");
+    }
+  }
+
+  function handleSaveDataSource() {
+    setDataSourceConfig(sheetIdInput, apiKeyInput, whatsappInput.trim());
+    setJustSaved(true);
+    setTimeout(() => { window.location.reload(); }, 900);
+  }
+
+  function handleResetDataSource() {
+    resetDataSourceConfig();
+    setSheetIdInput(DEFAULT_SHEET_ID);
+    setApiKeyInput(DEFAULT_GOOGLE_API_KEY);
+    setWhatsappInput("");
+    setWizardStep(1);
+    setJustSaved(true);
+    setTimeout(() => { window.location.reload(); }, 900);
+  }
+
+  const inputStyle = { width:"100%", fontFamily:"monospace", fontSize:12 };
+  const secondaryBtn = { padding:"9px 14px", borderRadius:8, border:"1px solid var(--c-border)", background:"var(--c-surface-alt)", color:"var(--c-text-body)", cursor:"pointer", fontSize:13, fontFamily:"inherit" };
+  const primaryBtn = { padding:"9px 14px", borderRadius:8, border:"none", background:"var(--c-accent)", color:"var(--c-on-accent)", cursor:"pointer", fontSize:13, fontWeight:500, fontFamily:"inherit" };
+  const exportBtn = { display:"flex", alignItems:"center", justifyContent:"space-between", gap:8, padding:"12px 14px", borderRadius:10, border:"1px solid var(--c-border)", background:"var(--c-surface-alt)", color:"var(--c-text-body)", cursor:"pointer", fontSize:13, fontFamily:"inherit", textAlign:"left", width:"100%" };
+  const maskedKey = apiKeyInput.length > 10 ? `${apiKeyInput.slice(0,6)}...${apiKeyInput.slice(-4)}` : apiKeyInput;
+
+  return (
+    <div>
+      <div style={{marginBottom:"1.5rem"}}>
+        <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("einstellungen_title")}</h1>
+        <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("einstellungen_sub")}</p>
+      </div>
+
+      {justSaved && (
+        <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
+          ✅ {t("gespeichert")}
+        </div>
+      )}
+
+      <div style={{display:"flex",gap:"1.25rem",alignItems:"flex-start"}}>
+        <div style={{flex:1,display:"flex",flexDirection:"column",gap:"1.25rem"}}>
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🌐 {t("sprache")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("sprache_hinweis")}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              {languages.map(l => (
+                <div key={l.code} onClick={() => selectLang(l.code)} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderRadius:10,border:`1px solid ${lang===l.code?"var(--c-accent)":"var(--c-border)"}`,background:lang===l.code?"var(--c-accent-bg)":"var(--c-surface-alt)",cursor:"pointer",transition:"all 0.15s"}}>
+                  <span style={{fontSize:18}}>{l.flag}</span>
+                  <span style={{fontSize:14,color:lang===l.code?"var(--c-text-body)":"var(--c-text-muted)",fontWeight:lang===l.code?500:400,flex:1}}>{l.label}</span>
+                  {lang===l.code && <span style={{color:"var(--c-accent-text)",fontSize:16}}>✓</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🔔 {t("notif_title")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("notif_hinweis")}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                <div>
+                  <div style={{fontSize:13,color:"var(--c-text-body)"}}>{t("notif_sound_buchung")}</div>
+                  <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{t("notif_sound_buchung_sub")}</div>
+                </div>
+                <Toggle checked={notifSettings.soundBooking} onChange={v => updateNotifSettings({ soundBooking: v })} />
+              </div>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                <div>
+                  <div style={{fontSize:13,color:"var(--c-text-body)"}}>{t("notif_sound_chat")}</div>
+                  <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{t("notif_sound_chat_sub")}</div>
+                </div>
+                <Toggle checked={notifSettings.soundChat} onChange={v => updateNotifSettings({ soundChat: v })} />
+              </div>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                <div>
+                  <div style={{fontSize:13,color:"var(--c-text-body)"}}>{t("notif_push")}</div>
+                  <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{t("notif_push_sub")}</div>
+                </div>
+                <Toggle checked={notifSettings.push} onChange={handlePushToggle} />
+              </div>
+              <button onClick={onTestSound} style={{...secondaryBtn, alignSelf:"flex-start"}}>{t("notif_test")}</button>
+            </div>
+          </div>
+
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>📤 {t("export_title")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("export_hinweis")}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              <button onClick={handleExportBuchungen} style={exportBtn}><span>📅 {t("export_buchungen")}</span><span style={{color:"var(--c-text-faint)"}}>{bookings.length}</span></button>
+              <button onClick={handleExportFahrzeuge} style={exportBtn}><span>🚗 {t("export_fahrzeuge")}</span><span style={{color:"var(--c-text-faint)"}}>{vehicles.length}</span></button>
+              <button onClick={handleExportKunden} style={exportBtn}><span>👥 {t("export_kunden")}</span><span style={{color:"var(--c-text-faint)"}}>{customers.length}</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div style={{flex:1,display:"flex",flexDirection:"column",gap:"1.25rem"}}>
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🎨 {t("design_title")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("design_hinweis")}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              {[
+                { code: "classic", label: t("design_classic"), sub: t("design_classic_sub") },
+                { code: "led", label: t("design_led"), sub: t("design_led_sub") },
+                { code: "pro", label: t("design_pro"), sub: t("design_pro_sub") },
+              ].map(d => (
+                <div key={d.code} onClick={() => selectDesign(d.code)} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 14px",borderRadius:10,border:`1px solid ${design===d.code?"var(--c-accent)":"var(--c-border)"}`,background:design===d.code?"var(--c-accent-bg)":"var(--c-surface-alt)",cursor:"pointer",transition:"all 0.15s"}}>
+                  <DesignPreview variant={d.code} />
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:14,fontWeight:design===d.code?500:400,color:design===d.code?"var(--c-text-body)":"var(--c-text-muted)"}}>{d.label}</div>
+                    <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{d.sub}</div>
+                  </div>
+                  {design===d.code && <span style={{color:"var(--c-accent-text)",fontSize:16}}>✓</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>⏱️ {t("intervall_title")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("intervall_hinweis")}</div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {intervalOptions.map(ms => (
+                <div key={ms} onClick={() => selectInterval(ms)} style={{padding:"10px 16px",borderRadius:10,border:`1px solid ${refreshInterval===ms?"var(--c-accent)":"var(--c-border)"}`,background:refreshInterval===ms?"var(--c-accent-bg)":"var(--c-surface-alt)",cursor:"pointer",fontSize:14,fontWeight:refreshInterval===ms?500:400,color:refreshInterval===ms?"var(--c-text-body)":"var(--c-text-muted)",transition:"all 0.15s"}}>
+                  {ms/1000}s
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🗄️ {t("datenquelle_title")}</div>
+            <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("datenquelle_hinweis")}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:10}}>
+              <div>
+                <div style={{display:"flex",alignItems:"center",gap:6}}>
+                  {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+                    <div key={i} style={{height:4,flex:1,borderRadius:2,background:i < wizardStep ? "var(--c-accent)" : "var(--c-border)"}} />
+                  ))}
+                </div>
+                <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:6}}>{t("schritt_label")} {wizardStep} {t("von_label")} {TOTAL_STEPS}</div>
+              </div>
+
+              {wizardStep === 1 && (
+                <div>
+                  <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("ds_step1_title")}</div>
+                  <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("ds_step1_hinweis")}</div>
+                  <input value={sheetIdInput} onChange={e => setSheetIdInput(e.target.value)} style={inputStyle} />
+                </div>
+              )}
+
+              {wizardStep === 2 && (
+                <div>
+                  <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("ds_step2_title")}</div>
+                  <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("ds_step2_hinweis")}</div>
+                  <input value={apiKeyInput} onChange={e => setApiKeyInput(e.target.value)} style={inputStyle} />
+                  {testStatus && (
+                    <div style={{fontSize:12,marginTop:8,color:testStatus==="success"?"var(--c-success)":testStatus==="error"?"var(--c-danger)":"var(--c-text-faint)"}}>
+                      {testStatus==="testing" ? t("verbindung_testet") : testStatus==="success" ? t("verbindung_erfolgreich") : t("verbindung_fehlgeschlagen")}
+                    </div>
+                  )}
+                  <button onClick={handleTestConnection} style={{...secondaryBtn, marginTop:10}}>{t("verbindung_testen")}</button>
+                </div>
+              )}
+
+              {wizardStep === 3 && (
+                <div>
+                  <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("ds_step3_title")}</div>
+                  <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("ds_step3_hinweis")}</div>
+                  <input value={whatsappInput} onChange={e => setWhatsappInput(e.target.value)} placeholder={t("ds_whatsapp_placeholder")} style={inputStyle} />
+                </div>
+              )}
+
+              {wizardStep === 4 && (
+                <div>
+                  <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("ds_step4_title")}</div>
+                  <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("ds_step4_hinweis")}</div>
+                  <div style={{display:"flex",flexDirection:"column",gap:6,fontSize:12,background:"var(--c-surface-alt)",border:"1px solid var(--c-border)",borderRadius:8,padding:"10px 12px"}}>
+                    <div><span style={{color:"var(--c-text-faint)"}}>{t("sheet_id_label")}: </span><span style={{fontFamily:"monospace",color:"var(--c-text-body)"}}>{sheetIdInput}</span></div>
+                    <div><span style={{color:"var(--c-text-faint)"}}>{t("api_key_label")}: </span><span style={{fontFamily:"monospace",color:"var(--c-text-body)"}}>{maskedKey}</span></div>
+                    <div><span style={{color:"var(--c-text-faint)"}}>{t("ds_whatsapp_label")}: </span><span style={{color:"var(--c-text-body)"}}>{whatsappInput || t("ds_keine_angabe")}</span></div>
+                  </div>
+                </div>
+              )}
+
+              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                {wizardStep > 1 && <button onClick={() => setWizardStep(s => s - 1)} style={secondaryBtn}>{t("zurueck")}</button>}
+                {wizardStep < TOTAL_STEPS && <button onClick={() => setWizardStep(s => s + 1)} style={primaryBtn}>{t("weiter")}</button>}
+                {wizardStep === TOTAL_STEPS && <button onClick={handleSaveDataSource} style={primaryBtn}>{t("speichern")}</button>}
+                <button onClick={handleResetDataSource} style={secondaryBtn}>{t("zuruecksetzen")}</button>
+              </div>
+              <div style={{fontSize:11,color:"var(--c-text-faint2)"}}>{t("datenquelle_reload_hinweis")}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const { refreshInterval, setRefreshInterval } = useRefreshInterval();
+  const { bookings, chats, vehicles, customers, damages, lastUpdated } = useSheetData(refreshInterval);
+  const { lang, setLang, t } = useLanguage();
+  const { design, setDesign } = useTheme();
+  const { notifSettings, updateNotifSettings } = useNotificationSettings();
+  const playBeep = useNotificationSound();
+  const [page, setPage] = useState(0);
+  const [time, setTime] = useState(new Date());
+  useEffect(() => { const timer = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(timer); }, []);
+
+  const prevBookingsCount = useRef(null);
+  useEffect(() => {
+    if (prevBookingsCount.current === null) { prevBookingsCount.current = bookings.length; return; }
+    if (bookings.length > prevBookingsCount.current) {
+      const neu = bookings[bookings.length - 1];
+      if (notifSettings.soundBooking) playBeep();
+      if (notifSettings.push) sendPushNotification(t("notif_neue_buchung_titel"), `${neu?.name||""} · ${neu?.auto||""}`);
+    }
+    prevBookingsCount.current = bookings.length;
+  }, [bookings, notifSettings.soundBooking, notifSettings.push]);
+
+  const prevChatUserCount = useRef(null);
+  useEffect(() => {
+    const userMsgs = chats.filter(c => c.rolle === "user");
+    if (prevChatUserCount.current === null) { prevChatUserCount.current = userMsgs.length; return; }
+    if (userMsgs.length > prevChatUserCount.current) {
+      const last = userMsgs[userMsgs.length - 1];
+      if (notifSettings.soundChat) playBeep();
+      if (notifSettings.push) sendPushNotification(t("notif_neue_nachricht_titel"), last?.nachricht || "");
+    }
+    prevChatUserCount.current = userMsgs.length;
+  }, [chats, notifSettings.soundChat, notifSettings.push]);
+
+  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")) }));
+
+  return (
+    <div style={{display:"flex",minHeight:"100vh"}}>
+      <Sidebar page={page} setPage={setPage} time={time} t={t} lang={lang} />
+      <main style={{marginLeft:220,flex:1,padding:"1.5rem 2rem",maxWidth:"calc(100vw - 220px)"}}>
+        {page === 0 && <UebersichtPage bookings={bookings} chats={chats} vehicles={vehicles} lastUpdated={lastUpdated} t={t} />}
+        {page === 1 && <BuchungenPage bookings={bookings} fleet={activeFleet} t={t} />}
+        {page === 2 && <FahrzeugePage bookings={bookings} t={t} refreshInterval={refreshInterval} />}
+        {page === 3 && <ChatsPage chats={chats} t={t} />}
+        {page === 4 && <KundenPage customers={customers} bookings={bookings} t={t} />}
+        {page === 5 && <RueckgabePage bookings={bookings} damages={damages||[]} t={t} />}
+        {page === 6 && <EinstellungenPage lang={lang} setLang={setLang} design={design} setDesign={setDesign} notifSettings={notifSettings} updateNotifSettings={updateNotifSettings} onTestSound={playBeep} refreshInterval={refreshInterval} setRefreshInterval={setRefreshInterval} bookings={bookings} vehicles={vehicles} customers={customers} t={t} />}
+      </main>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App));
+</script>
+</body>
+</html>
