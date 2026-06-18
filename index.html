@@ -72,6 +72,38 @@ body,.card,aside,input,select,button{transition:background-color .2s ease,color 
 ::-webkit-scrollbar-thumb{background:var(--c-border-strong);border-radius:2px}
 input,select{background:var(--c-surface-alt);border:1px solid var(--c-border);color:var(--c-text-body);border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none}
 input:focus,select:focus{border-color:var(--c-border-strong)}
+
+  /* Button system */
+  .btn-primary {
+    padding: 9px 18px; border-radius: 8px; border: none;
+    background: var(--c-accent); color: var(--c-on-accent);
+    font-weight: 600; font-size: 13px; cursor: pointer;
+    font-family: inherit; letter-spacing: 0.03em;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary {
+    padding: 9px 18px; border-radius: 8px;
+    border: 1px solid var(--c-accent);
+    background: var(--c-accent-bg); color: var(--c-accent-text);
+    font-weight: 600; font-size: 13px; cursor: pointer;
+    font-family: inherit; letter-spacing: 0.03em;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { background: var(--c-accent); color: var(--c-on-accent); }
+  .btn-danger {
+    padding: 9px 18px; border-radius: 8px; border: none;
+    background: var(--c-danger); color: #fff;
+    font-weight: 600; font-size: 13px; cursor: pointer;
+    font-family: inherit; letter-spacing: 0.03em;
+  }
+  .btn-ghost {
+    padding: 9px 18px; border-radius: 8px;
+    border: 1px solid var(--c-border);
+    background: var(--c-surface-alt); color: var(--c-text-body);
+    font-weight: 500; font-size: 13px; cursor: pointer;
+    font-family: inherit;
+  }
 </style>
 </head>
 <body>
@@ -823,7 +855,7 @@ function CarStatus({ cars, bookings, t }) {
                 <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)"}}>{car.name}</div>
                 <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{car.price} € {t("pro_tag")}</div>
               </div>
-              <div style={{fontSize:11,padding:"4px 10px",borderRadius:20,fontWeight:500,...(s.booked?{background:"var(--c-danger-bg)",color:"var(--c-danger)",border:"1px solid var(--c-danger-border)"}:{background:"var(--c-success-bg)",color:"var(--c-success)",border:"1px solid var(--c-success-border)"})}}>
+              <div style={{fontSize:11,padding:"6px 14px",borderRadius:6,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",...(s.booked?{background:"#e8380d",color:"#fff"}:{background:"var(--c-accent)",color:"var(--c-on-accent)"})}}>
                 {s.booked ? t("gebucht") : t("verfuegbar")}
               </div>
             </div>
@@ -1091,7 +1123,7 @@ function BuchungenPage({ bookings, fleet, t }) {
           <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("buchungen_title")}</h1>
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("buchungen_sub")}</p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
           📞 {t("buchungen_neu")}
         </button>
       </div>
@@ -1180,7 +1212,7 @@ function BuchungenPage({ bookings, fleet, t }) {
                     <td style={{padding:"10px 12px"}}><StatusBadge status={b.status} /></td>
                     <td style={{padding:"10px 12px"}}>
                       {b.status === "Bestätigt" ? (
-                        <button onClick={() => setCancelTarget(b)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-danger-border)",background:"var(--c-danger-bg)",color:"var(--c-danger)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                        <button onClick={() => setCancelTarget(b)} style={{fontSize:11,padding:"6px 14px",borderRadius:6,border:"none",background:"var(--c-danger)",color:"#fff",cursor:"pointer",fontFamily:"inherit",fontWeight:700,letterSpacing:"0.04em",fontWeight:500}}>
                           {t("stornieren")}
                         </button>
                       ) : (
@@ -1428,7 +1460,7 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
           <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("fahrzeuge_title")}</h1>
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("fahrzeuge_sub")}</p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
           🚘 {t("fahrzeuge_neu")}
         </button>
       </div>
@@ -1459,7 +1491,7 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
               <button onClick={async () => {
                 await fetch(FLEET_WEBHOOK_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ action:"delete", sheetId: SHEET_ID, kennzeichen: deleteTarget.kennzeichen }) });
                 setDeleteTarget(null); setToast(`✅ ${t("deaktivieren")}`); setTimeout(()=>setToast(""),6000);
-              }} style={{flex:1,padding:"10px",borderRadius:8,border:"none",background:"var(--c-danger-strong)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>{t("deaktivieren")}</button>
+              }} style={{flex:1,padding:"10px",borderRadius:8,border:"none",background:"var(--c-danger)",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>{t("deaktivieren")}</button>
             </div>
           </div>
         </div>
@@ -1517,9 +1549,9 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
                         )}
                       </td>
                       <td style={{padding:"10px 12px",display:"flex",gap:6}}>
-                        <button onClick={() => setEditTarget(v)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-border-strong)",background:"var(--c-border)",color:"var(--c-text-muted)",cursor:"pointer",fontFamily:"inherit"}}>{t("bearbeiten")}</button>
+                        <button onClick={() => setEditTarget(v)} style={{fontSize:11,padding:"6px 14px",borderRadius:6,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",cursor:"pointer",fontFamily:"inherit",fontWeight:700,letterSpacing:"0.04em"}}>{t("bearbeiten")}</button>
                         {v.status === "Aktiv" && (
-                          <button onClick={() => setDeleteTarget(v)} style={{fontSize:11,padding:"5px 10px",borderRadius:6,border:"1px solid var(--c-danger-border)",background:"var(--c-danger-bg)",color:"var(--c-danger)",cursor:"pointer",fontFamily:"inherit"}}>{t("deaktivieren")}</button>
+                          <button onClick={() => setDeleteTarget(v)} style={{fontSize:11,padding:"6px 14px",borderRadius:6,border:"none",background:"var(--c-danger)",color:"#fff",cursor:"pointer",fontFamily:"inherit",fontWeight:700,letterSpacing:"0.04em"}}>{t("deaktivieren")}</button>
                         )}
                       </td>
                     </tr>
@@ -1673,7 +1705,7 @@ function ChatsPage({ chats, t }) {
                     🤖 {t("ki_reaktivieren")}
                   </button>
                 ) : (
-                  <button onClick={() => setTakenOver(t => ({...t, [selected]: true}))} style={{fontSize:12,padding:"6px 14px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
+                  <button onClick={() => setTakenOver(t => ({...t, [selected]: true}))} style={{fontSize:12,padding:"6px 16px",borderRadius:6,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",cursor:"pointer",fontFamily:"inherit",fontWeight:700,letterSpacing:"0.04em"}}>
                     👤 {t("uebernehmen")}
                   </button>
                 )
@@ -1816,7 +1848,7 @@ function KundenPage({ customers, bookings, t }) {
           <h1 style={{fontSize:22,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("kunden_title")}</h1>
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("kunden_sub")}</p>
         </div>
-        <button onClick={() => setShowModal(true)} style={{padding:"9px 16px",borderRadius:8,border:"1px solid var(--c-accent)",background:"var(--c-accent-bg)",color:"var(--c-accent-text)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>
+        <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
           👤 {t("kunden_neu")}
         </button>
       </div>
@@ -2129,7 +2161,7 @@ function RueckgabePage({ bookings, damages, t }) {
             </div>
           </div>
           {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
-          <button onClick={handleSubmit} disabled={submitting} style={{padding:"11px",borderRadius:8,border:"none",background:submitting?"var(--c-border)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
+          <button onClick={handleSubmit} disabled={submitting} style={{padding:"11px 24px",borderRadius:8,border:"none",background:submitting?"var(--c-border)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
             {submitting ? t("wird_hochgeladen") : ("💾 " + t("eintrag_speichern"))}
           </button>
         </div>
