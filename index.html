@@ -192,7 +192,7 @@ const TRANSLATIONS = {
     ds_step4_title: "Zusammenfassung", ds_step4_hinweis: "Bitte prüfen und dann speichern.",
     ds_whatsapp_label: "WhatsApp-Nummer", ds_whatsapp_placeholder: "+43 xxx xxx xxxx", ds_keine_angabe: "Keine Angabe",
     intervall_title: "Aktualisierung", intervall_hinweis: "Wie oft das Dashboard neue Daten aus Google Sheets lädt – größere Abstände schonen dein API-Kontingent.",
-    nav_rueckgabe: "Rückgabe",
+    nav_rueckgabe: "Rückgabe", diesen_monat: "diesen Monat", schaden_titel: "Schaden",
     rueckgabe_title: "Rückgabe", rueckgabe_sub: "Fahrzeugzustand und km-Stand bei Abholung und Rückgabe erfassen",
     tab_neuer_eintrag: "Neuer Eintrag", tab_alte_eintraege: "Alte Einträge",
     typ_abholung: "Abholung", typ_rueckgabe: "Rückgabe", fahrzeug_waehlen: "Buchung wählen",
@@ -280,7 +280,7 @@ const TRANSLATIONS = {
     ds_step4_title: "Summary", ds_step4_hinweis: "Please review, then save.",
     ds_whatsapp_label: "WhatsApp number", ds_whatsapp_placeholder: "+1 555 xxx xxxx", ds_keine_angabe: "Not set",
     intervall_title: "Refresh Interval", intervall_hinweis: "How often the dashboard pulls fresh data from Google Sheets – longer intervals save your API quota.",
-    nav_rueckgabe: "Return",
+    nav_rueckgabe: "Return", diesen_monat: "this month", schaden_titel: "Damage",
     rueckgabe_title: "Return", rueckgabe_sub: "Document vehicle condition and mileage at pickup and return",
     tab_neuer_eintrag: "New Entry", tab_alte_eintraege: "Previous Entries",
     typ_abholung: "Pickup", typ_rueckgabe: "Return", fahrzeug_waehlen: "Select booking",
@@ -368,7 +368,7 @@ const TRANSLATIONS = {
     ds_step4_title: "Récapitulatif", ds_step4_hinweis: "Veuillez vérifier, puis enregistrer.",
     ds_whatsapp_label: "Numéro WhatsApp", ds_whatsapp_placeholder: "+33 6 xx xx xx xx", ds_keine_angabe: "Non renseigné",
     intervall_title: "Intervalle d'actualisation", intervall_hinweis: "À quelle fréquence le tableau de bord récupère les données depuis Google Sheets – des intervalles plus longs préservent votre quota API.",
-    nav_rueckgabe: "Retour",
+    nav_rueckgabe: "Retour", diesen_monat: "ce mois", schaden_titel: "Dommage",
     rueckgabe_title: "Retour", rueckgabe_sub: "Documenter l'état et le kilométrage à la prise en charge et au retour",
     tab_neuer_eintrag: "Nouvelle entrée", tab_alte_eintraege: "Entrées précédentes",
     typ_abholung: "Prise en charge", typ_rueckgabe: "Retour", fahrzeug_waehlen: "Choisir réservation",
@@ -456,7 +456,7 @@ const TRANSLATIONS = {
     ds_step4_title: "ملخص", ds_step4_hinweis: "يرجى المراجعة ثم الحفظ.",
     ds_whatsapp_label: "رقم واتساب", ds_whatsapp_placeholder: "+966 5x xxx xxxx", ds_keine_angabe: "غير محدد",
     intervall_title: "فترة التحديث", intervall_hinweis: "كل متى تسحب لوحة التحكم بيانات جديدة من Google Sheets – الفترات الأطول توفر حصة API.",
-    nav_rueckgabe: "الإرجاع",
+    nav_rueckgabe: "الإرجاع", diesen_monat: "هذا الشهر", schaden_titel: "ضرر",
     rueckgabe_title: "الإرجاع", rueckgabe_sub: "توثيق حالة السيارة وقراءة العداد عند الاستلام والإرجاع",
     tab_neuer_eintrag: "تسجيل جديد", tab_alte_eintraege: "التسجيلات السابقة",
     typ_abholung: "الاستلام", typ_rueckgabe: "الإرجاع", fahrzeug_waehlen: "اختر الحجز",
@@ -1061,7 +1061,14 @@ function BuchungenPage({ bookings, fleet, t }) {
       });
   }, [bookings, search, filterStatus, filterAuto, sortBy, sortDir]);
 
-  const totalRevenue = getTotalRevenue(filtered);
+  const nowB = new Date();
+  const thisMonthFiltered = filtered.filter(b => {
+    const p = (b.von||"").split(".");
+    if (p.length !== 3) return false;
+    const d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
+    return d.getFullYear() === nowB.getFullYear() && d.getMonth() === nowB.getMonth();
+  });
+  const totalRevenue = getTotalRevenue(thisMonthFiltered);
   const confirmed = filtered.filter(b => b.status === "Bestätigt").length;
   const completed = filtered.filter(b => b.status === "Abgeschlossen").length;
 
@@ -1122,7 +1129,7 @@ function BuchungenPage({ bookings, fleet, t }) {
         <MetricCard label={t("buchungen_gesamt")} value={filtered.length} sub={t("buchungen_gefilterte")} color="var(--c-info)" icon="📅" />
         <MetricCard label={t("buchungen_bestaetigt")} value={confirmed} sub={t("buchungen_aktive")} color="var(--c-success)" icon="✅" />
         <MetricCard label={t("buchungen_abgeschlossen")} value={completed} sub={t("buchungen_vergangene")} color="var(--c-text-faint)" icon="🏁" />
-        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("buchungen_gefilterte")} color="var(--c-accent-light)" icon="💰" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="💰" />
       </div>
 
       <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
@@ -1195,7 +1202,14 @@ function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
   const carStatusMap = getCarStatus(bookings, activeFleet);
   const bookedCars = getBookedCars(bookings, activeFleet);
   const availableCount = activeFleet.filter(c => !carStatusMap[c.name]?.booked).length;
-  const totalRevenue = getTotalRevenue(bookings);
+  const now = new Date();
+  const thisMonthBookings = bookings.filter(b => {
+    const p = (b.von||"").split(".");
+    if (p.length !== 3) return false;
+    const d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  });
+  const totalRevenue = getTotalRevenue(thisMonthBookings);
   const phoneGroups = groupChatsByPhone(chats);
   const activeChats = Object.keys(phoneGroups).length;
 
@@ -1213,8 +1227,8 @@ function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
       </header>
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:"1.5rem"}}>
         <MetricCard label={t("metric_verfuegbar")} value={`${availableCount} / ${activeFleet.length}`} sub={`${activeFleet.length-availableCount} ${t("metric_gesamt_gebucht")}`} color="var(--c-success)" icon="🟢" />
-        <MetricCard label={t("metric_buchungen")} value={bookings.length} sub={t("metric_gesamt_sub")} color="var(--c-info)" icon="📅" />
-        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("metric_umsatz_sub")} color="var(--c-accent-light)" icon="💰" />
+        <MetricCard label={t("metric_buchungen")} value={thisMonthBookings.length} sub={t("diesen_monat")} color="var(--c-info)" icon="📅" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="💰" />
         <MetricCard label={t("metric_aktive_chats")} value={activeChats} sub={t("metric_chats_sub")} color="var(--c-warning)" icon="💬" />
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
@@ -2024,7 +2038,7 @@ function RueckgabePage({ bookings, damages, t }) {
           <div>
             <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block",marginBottom:4}}>{t("fahrzeug_waehlen")}</label>
             <select value={buchungsId} onChange={e => setBuchungsId(e.target.value)} style={{width:"100%"}}>
-              {bookings.map(b => <option key={b.id} value={b.id}>{b.id} · {b.name} · {b.auto}</option>)}
+              {bookings.filter(b => b.status === "Bestätigt").map(b => <option key={b.id} value={b.id}>{b.id} · {b.name} · {b.auto}</option>)}
             </select>
           </div>
           <div style={{display:"flex",gap:8}}>
@@ -2035,7 +2049,7 @@ function RueckgabePage({ bookings, damages, t }) {
             ))}
           </div>
           <div style={sec}>
-            <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-body)",marginBottom:10}}>🛠️ Schaden</div>
+            <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-body)",marginBottom:10}}>🛠️ {t("schaden_titel")}</div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}}>
               <div>
                 <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block"}}>{t("kategorie_schaden")}</label>
