@@ -226,13 +226,13 @@ const TRANSLATIONS = {
     notif_sound_buchung: "Sound bei neuer Buchung", notif_sound_buchung_sub: "Spielt einen Ton ab, wenn eine neue Buchung eingeht",
     notif_sound_chat: "Sound bei neuer Chat-Nachricht", notif_sound_chat_sub: "Spielt einen Ton ab, wenn ein Kunde schreibt",
     notif_push: "Browser-Benachrichtigungen", notif_push_sub: "Zeigt eine Systembenachrichtigung an (Berechtigung erforderlich)",
-    notif_test: "🔊 Test-Sound abspielen", notif_neue_buchung_titel: "Neue Buchung", notif_neue_nachricht_titel: "Neue Nachricht",
+    notif_test: "Test-Sound abspielen", notif_neue_buchung_titel: "Neue Buchung", notif_neue_nachricht_titel: "Neue Nachricht",
     export_title: "Export", export_hinweis: "Lade deine Daten als CSV-Datei herunter, z.B. für Backups oder den Steuerberater.",
     export_buchungen: "Buchungen exportieren", export_fahrzeuge: "Fahrzeuge exportieren", export_kunden: "Kunden exportieren",
     datenquelle_title: "Datenquelle", datenquelle_hinweis: "Verbinde das Dashboard mit einem anderen Google Sheet – praktisch für neue Kunden.",
     sheet_id_label: "Google-Sheet-ID", api_key_label: "Google-API-Key", zuruecksetzen: "Zurücksetzen",
     datenquelle_reload_hinweis: "Nach dem Speichern wird die Seite neu geladen, damit die neue Verbindung aktiv wird.",
-    verbindung_testen: "Verbindung testen", verbindung_erfolgreich: "✅ Verbindung erfolgreich", verbindung_fehlgeschlagen: "❌ Verbindung fehlgeschlagen – bitte ID/Key prüfen", verbindung_testet: "⏳ Teste Verbindung...",
+    verbindung_testen: "Verbindung testen", verbindung_erfolgreich: "Verbindung erfolgreich", verbindung_fehlgeschlagen: "Verbindung fehlgeschlagen – bitte ID/Key prüfen", verbindung_testet: "⏳ Teste Verbindung...",
     schritt_label: "Schritt", weiter: "Weiter", zurueck: "Zurück",
     ds_step1_title: "Google-Sheet-ID", ds_step1_hinweis: "Du findest sie in der URL deines Sheets, zwischen /d/ und /edit.",
     ds_step2_title: "Google-API-Key", ds_step2_hinweis: "Der Key, mit dem das Dashboard auf Google Sheets zugreift.",
@@ -249,6 +249,7 @@ const TRANSLATIONS = {
     modul3_titel: "Kaution erstatten", modul3_bezahlmethode: "Bezahlmethode", modul3_groesse: "Größe der Zahlung",
     modul3_gesamtbetrag: "Gesamtbetrag", modul3_summe: "Summe", modul3_zurueckzahlen: "Kaution zurückzahlen",
     kaution_bar: "Bar", kaution_karte: "Karte", kaution_ueberweisung: "Überweisung",
+    kaution_bezahlt_label: "Bereits bezahlt (EUR)", kaution_voll_bezahlt: "Kaution vollständig bezahlt",
     rueckgabe_title: "Rückgabe", rueckgabe_sub: "Fahrzeugzustand und km-Stand bei Abholung und Rückgabe erfassen",
     tab_neuer_eintrag: "Neuer Eintrag", tab_alte_eintraege: "Alte Einträge",
     typ_abholung: "Abholung", typ_rueckgabe: "Rückgabe", fahrzeug_waehlen: "Buchung wählen",
@@ -322,13 +323,13 @@ const TRANSLATIONS = {
     notif_sound_buchung: "Sound on new booking", notif_sound_buchung_sub: "Plays a sound when a new booking comes in",
     notif_sound_chat: "Sound on new chat message", notif_sound_chat_sub: "Plays a sound when a customer writes",
     notif_push: "Browser notifications", notif_push_sub: "Shows a system notification (permission required)",
-    notif_test: "🔊 Play test sound", notif_neue_buchung_titel: "New booking", notif_neue_nachricht_titel: "New message",
+    notif_test: "Play test sound", notif_neue_buchung_titel: "New booking", notif_neue_nachricht_titel: "New message",
     export_title: "Export", export_hinweis: "Download your data as a CSV file, e.g. for backups or your accountant.",
     export_buchungen: "Export bookings", export_fahrzeuge: "Export vehicles", export_kunden: "Export customers",
     datenquelle_title: "Data Source", datenquelle_hinweis: "Connect the dashboard to a different Google Sheet – handy when onboarding new customers.",
     sheet_id_label: "Google Sheet ID", api_key_label: "Google API Key", zuruecksetzen: "Reset",
     datenquelle_reload_hinweis: "The page will reload after saving so the new connection takes effect.",
-    verbindung_testen: "Test connection", verbindung_erfolgreich: "✅ Connection successful", verbindung_fehlgeschlagen: "❌ Connection failed – please check ID/key", verbindung_testet: "⏳ Testing connection...",
+    verbindung_testen: "Test connection", verbindung_erfolgreich: "Connection successful", verbindung_fehlgeschlagen: "Connection failed – please check ID/key", verbindung_testet: "⏳ Testing connection...",
     schritt_label: "Step", weiter: "Next", zurueck: "Back",
     ds_step1_title: "Google Sheet ID", ds_step1_hinweis: "You'll find it in your sheet's URL, between /d/ and /edit.",
     ds_step2_title: "Google API Key", ds_step2_hinweis: "The key the dashboard uses to access Google Sheets.",
@@ -345,6 +346,7 @@ const TRANSLATIONS = {
     modul3_titel: "Refund deposit", modul3_bezahlmethode: "Payment method", modul3_groesse: "Payment size",
     modul3_gesamtbetrag: "Full amount", modul3_summe: "Amount", modul3_zurueckzahlen: "Refund deposit",
     kaution_bar: "Cash", kaution_karte: "Card", kaution_ueberweisung: "Bank transfer",
+    kaution_bezahlt_label: "Already paid (EUR)", kaution_voll_bezahlt: "Deposit fully paid",
     rueckgabe_title: "Return", rueckgabe_sub: "Document vehicle condition and mileage at pickup and return",
     tab_neuer_eintrag: "New Entry", tab_alte_eintraege: "Previous Entries",
     typ_abholung: "Pickup", typ_rueckgabe: "Return", fahrzeug_waehlen: "Select booking",
@@ -418,13 +420,13 @@ const TRANSLATIONS = {
     notif_sound_buchung: "Son pour une nouvelle réservation", notif_sound_buchung_sub: "Joue un son lorsqu'une nouvelle réservation arrive",
     notif_sound_chat: "Son pour un nouveau message", notif_sound_chat_sub: "Joue un son lorsqu'un client écrit",
     notif_push: "Notifications du navigateur", notif_push_sub: "Affiche une notification système (autorisation requise)",
-    notif_test: "🔊 Jouer le son test", notif_neue_buchung_titel: "Nouvelle réservation", notif_neue_nachricht_titel: "Nouveau message",
+    notif_test: "Jouer le son test", notif_neue_buchung_titel: "Nouvelle réservation", notif_neue_nachricht_titel: "Nouveau message",
     export_title: "Export", export_hinweis: "Téléchargez vos données en CSV, par ex. pour une sauvegarde ou votre comptable.",
     export_buchungen: "Exporter les réservations", export_fahrzeuge: "Exporter les véhicules", export_kunden: "Exporter les clients",
     datenquelle_title: "Source de données", datenquelle_hinweis: "Connectez le tableau de bord à une autre feuille Google – pratique pour intégrer de nouveaux clients.",
     sheet_id_label: "ID de la feuille Google", api_key_label: "Clé API Google", zuruecksetzen: "Réinitialiser",
     datenquelle_reload_hinweis: "La page sera rechargée après l'enregistrement pour activer la nouvelle connexion.",
-    verbindung_testen: "Tester la connexion", verbindung_erfolgreich: "✅ Connexion réussie", verbindung_fehlgeschlagen: "❌ Connexion échouée – vérifiez l'ID/la clé", verbindung_testet: "⏳ Test de la connexion...",
+    verbindung_testen: "Tester la connexion", verbindung_erfolgreich: "Connexion réussie", verbindung_fehlgeschlagen: "Connexion échouée – vérifiez l'ID/la clé", verbindung_testet: "⏳ Test de la connexion...",
     schritt_label: "Étape", weiter: "Suivant", zurueck: "Retour",
     ds_step1_title: "ID de la feuille Google", ds_step1_hinweis: "Vous la trouverez dans l'URL de votre feuille, entre /d/ et /edit.",
     ds_step2_title: "Clé API Google", ds_step2_hinweis: "La clé que le tableau de bord utilise pour accéder à Google Sheets.",
@@ -441,6 +443,7 @@ const TRANSLATIONS = {
     modul3_titel: "Rembourser la caution", modul3_bezahlmethode: "Méthode de paiement", modul3_groesse: "Taille du paiement",
     modul3_gesamtbetrag: "Montant total", modul3_summe: "Somme", modul3_zurueckzahlen: "Rembourser la caution",
     kaution_bar: "Espèces", kaution_karte: "Carte", kaution_ueberweisung: "Virement",
+    kaution_bezahlt_label: "Déjà payé (EUR)", kaution_voll_bezahlt: "Caution entièrement payée",
     rueckgabe_title: "Retour", rueckgabe_sub: "Documenter l'état et le kilométrage à la prise en charge et au retour",
     tab_neuer_eintrag: "Nouvelle entrée", tab_alte_eintraege: "Entrées précédentes",
     typ_abholung: "Prise en charge", typ_rueckgabe: "Retour", fahrzeug_waehlen: "Choisir réservation",
@@ -514,13 +517,13 @@ const TRANSLATIONS = {
     notif_sound_buchung: "صوت عند حجز جديد", notif_sound_buchung_sub: "يصدر صوتًا عند وصول حجز جديد",
     notif_sound_chat: "صوت عند رسالة جديدة", notif_sound_chat_sub: "يصدر صوتًا عندما يكتب العميل",
     notif_push: "إشعارات المتصفح", notif_push_sub: "يعرض إشعار النظام (يتطلب إذنًا)",
-    notif_test: "🔊 تشغيل صوت تجريبي", notif_neue_buchung_titel: "حجز جديد", notif_neue_nachricht_titel: "رسالة جديدة",
+    notif_test: "تشغيل صوت تجريبي", notif_neue_buchung_titel: "حجز جديد", notif_neue_nachricht_titel: "رسالة جديدة",
     export_title: "تصدير", export_hinweis: "نزّل بياناتك كملف CSV، مثلاً للنسخ الاحتياطي أو للمحاسب.",
     export_buchungen: "تصدير الحجوزات", export_fahrzeuge: "تصدير السيارات", export_kunden: "تصدير العملاء",
     datenquelle_title: "مصدر البيانات", datenquelle_hinweis: "اربط لوحة التحكم بجدول جوجل آخر – مفيد عند إضافة عميل جديد.",
     sheet_id_label: "معرف جدول جوجل", api_key_label: "مفتاح API لجوجل", zuruecksetzen: "إعادة تعيين",
     datenquelle_reload_hinweis: "ستتم إعادة تحميل الصفحة بعد الحفظ لتفعيل الاتصال الجديد.",
-    verbindung_testen: "اختبار الاتصال", verbindung_erfolgreich: "✅ الاتصال ناجح", verbindung_fehlgeschlagen: "❌ فشل الاتصال – تحقق من المعرف/المفتاح", verbindung_testet: "⏳ جارٍ اختبار الاتصال...",
+    verbindung_testen: "اختبار الاتصال", verbindung_erfolgreich: "الاتصال ناجح", verbindung_fehlgeschlagen: "فشل الاتصال – تحقق من المعرف/المفتاح", verbindung_testet: "⏳ جارٍ اختبار الاتصال...",
     schritt_label: "خطوة", weiter: "التالي", zurueck: "رجوع",
     ds_step1_title: "معرف جدول جوجل", ds_step1_hinweis: "ستجده في رابط جدولك، بين /d/ و /edit.",
     ds_step2_title: "مفتاح API لجوجل", ds_step2_hinweis: "المفتاح الذي تستخدمه لوحة التحكم للوصول إلى Google Sheets.",
@@ -537,6 +540,7 @@ const TRANSLATIONS = {
     modul3_titel: "استرداد التأمين", modul3_bezahlmethode: "طريقة الدفع", modul3_groesse: "حجم الدفعة",
     modul3_gesamtbetrag: "المبلغ الكامل", modul3_summe: "المبلغ", modul3_zurueckzahlen: "استرداد التأمين",
     kaution_bar: "نقدًا", kaution_karte: "بطاقة", kaution_ueberweisung: "تحويل بنكي",
+    kaution_bezahlt_label: "تم دفعه بالفعل (يورو)", kaution_voll_bezahlt: "تم دفع التأمين بالكامل",
     rueckgabe_title: "الإرجاع", rueckgabe_sub: "توثيق حالة السيارة وقراءة العداد عند الاستلام والإرجاع",
     tab_neuer_eintrag: "تسجيل جديد", tab_alte_eintraege: "التسجيلات السابقة",
     typ_abholung: "الاستلام", typ_rueckgabe: "الإرجاع", fahrzeug_waehlen: "اختر الحجز",
@@ -657,7 +661,7 @@ function sendPushNotification(title, body) {
   } catch(e) {}
 }
 
-const NAV_KEYS = [["📊","nav_uebersicht"],["📅","nav_buchungen"],["🚗","nav_fahrzeuge"],["💬","nav_chats"],["👥","nav_kunden"],["🛠️","nav_rueckgabe"],["⚙️","nav_einstellungen"]];
+const NAV_KEYS = [["","nav_uebersicht"],["","nav_buchungen"],["","nav_fahrzeuge"],["","nav_chats"],["","nav_kunden"],["","nav_rueckgabe"],["","nav_einstellungen"]];
 
 
 async function fetchSheet(range) {
@@ -686,12 +690,12 @@ function useSheetData(intervalMs) {
   const load = async () => {
     try {
       const [bRows, cRows, vRows, kRows, dRows] = await fetchSheetBatch([
-        "Buchungen!A2:K200", "Chats!A2:E500", "Fahrzeuge!A2:F300", "Kunden!A2:E500", "Schaeden!A2:F500"
+        "Buchungen!A2:L200", "Chats!A2:E500", "Fahrzeuge!A2:F300", "Kunden!A2:E500", "Schaeden!A2:F500"
       ]);
       setBookings(bRows.map(r => ({
         id: r[0]||"", name: r[1]||"", telefon: r[2]||"", auto: r[3]||"",
         von: r[4]||"", bis: r[5]||"", preis: r[6]||"", status: r[7]||"",
-        kautionMethode: r[8]||"", kautionBetrag: r[9]||"", kautionErstattet: r[10]||""
+        kautionMethode: r[8]||"", kautionBetrag: r[9]||"", kautionErstattet: r[10]||"", kautionBezahlt: r[11]||"0"
       })).filter(r => r.id));
       setChats(cRows.map(r => ({
         zeitstempel: r[0]||"", telefon: r[1]||"", name: r[2]||"",
@@ -824,7 +828,7 @@ function Sidebar({ page, setPage, time, t, lang }) {
           {time.toLocaleTimeString(locale,{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
         </div>
         <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:3}}>{time.toLocaleDateString(locale,{weekday:"long",day:"numeric",month:"long"})}</div>
-        <div style={{marginTop:12,fontSize:11,color:"var(--c-text-faintest)"}}>{WHATSAPP_NUMBER ? `📱 ${WHATSAPP_NUMBER}` : "n8n · Twilio · Google Sheets"}</div>
+        <div style={{marginTop:12,fontSize:11,color:"var(--c-text-faintest)"}}>{WHATSAPP_NUMBER ? `${WHATSAPP_NUMBER}` : "n8n · Twilio · Google Sheets"}</div>
       </div>
     </aside>
   );
@@ -849,7 +853,7 @@ function LiveChat({ chats, t }) {
   useEffect(() => { if(chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight; }, [selected, chats]);
   if (phones.length === 0) return (
     <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
-      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>💬 {t("live_chat")}</div>
+      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>{t("live_chat")}</div>
       <div style={{fontSize:13,color:"var(--c-text-faint2)",textAlign:"center",padding:"2rem"}}>{t("keine_chats")}</div>
     </div>
   );
@@ -858,7 +862,7 @@ function LiveChat({ chats, t }) {
   return (
     <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",display:"flex",flexDirection:"column"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"}}>
-        <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>💬 {t("live_chat")}</span>
+        <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>{t("live_chat")}</span>
         <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
           {phones.map((p,i) => <button key={i} onClick={() => setSelected(i)} style={{fontSize:11,padding:"3px 10px",borderRadius:20,border:`1px solid ${i===selected?"var(--c-border-strong)":"var(--c-border)"}`,background:i===selected?"var(--c-border)":"transparent",color:i===selected?"var(--c-text-body)":"var(--c-text-faint)",cursor:"pointer"}}>{p.replace("whatsapp:","").slice(-8)}</button>)}
         </div>
@@ -892,14 +896,14 @@ function CarStatus({ cars, bookings, t }) {
   const statusMap = getCarStatus(bookings, cars);
   return (
     <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",display:"flex",flexDirection:"column"}}>
-      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem",flexShrink:0}}>🚗 {t("fahrzeuge_title")} ({cars.length})</div>
+      <div style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem",flexShrink:0}}>{t("fahrzeuge_title")} ({cars.length})</div>
       <div style={{overflowY:"scroll",maxHeight:340,paddingRight:4}}>
       {cars.map(car => {
         const s = statusMap[car.name] || { booked: false };
         return (
           <div key={car.id} style={{borderRadius:8,background:"var(--c-surface-alt)",marginBottom:4,padding:"10px"}}>
             <div style={{display:"flex",alignItems:"center",gap:10}}>
-              <div style={{width:40,height:40,borderRadius:8,background:s.booked?"var(--c-danger-bg)":"var(--c-success-bg)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>🚘</div>
+              <div style={{width:40,height:40,borderRadius:8,background:s.booked?"var(--c-danger-bg)":"var(--c-success-bg)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}></div>
               <div style={{flex:1}}>
                 <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)"}}>{car.name}</div>
                 <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:1}}>{car.price} € {t("pro_tag")}</div>
@@ -932,13 +936,19 @@ const WEBHOOK_URL = "https://patrickscloud.app.n8n.cloud/webhook/manuelle-buchun
 
 function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
   const [form, setForm] = useState({
-    name: "", telefon: "", auto: fleet[0]?.name || "", von: "", bis: "", preis: "", status: "Bestätigt"
+    name: "", telefon: "", auto: fleet[0]?.name || "", von: "", bis: "", preis: "", status: "Bestätigt",
+    kautionMethode: "Bar", kautionBetrag: fleet[0]?.kaution || 0, kautionBezahlt: 0
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   function update(field, value) {
     setForm(f => ({ ...f, [field]: value }));
+  }
+
+  function updateAuto(autoName) {
+    const fahrzeug = fleet.find(c => c.name === autoName);
+    setForm(f => ({ ...f, auto: autoName, kautionBetrag: fahrzeug ? fahrzeug.kaution : f.kautionBetrag }));
   }
 
   function generateId() {
@@ -964,6 +974,9 @@ function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
         von: form.von,
         bis: form.bis,
         preis: form.preis.includes("EUR") ? form.preis : `${form.preis} EUR`,
+        kautionMethode: form.kautionMethode,
+        kautionBetrag: form.kautionBetrag,
+        kautionBezahlt: form.kautionBezahlt,
         status: form.status
       };
       const res = await fetch(WEBHOOK_URL, {
@@ -984,7 +997,7 @@ function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
       <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:440,maxWidth:"90vw",maxHeight:"85vh",overflowY:"auto"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
           <div>
-            <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>📞 {t("neue_buchung_titel")}</div>
+            <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{t("neue_buchung_titel")}</div>
             <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:2}}>{t("manuell_eingetragen")}</div>
           </div>
           <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
@@ -1001,7 +1014,7 @@ function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
           </div>
           <div>
             <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("fahrzeug_label")}</label>
-            <select value={form.auto} onChange={e => update("auto", e.target.value)} style={{width:"100%"}}>
+            <select value={form.auto} onChange={e => updateAuto(e.target.value)} style={{width:"100%"}}>
               {fleet.map(c => <option key={c.name} value={c.name}>{c.name} ({c.price}€{t("pro_tag")})</option>)}
             </select>
           </div>
@@ -1028,10 +1041,37 @@ function NeueBuchungModal({ onClose, onSuccess, fleet, t }) {
             </select>
           </div>
 
+          <div style={{borderTop:"1px solid var(--c-border)",paddingTop:10,marginTop:2}}>
+            <div style={{fontSize:12,fontWeight:600,color:"var(--c-text-body)",marginBottom:8}}>{t("modul2_kaution")}</div>
+            <div style={{display:"flex",gap:10,marginBottom:10}}>
+              <div style={{flex:1}}>
+                <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("modul3_bezahlmethode")}</label>
+                <select value={form.kautionMethode} onChange={e => update("kautionMethode", e.target.value)} style={{width:"100%"}}>
+                  <option value="Bar">{t("kaution_bar")}</option>
+                  <option value="Karte">{t("kaution_karte")}</option>
+                  <option value="Überweisung">{t("kaution_ueberweisung")}</option>
+                </select>
+              </div>
+              <div style={{flex:1}}>
+                <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("modul3_gesamtbetrag")}</label>
+                <input type="number" value={form.kautionBetrag} onChange={e => update("kautionBetrag", parseFloat(e.target.value) || 0)} style={{width:"100%"}} />
+              </div>
+            </div>
+            <div>
+              <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("kaution_bezahlt_label")}</label>
+              <input type="number" value={form.kautionBezahlt} onChange={e => update("kautionBezahlt", parseFloat(e.target.value) || 0)} placeholder="0" style={{width:"100%"}} />
+              <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:4}}>
+                {form.kautionBezahlt >= form.kautionBetrag && form.kautionBetrag > 0
+                  ? t("kaution_voll_bezahlt")
+                  : `${t("modul2_offen")}: ${Math.max(0, form.kautionBetrag - form.kautionBezahlt).toFixed(2)} €`}
+              </div>
+            </div>
+          </div>
+
           {error && <div style={{fontSize:12,color:"var(--c-danger)",background:"var(--c-danger-bg)",padding:"8px 12px",borderRadius:8}}>{error}</div>}
 
           <button onClick={handleSubmit} disabled={submitting} style={{marginTop:8,padding:"10px",borderRadius:8,border:"none",background:submitting?"var(--c-border-strong)":"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:500,fontSize:13,cursor:submitting?"default":"pointer",fontFamily:"inherit"}}>
-            {submitting ? t("wird_gespeichert") : `✅ ${t("buchung_speichern")}`}
+            {submitting ? t("wird_gespeichert") : `${t("buchung_speichern")}`}
           </button>
           <div style={{fontSize:11,color:"var(--c-text-faint2)",textAlign:"center"}}>{t("kein_telefon_hinweis")}</div>
         </div>
@@ -1078,7 +1118,7 @@ function StornierenModal({ booking, onClose, onSuccess, t }) {
     <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:420,maxWidth:"90vw"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
-          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>❌ {t("buchung_stornieren_titel")}</div>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{t("buchung_stornieren_titel")}</div>
           <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
         </div>
 
@@ -1090,15 +1130,15 @@ function StornierenModal({ booking, onClose, onSuccess, t }) {
 
         {hoursUntilStart === null ? (
           <div style={{fontSize:13,color:"var(--c-warning)",background:"var(--c-warning-bg)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
-            ⚠️ {t("datum_unklar")}
+            {t("datum_unklar")}
           </div>
         ) : isFreeCancel ? (
           <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
-            ✅ {t("kostenlos_moeglich")} {Math.round(hoursUntilStart)} {t("stunden_entfernt")}
+            {t("kostenlos_moeglich")} {Math.round(hoursUntilStart)} {t("stunden_entfernt")}
           </div>
         ) : (
           <div style={{fontSize:13,color:"var(--c-danger)",background:"var(--c-danger-bg)",border:"1px solid var(--c-danger-border)",padding:"10px 12px",borderRadius:8,marginBottom:"1rem"}}>
-            ⚠️ {t("gebuehr_faellig_msg")} {Math.max(0,Math.round(hoursUntilStart))} {t("stunden_entfernt_weniger")}
+            {t("gebuehr_faellig_msg")} {Math.max(0,Math.round(hoursUntilStart))} {t("stunden_entfernt_weniger")}
           </div>
         )}
 
@@ -1173,19 +1213,19 @@ function BuchungenPage({ bookings, fleet, t }) {
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("buchungen_sub")}</p>
         </div>
         <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
-          📞 {t("buchungen_neu")}
+          {t("buchungen_neu")}
         </button>
       </div>
 
       {justAdded && (
         <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
-          ✅ {t("buchung_speichern")}! ({t("erscheint_10s")})
+          {t("buchung_speichern")}! ({t("erscheint_10s")})
         </div>
       )}
 
       {justCancelled && (
         <div style={{fontSize:13,color:"var(--c-warning)",background:"var(--c-warning-bg)",border:"1px solid var(--c-warning-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
-          ❌ {t("buchung_storniert_msg")} ({t("erscheint_10s")})
+          {t("buchung_storniert_msg")} ({t("erscheint_10s")})
         </div>
       )}
 
@@ -1209,15 +1249,15 @@ function BuchungenPage({ bookings, fleet, t }) {
 
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:"1.5rem"}}>
-        <MetricCard label={t("buchungen_gesamt")} value={filtered.length} sub={t("buchungen_gefilterte")} color="var(--c-info)" icon="📅" />
-        <MetricCard label={t("buchungen_bestaetigt")} value={confirmed} sub={t("buchungen_aktive")} color="var(--c-success)" icon="✅" />
-        <MetricCard label={t("buchungen_abgeschlossen")} value={completed} sub={t("buchungen_vergangene")} color="var(--c-text-faint)" icon="🏁" />
-        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="💰" />
+        <MetricCard label={t("buchungen_gesamt")} value={filtered.length} sub={t("buchungen_gefilterte")} color="var(--c-info)" icon="" />
+        <MetricCard label={t("buchungen_bestaetigt")} value={confirmed} sub={t("buchungen_aktive")} color="var(--c-success)" icon="" />
+        <MetricCard label={t("buchungen_abgeschlossen")} value={completed} sub={t("buchungen_vergangene")} color="var(--c-text-faint)" icon="" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="" />
       </div>
 
       <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
         <div style={{display:"flex",gap:10,marginBottom:"1.25rem",flexWrap:"wrap"}}>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("suche_platzhalter")}`} style={{flex:1,minWidth:200}} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`${t("suche_platzhalter")}`} style={{flex:1,minWidth:200}} />
           <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
             <option value="Alle">{t("alle")}</option>
             <option value="Bestätigt">{t("buchungen_bestaetigt")}</option>
@@ -1281,7 +1321,7 @@ function BuchungenPage({ bookings, fleet, t }) {
 }
 
 function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
-  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")) }));
+  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")), kaution: parseFloat((v.kaution||"0").replace(/[^\d.]/g,"")) || 0 }));
   const carStatusMap = getCarStatus(bookings, activeFleet);
   const bookedCars = getBookedCars(bookings, activeFleet);
   const availableCount = activeFleet.filter(c => !carStatusMap[c.name]?.booked).length;
@@ -1309,10 +1349,10 @@ function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
         </div>
       </header>
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:"1.5rem"}}>
-        <MetricCard label={t("metric_verfuegbar")} value={`${availableCount} / ${activeFleet.length}`} sub={`${activeFleet.length-availableCount} ${t("metric_gesamt_gebucht")}`} color="var(--c-success)" icon="🟢" />
-        <MetricCard label={t("metric_buchungen")} value={thisMonthBookings.length} sub={t("diesen_monat")} color="var(--c-info)" icon="📅" />
-        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="💰" />
-        <MetricCard label={t("metric_aktive_chats")} value={activeChats} sub={t("metric_chats_sub")} color="var(--c-warning)" icon="💬" />
+        <MetricCard label={t("metric_verfuegbar")} value={`${availableCount} / ${activeFleet.length}`} sub={`${activeFleet.length-availableCount} ${t("metric_gesamt_gebucht")}`} color="var(--c-success)" icon="" />
+        <MetricCard label={t("metric_buchungen")} value={thisMonthBookings.length} sub={t("diesen_monat")} color="var(--c-info)" icon="" />
+        <MetricCard label={t("metric_umsatz")} value={`${Math.round(totalRevenue)} €`} sub={t("diesen_monat")} color="var(--c-accent-light)" icon="" />
+        <MetricCard label={t("metric_aktive_chats")} value={activeChats} sub={t("metric_chats_sub")} color="var(--c-warning)" icon="" />
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
         <LiveChat chats={chats} t={t} />
@@ -1320,7 +1360,7 @@ function UebersichtPage({ bookings, chats, vehicles, lastUpdated, t }) {
       </div>
       <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem",marginBottom:"1rem"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"}}>
-          <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>📅 {t("letzte_buchungen")}</span>
+          <span style={{fontSize:12,fontWeight:500,color:"var(--c-text-faint)",textTransform:"uppercase",letterSpacing:"0.06em"}}>{t("letzte_buchungen")}</span>
         </div>
         <div style={{overflowX:"auto"}}>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
@@ -1374,7 +1414,8 @@ function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
     modell: vehicle?.modell || "",
     baujahr: vehicle?.baujahr || "",
     preis: vehicle?.preis?.replace(/[^\d.]/g,"") || "",
-    status: vehicle?.status || "Aktiv"
+    status: vehicle?.status || "Aktiv",
+    kaution: vehicle?.kaution?.replace(/[^\d.]/g,"") || ""
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -1396,7 +1437,8 @@ function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
         modell: form.modell,
         baujahr: form.baujahr,
         preis: form.preis.includes("EUR") ? form.preis : `${form.preis} EUR`,
-        status: form.status
+        status: form.status,
+        kaution: form.kaution.includes("EUR") ? form.kaution : `${form.kaution} EUR`
       };
       const res = await fetch(FLEET_WEBHOOK_URL, {
         method: "POST",
@@ -1415,7 +1457,7 @@ function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
     <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:420,maxWidth:"90vw"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
-          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{isEdit ? `✏️ ${t("fahrzeug_bearbeiten_titel")}` : `🚘 ${t("fahrzeug_hinzufuegen_titel")}`}</div>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{isEdit ? `✏️ ${t("fahrzeug_bearbeiten_titel")}` : `${t("fahrzeug_hinzufuegen_titel")}`}</div>
           <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -1435,6 +1477,11 @@ function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
             <div style={{flex:1}}>
               <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("preis_tag")} (EUR)</label>
               <input value={form.preis} onChange={e => update("preis", e.target.value)} placeholder="60" style={{width:"100%"}} />
+            </div>
+          </div>
+          <div>
+            <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("modul2_kaution")} (EUR)</label>
+            <input value={form.kaution} onChange={e => update("kaution", e.target.value)} placeholder="300" style={{width:"100%"}} />
             </div>
           </div>
           {isEdit && (
@@ -1510,14 +1557,14 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("fahrzeuge_sub")}</p>
         </div>
         <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
-          🚘 {t("fahrzeuge_neu")}
+          {t("fahrzeuge_neu")}
         </button>
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:"1.5rem"}}>
-        <MetricCard label={t("flotte_gesamt")} value={vehicles.length} sub={`${activeCount} ${t("aktiv")}`} color="var(--c-info)" icon="🚘" />
-        <MetricCard label={t("aktuell_gebucht")} value={bookedNow} sub={`${activeCount} ${t("von_aktiven")}`} color="var(--c-danger)" icon="🔴" />
-        <MetricCard label={t("verfuegbar_jetzt")} value={Math.max(0,activeCount-bookedNow)} sub={t("bereit_abholung")} color="var(--c-success)" icon="🟢" />
+        <MetricCard label={t("flotte_gesamt")} value={vehicles.length} sub={`${activeCount} ${t("aktiv")}`} color="var(--c-info)" icon="" />
+        <MetricCard label={t("aktuell_gebucht")} value={bookedNow} sub={`${activeCount} ${t("von_aktiven")}`} color="var(--c-danger)" icon="" />
+        <MetricCard label={t("verfuegbar_jetzt")} value={Math.max(0,activeCount-bookedNow)} sub={t("bereit_abholung")} color="var(--c-success)" icon="" />
       </div>
 
       {toast && (
@@ -1525,10 +1572,10 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
       )}
 
       {showModal && (
-        <FahrzeugFormModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`✅ ${t("fahrzeug_hinzufuegen_titel")}! ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
+        <FahrzeugFormModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`${t("fahrzeug_hinzufuegen_titel")}! ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
       )}
       {editTarget && (
-        <FahrzeugFormModal vehicle={editTarget} t={t} onClose={() => setEditTarget(null)} onSuccess={() => { setEditTarget(null); setToast(`✅ ${t("gespeichert")}`); setTimeout(()=>setToast(""),6000); }} />
+        <FahrzeugFormModal vehicle={editTarget} t={t} onClose={() => setEditTarget(null)} onSuccess={() => { setEditTarget(null); setToast(`${t("gespeichert")}`); setTimeout(()=>setToast(""),6000); }} />
       )}
       {deleteTarget && (
         <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={() => setDeleteTarget(null)}>
@@ -1539,7 +1586,7 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
               <button onClick={() => setDeleteTarget(null)} style={{flex:1,padding:"10px",borderRadius:8,border:"1px solid var(--c-border-strong)",background:"transparent",color:"var(--c-text-muted)",fontWeight:500,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>{t("abbrechen")}</button>
               <button onClick={async () => {
                 await fetch(FLEET_WEBHOOK_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ action:"delete", sheetId: SHEET_ID, kennzeichen: deleteTarget.kennzeichen }) });
-                setDeleteTarget(null); setToast(`✅ ${t("deaktivieren")}`); setTimeout(()=>setToast(""),6000);
+                setDeleteTarget(null); setToast(`${t("deaktivieren")}`); setTimeout(()=>setToast(""),6000);
               }} style={{flex:1,padding:"10px",borderRadius:8,border:"none",background:"var(--c-danger)",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>{t("deaktivieren")}</button>
             </div>
           </div>
@@ -1548,7 +1595,7 @@ function FahrzeugePage({ bookings, t, refreshInterval }) {
 
       <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.25rem"}}>
         <div style={{display:"flex",gap:10,marginBottom:"1.25rem",flexWrap:"wrap"}}>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("suche_fahrzeug")}`} style={{flex:1,minWidth:200}} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`${t("suche_fahrzeug")}`} style={{flex:1,minWidth:200}} />
           <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
             <option value="Alle">{t("alle")}</option>
             <option value="Aktiv">{t("aktiv_caps")}</option>
@@ -1727,7 +1774,7 @@ function ChatsPage({ chats, t }) {
                       <div style={{fontSize:10,color:"var(--c-text-faint2)",flexShrink:0,marginLeft:4}}>{getLastTime(phone)}</div>
                     </div>
                     <div style={{fontSize:11,color:humanMode?"var(--c-success-text-light)":"var(--c-text-faint)",marginTop:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
-                      {humanMode ? "👤 Mitarbeiter übernommen" : getLastMessage(phone)}
+                      {humanMode ? "Mitarbeiter übernommen" : getLastMessage(phone)}
                     </div>
                   </div>
                   {active && !humanMode && <div style={{width:8,height:8,borderRadius:"50%",background:"var(--c-success)",flexShrink:0}} />}
@@ -1743,7 +1790,7 @@ function ChatsPage({ chats, t }) {
             <div>
               <div style={{fontSize:14,fontWeight:500,color:"var(--c-text-heading)"}}>{selected?formatPhone(selected):""}</div>
               <div style={{fontSize:11,color:isHumanMode?"var(--c-success-text-light)":isAiActive?"var(--c-success)":"var(--c-text-faint)"}}>
-                {isHumanMode ? `👤 ${t("mitarbeiter_antwortet")}` : isAiActive ? `🤖 ${t("ki_antwortet")}` : `⏳ ${t("warte_antwort")}`}
+                {isHumanMode ? `${t("mitarbeiter_antwortet")}` : isAiActive ? `${t("ki_antwortet")}` : `⏳ ${t("warte_antwort")}`}
               </div>
             </div>
             <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}>
@@ -1751,11 +1798,11 @@ function ChatsPage({ chats, t }) {
               {selected && (
                 isHumanMode ? (
                   <button onClick={() => setTakenOver(t => ({...t, [selected]: false}))} style={{fontSize:12,padding:"6px 14px",borderRadius:8,border:"1px solid var(--c-success-border)",background:"var(--c-success-bg)",color:"var(--c-success)",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>
-                    🤖 {t("ki_reaktivieren")}
+                    {t("ki_reaktivieren")}
                   </button>
                 ) : (
                   <button onClick={() => setTakenOver(t => ({...t, [selected]: true}))} style={{fontSize:12,padding:"6px 16px",borderRadius:6,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",cursor:"pointer",fontFamily:"inherit",fontWeight:700,letterSpacing:"0.04em"}}>
-                    👤 {t("uebernehmen")}
+                    {t("uebernehmen")}
                   </button>
                 )
               )}
@@ -1764,7 +1811,7 @@ function ChatsPage({ chats, t }) {
 
           {isHumanMode && (
             <div style={{padding:"8px 20px",background:"var(--c-success-bg)",borderBottom:"1px solid var(--c-success-border)",fontSize:12,color:"var(--c-success-text-light)",display:"flex",alignItems:"center",gap:6}}>
-              👤 Mitarbeiter-Modus aktiv – KI pausiert für diesen Kunden. Antworte direkt per WhatsApp auf deinem Handy.
+              Mitarbeiter-Modus aktiv – KI pausiert für diesen Kunden. Antworte direkt per WhatsApp auf deinem Handy.
             </div>
           )}
 
@@ -1834,7 +1881,7 @@ function NeuerKundeModal({ onClose, onSuccess, t }) {
     <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"var(--c-overlay)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:100}} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:14,padding:"1.5rem",width:400,maxWidth:"90vw"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1.25rem"}}>
-          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>👤 {t("kunde_hinzufuegen_titel")}</div>
+          <div style={{fontSize:16,fontWeight:600,color:"var(--c-text-heading)"}}>{t("kunde_hinzufuegen_titel")}</div>
           <button onClick={onClose} style={{background:"none",border:"none",color:"var(--c-text-faint)",fontSize:18,cursor:"pointer"}}>✕</button>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -1898,7 +1945,7 @@ function KundenPage({ customers, bookings, t }) {
           <p style={{fontSize:12,color:"var(--c-text-faint)",marginTop:4}}>{t("kunden_sub")}</p>
         </div>
         <button onClick={() => setShowModal(true)} style={{padding:"9px 20px",borderRadius:8,border:"none",background:"var(--c-accent)",color:"var(--c-on-accent)",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit",letterSpacing:"0.04em"}}>
-          👤 {t("kunden_neu")}
+          {t("kunden_neu")}
         </button>
       </div>
 
@@ -1907,18 +1954,18 @@ function KundenPage({ customers, bookings, t }) {
       )}
 
       {showModal && (
-        <NeuerKundeModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`✅ ${t("gespeichert")} ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
+        <NeuerKundeModal t={t} onClose={() => setShowModal(false)} onSuccess={() => { setShowModal(false); setToast(`${t("gespeichert")} ${t("erscheint_10s")}`); setTimeout(()=>setToast(""),6000); }} />
       )}
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:12,marginBottom:"1.5rem"}}>
-        <MetricCard label={t("kunden_gesamt")} value={totalCustomers} sub={t("registrierte_kontakte")} color="var(--c-info)" icon="👥" />
-        <MetricCard label={t("stammkunden")} value={repeatCustomers} sub={t("mit_buchungen")} color="var(--c-success)" icon="⭐" />
+        <MetricCard label={t("kunden_gesamt")} value={totalCustomers} sub={t("registrierte_kontakte")} color="var(--c-info)" icon="" />
+        <MetricCard label={t("stammkunden")} value={repeatCustomers} sub={t("mit_buchungen")} color="var(--c-success)" icon="" />
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"360px 1fr",gap:"1rem"}}>
         <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,overflow:"hidden",display:"flex",flexDirection:"column",maxHeight:"calc(100vh - 280px)"}}>
           <div style={{padding:"12px 16px",borderBottom:"1px solid var(--c-border)"}}>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`🔍 ${t("name")} / ${t("telefon")}`} style={{width:"100%"}} />
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder={`${t("name")} / ${t("telefon")}`} style={{width:"100%"}} />
           </div>
           <div style={{overflowY:"auto",flex:1}}>
             {filtered.length === 0 ? (
@@ -1935,7 +1982,7 @@ function KundenPage({ customers, bookings, t }) {
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                       <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{c.name || t("unbekannt")}</div>
-                      {c.bookingCount > 1 && <span style={{fontSize:10,color:"var(--c-warning)"}}>⭐</span>}
+                      {c.bookingCount > 1 && <span style={{fontSize:10,color:"var(--c-warning)"}}></span>}
                     </div>
                     <div style={{fontSize:11,color:"var(--c-text-faint)",marginTop:2}}>{c.telefon.replace("whatsapp:","")} · {c.bookingCount} {t("buchungen_label")}</div>
                   </div>
@@ -2025,7 +2072,7 @@ function KundenPage({ customers, bookings, t }) {
 function ComingSoon({ label }) {
   return (
     <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"60vh",gap:16}}>
-      <div style={{fontSize:48}}>🚧</div>
+      <div style={{fontSize:48}}></div>
       <div style={{fontSize:20,fontWeight:600,color:"var(--c-text-heading)"}}>{label}</div>
       <div style={{fontSize:14,color:"var(--c-text-faint)"}}>Diese Seite wird bald verfügbar sein.</div>
     </div>
@@ -2036,6 +2083,7 @@ function ComingSoon({ label }) {
 function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
   const [bilder, setBilder] = useState([]);
   const [dragActive, setDragActive] = useState(false);
+  const [lightbox, setLightbox] = useState(null);
   const fileInputRef = useRef(null);
 
   function addFiles(fileList) {
@@ -2064,7 +2112,7 @@ function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
   }
 
   return (
-    <div style={{maxWidth:480,margin:"0 auto",paddingBottom:90}}>
+    <div style={{maxWidth:480,margin:"0 auto",paddingBottom:90,display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center"}}>
       <h1 style={{fontSize:18,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("dokumentation_titel")}</h1>
       <div style={{fontSize:14,fontWeight:500,color:"var(--c-accent-text)",marginTop:4,marginBottom:18}}>{fahrzeugName}</div>
 
@@ -2078,6 +2126,7 @@ function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
         style={{
+          width: "100%",
           border: `2px dashed ${dragActive ? "var(--c-accent)" : "var(--c-border-strong)"}`,
           borderRadius: 12,
           background: dragActive ? "var(--c-accent-bg)" : "var(--c-surface-alt)",
@@ -2091,16 +2140,15 @@ function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
 
         {bilder.length === 0 ? (
           <div>
-            <div style={{fontSize:32,marginBottom:8}}>📷</div>
             <div style={{fontSize:13,color:"var(--c-text-muted)"}}>{t("foto_drop_hinweis")}</div>
           </div>
         ) : (
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(90px, 1fr))",gap:10}}>
             {bilder.map(b => (
-              <div key={b.id} style={{position:"relative",aspectRatio:"1",borderRadius:8,overflow:"hidden",background:"var(--c-surface)"}} onClick={e => e.stopPropagation()}>
-                <img src={b.url} alt="" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} />
+              <div key={b.id} style={{position:"relative",aspectRatio:"1",borderRadius:8,overflow:"hidden",background:"var(--c-surface)"}}>
+                <img src={b.url} alt="" onClick={e => { e.stopPropagation(); setLightbox(b.url); }} style={{width:"100%",height:"100%",objectFit:"cover",display:"block",cursor:"zoom-in"}} />
                 <button
-                  onClick={() => removeBild(b.id)}
+                  onClick={e => { e.stopPropagation(); removeBild(b.id); }}
                   style={{position:"absolute",top:4,right:4,width:20,height:20,borderRadius:"50%",border:"none",background:"rgba(0,0,0,0.65)",color:"#fff",fontSize:12,lineHeight:1,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}
                 >✕</button>
               </div>
@@ -2118,6 +2166,13 @@ function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
           {t("bestaetigen")}
         </button>
       </div>
+
+      {lightbox && (
+        <div onClick={() => setLightbox(null)} style={{position:"fixed",top:0,left:0,right:0,bottom:0,background:"rgba(0,0,0,0.85)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:200,cursor:"zoom-out",padding:20}}>
+          <img src={lightbox} alt="" style={{maxWidth:"90vw",maxHeight:"90vh",borderRadius:8,objectFit:"contain"}} />
+          <button onClick={() => setLightbox(null)} style={{position:"absolute",top:20,right:20,width:36,height:36,borderRadius:"50%",border:"none",background:"rgba(255,255,255,0.15)",color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+        </div>
+      )}
     </div>
   );
 }
@@ -2134,12 +2189,12 @@ function StatusIcon({ done }) {
 
 function RueckgabeUebersicht({ fahrzeugName, status, onNavigate, onAbschliessen, t }) {
   const items = [
-    { key: "nutzung", icon: "🛣️", label: t("modul2_nutzung"), sub: t("modul2_nutzung_sub"), done: status.nutzung },
-    { key: "zahlungen", icon: "💳", label: t("modul2_zahlungen"), sub: `${t("modul2_gezahlt")}: ${status.gezahlt} € · ${t("modul2_offen")}: ${status.offen} €`, done: status.zahlungen },
-    { key: "kaution", icon: "💰", label: t("modul2_kaution"), sub: null, done: status.kaution },
-    { key: "checkliste", icon: "📋", label: t("modul2_checkliste"), sub: `${status.checklisteOk}/${status.checklisteGesamt} ${t("modul2_checkliste_sub")}`, done: status.checkliste },
-    { key: "bemerkungen", icon: "📝", label: t("modul2_bemerkungen"), sub: null, done: status.bemerkungen },
-    { key: "dokumentation", icon: "📷", label: t("modul2_dokumentation"), sub: null, done: status.dokumentation },
+    { key: "nutzung", icon: "", label: t("modul2_nutzung"), sub: t("modul2_nutzung_sub"), done: status.nutzung },
+    { key: "zahlungen", icon: "", label: t("modul2_zahlungen"), sub: `${t("modul2_gezahlt")}: ${status.gezahlt} € · ${t("modul2_offen")}: ${status.offen} €`, done: status.zahlungen },
+    { key: "kaution", icon: "", label: t("modul2_kaution"), sub: null, done: status.kaution },
+    { key: "checkliste", icon: "", label: t("modul2_checkliste"), sub: `${status.checklisteOk}/${status.checklisteGesamt} ${t("modul2_checkliste_sub")}`, done: status.checkliste },
+    { key: "bemerkungen", icon: "", label: t("modul2_bemerkungen"), sub: null, done: status.bemerkungen },
+    { key: "dokumentation", icon: "", label: t("modul2_dokumentation"), sub: null, done: status.dokumentation },
   ];
 
   const alleFertig = items.every(i => i.done);
@@ -2441,14 +2496,14 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
 
       {justSaved && (
         <div style={{fontSize:13,color:"var(--c-success)",background:"var(--c-success-bg)",border:"1px solid var(--c-success-border)",padding:"10px 14px",borderRadius:8,marginBottom:"1rem"}}>
-          ✅ {t("gespeichert")}
+          {t("gespeichert")}
         </div>
       )}
 
       <div style={{display:"flex",gap:"1.25rem",alignItems:"flex-start"}}>
         <div style={{flex:1,display:"flex",flexDirection:"column",gap:"1.25rem"}}>
           <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
-            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🌐 {t("sprache")}</div>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("sprache")}</div>
             <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("sprache_hinweis")}</div>
             <div style={{display:"flex",flexDirection:"column",gap:8}}>
               {languages.map(l => (
@@ -2462,7 +2517,7 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
           </div>
 
           <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
-            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🔔 {t("notif_title")}</div>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("notif_title")}</div>
             <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("notif_hinweis")}</div>
             <div style={{display:"flex",flexDirection:"column",gap:14}}>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
@@ -2491,19 +2546,19 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
           </div>
 
           <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
-            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>📤 {t("export_title")}</div>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("export_title")}</div>
             <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("export_hinweis")}</div>
             <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              <button onClick={handleExportBuchungen} style={exportBtn}><span>📅 {t("export_buchungen")}</span><span style={{color:"var(--c-text-faint)"}}>{bookings.length}</span></button>
-              <button onClick={handleExportFahrzeuge} style={exportBtn}><span>🚗 {t("export_fahrzeuge")}</span><span style={{color:"var(--c-text-faint)"}}>{vehicles.length}</span></button>
-              <button onClick={handleExportKunden} style={exportBtn}><span>👥 {t("export_kunden")}</span><span style={{color:"var(--c-text-faint)"}}>{customers.length}</span></button>
+              <button onClick={handleExportBuchungen} style={exportBtn}><span>{t("export_buchungen")}</span><span style={{color:"var(--c-text-faint)"}}>{bookings.length}</span></button>
+              <button onClick={handleExportFahrzeuge} style={exportBtn}><span>{t("export_fahrzeuge")}</span><span style={{color:"var(--c-text-faint)"}}>{vehicles.length}</span></button>
+              <button onClick={handleExportKunden} style={exportBtn}><span>{t("export_kunden")}</span><span style={{color:"var(--c-text-faint)"}}>{customers.length}</span></button>
             </div>
           </div>
         </div>
 
         <div style={{flex:1,display:"flex",flexDirection:"column",gap:"1.25rem"}}>
           <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
-            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🎨 {t("design_title")}</div>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("design_title")}</div>
             <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("design_hinweis")}</div>
             <div style={{display:"flex",flexDirection:"column",gap:8}}>
               {[
@@ -2537,7 +2592,7 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
           </div>
 
           <div className="card" style={{background:"var(--c-surface)",border:"1px solid var(--c-border)",borderRadius:12,padding:"1.5rem"}}>
-            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>🗄️ {t("datenquelle_title")}</div>
+            <div style={{fontSize:13,fontWeight:500,color:"var(--c-text-body)",marginBottom:4}}>{t("datenquelle_title")}</div>
             <div style={{fontSize:12,color:"var(--c-text-faint)",marginBottom:"1rem"}}>{t("datenquelle_hinweis")}</div>
             <div style={{display:"flex",flexDirection:"column",gap:10}}>
               <div>
@@ -2640,7 +2695,7 @@ function App() {
     prevChatUserCount.current = userMsgs.length;
   }, [chats, notifSettings.soundChat, notifSettings.push]);
 
-  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")) }));
+  const activeFleet = vehicles.filter(v => v.status === "Aktiv").map(v => ({ name: v.modell, price: parseFloat((v.preis||"0").replace(/[^\d.]/g,"")), kaution: parseFloat((v.kaution||"0").replace(/[^\d.]/g,"")) || 0 }));
 
   return (
     <div style={{display:"flex",minHeight:"100vh"}}>
