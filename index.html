@@ -1482,7 +1482,6 @@ function FahrzeugFormModal({ vehicle, onClose, onSuccess, t }) {
           <div>
             <label style={{fontSize:11,color:"var(--c-text-faint)",marginBottom:4,display:"block"}}>{t("modul2_kaution")} (EUR)</label>
             <input value={form.kaution} onChange={e => update("kaution", e.target.value)} placeholder="300" style={{width:"100%"}} />
-            </div>
           </div>
           {isEdit && (
             <div>
