@@ -59,6 +59,22 @@
   --c-nav-active-bg:#f1ecfe; --c-nav-active-text:#6d28d9;
   --c-card-shadow:0 1px 2px rgba(15,23,42,0.04),0 4px 16px rgba(15,23,42,0.07); --c-overlay:rgba(30,32,46,0.45);
 }
+/* ---- Theme tokens: "blue" (same as pro, but mid-blue accent instead of violet) ---- */
+:root[data-theme="blue"]{
+  --c-body-bg:#f1f3f9; --c-surface:#ffffff; --c-surface-alt:#f6f7fb;
+  --c-border:#e7e9f2; --c-border-strong:#d3d7e6;
+  --c-text-heading:#161a2c; --c-text-body:#2b2f47; --c-text-subtle:#3e4259;
+  --c-text-muted:#6b7086; --c-text-faint:#8a8fa3; --c-text-faint2:#a3a7ba; --c-text-faintest:#bcc0d0;
+  --c-accent:#2563eb; --c-accent-light:#3b82f6; --c-accent-text:#1d4ed8;
+  --c-accent-bg:#e8f0fe; --c-accent-bg2:#dce8fd; --c-accent-text-light:#1d4ed8; --c-on-accent:#fff;
+  --c-success:#16a34a; --c-success-bg:#e9f9ef; --c-success-border:#bbeecb;
+  --c-success-text-light:#15803d; --c-success-text2:#0f7a3d; --c-success-bg2:#eafbf0; --c-success-bg3:#e9f9ef;
+  --c-danger:#dc2626; --c-danger-bg:#fdecec; --c-danger-border:#f8c9c9; --c-danger-strong:#dc2626;
+  --c-warning:#d97706; --c-warning-bg:#fef3e2; --c-warning-border:#f9dca0;
+  --c-info:#2563eb; --c-info-light:#1d4ed8; --c-info-bg:#e3ecfd;
+  --c-nav-active-bg:#e8f0fe; --c-nav-active-text:#1d4ed8;
+  --c-card-shadow:0 1px 2px rgba(15,23,42,0.04),0 4px 16px rgba(15,23,42,0.07); --c-overlay:rgba(30,32,46,0.45);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--c-body-bg);color:var(--c-text-body);font-family:'Inter',sans-serif;min-height:100vh}
 body,.card,aside,input,select,button{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease}
@@ -204,7 +220,7 @@ const TRANSLATIONS = {
     datum_unklar: "Datum konnte nicht ausgewertet werden. Bitte manuell prüfen.", kostenlos_moeglich: "Kostenlose Stornierung möglich – Abholung ist in", stunden_entfernt: "Stunden (mehr als 24h entfernt).",
     gebuehr_faellig_msg: "Stornogebühr fällig – Abholung ist in nur", stunden_entfernt_weniger: "Stunden (weniger als 24h entfernt).",
     von_feld_kurz: "Von", bis_feld_kurz: "Bis", aktiv_caps: "Aktiv", optional: "optional", notizen_platzhalter: "z.B. Geburtsdatum, Führerschein seit...", sprache_hinweis: "Gilt für alle, die dieses Dashboard öffnen.",
-    design_title: "Design", design_hinweis: "Wähle das Erscheinungsbild des Dashboards.", design_classic: "Klassisch", design_classic_sub: "Das aktuelle dunkle Design", design_pro: "Professionell", design_pro_sub: "Neues helles, modernes Design",
+    design_title: "Design", design_hinweis: "Wähle das Erscheinungsbild des Dashboards.", design_classic: "Klassisch", design_classic_sub: "Das aktuelle dunkle Design", design_pro: "Professionell", design_pro_sub: "Neues helles, modernes Design", design_blue: "Blau", design_blue_sub: "Helles Design mit blauem Akzent",
     design_led: "Farbwechsel (RGB)", design_led_sub: "Wie eine LED-Lampe – Akzentfarbe wechselt durchgehend",
     notif_title: "Benachrichtigungen", notif_hinweis: "Werde informiert, wenn etwas Neues passiert.",
     notif_sound_buchung: "Sound bei neuer Buchung", notif_sound_buchung_sub: "Spielt einen Ton ab, wenn eine neue Buchung eingeht",
@@ -292,7 +308,7 @@ const TRANSLATIONS = {
     datum_unklar: "Could not evaluate date. Please check manually.", kostenlos_moeglich: "Free cancellation available – pickup is in", stunden_entfernt: "hours (more than 24h away).",
     gebuehr_faellig_msg: "Cancellation fee applies – pickup is in only", stunden_entfernt_weniger: "hours (less than 24h away).",
     von_feld_kurz: "From", bis_feld_kurz: "To", aktiv_caps: "Active", optional: "optional", notizen_platzhalter: "e.g. date of birth, license held since...", sprache_hinweis: "Applies to everyone who opens this dashboard.",
-    design_title: "Design", design_hinweis: "Choose the dashboard's appearance.", design_classic: "Classic", design_classic_sub: "The current dark design", design_pro: "Professional", design_pro_sub: "New light, modern design",
+    design_title: "Design", design_hinweis: "Choose the dashboard's appearance.", design_classic: "Classic", design_classic_sub: "The current dark design", design_pro: "Professional", design_pro_sub: "New light, modern design", design_blue: "Blue", design_blue_sub: "Light design with blue accent",
     design_led: "Color Cycle (RGB)", design_led_sub: "Like an LED light – accent color keeps shifting",
     notif_title: "Notifications", notif_hinweis: "Get notified when something new happens.",
     notif_sound_buchung: "Sound on new booking", notif_sound_buchung_sub: "Plays a sound when a new booking comes in",
@@ -380,7 +396,7 @@ const TRANSLATIONS = {
     datum_unklar: "Impossible d'évaluer la date. Veuillez vérifier manuellement.", kostenlos_moeglich: "Annulation gratuite possible – la prise en charge est dans", stunden_entfernt: "heures (plus de 24h).",
     gebuehr_faellig_msg: "Frais d'annulation applicables – la prise en charge est dans seulement", stunden_entfernt_weniger: "heures (moins de 24h).",
     von_feld_kurz: "Du", bis_feld_kurz: "Au", aktiv_caps: "Actif", optional: "facultatif", notizen_platzhalter: "ex. date de naissance, permis depuis...", sprache_hinweis: "S'applique à tous ceux qui ouvrent ce tableau de bord.",
-    design_title: "Design", design_hinweis: "Choisissez l'apparence du tableau de bord.", design_classic: "Classique", design_classic_sub: "Le design sombre actuel", design_pro: "Professionnel", design_pro_sub: "Nouveau design clair et moderne",
+    design_title: "Design", design_hinweis: "Choisissez l'apparence du tableau de bord.", design_classic: "Classique", design_classic_sub: "Le design sombre actuel", design_pro: "Professionnel", design_pro_sub: "Nouveau design clair et moderne", design_blue: "Bleu", design_blue_sub: "Design clair avec accent bleu",
     design_led: "Cycle de couleurs (RGB)", design_led_sub: "Comme une lampe LED – la couleur d'accent change sans cesse",
     notif_title: "Notifications", notif_hinweis: "Soyez informé dès que quelque chose de nouveau se passe.",
     notif_sound_buchung: "Son pour une nouvelle réservation", notif_sound_buchung_sub: "Joue un son lorsqu'une nouvelle réservation arrive",
@@ -468,7 +484,7 @@ const TRANSLATIONS = {
     datum_unklar: "تعذر تقييم التاريخ. يرجى التحقق يدويًا.", kostenlos_moeglich: "الإلغاء المجاني متاح – الاستلام بعد", stunden_entfernt: "ساعة (أكثر من 24 ساعة).",
     gebuehr_faellig_msg: "رسوم الإلغاء مستحقة – الاستلام بعد", stunden_entfernt_weniger: "ساعة فقط (أقل من 24 ساعة).",
     von_feld_kurz: "من", bis_feld_kurz: "إلى", aktiv_caps: "نشط", optional: "اختياري", notizen_platzhalter: "مثال: تاريخ الميلاد، رخصة القيادة منذ...", sprache_hinweis: "ينطبق على كل من يفتح لوحة التحكم هذه.",
-    design_title: "التصميم", design_hinweis: "اختر مظهر لوحة التحكم.", design_classic: "كلاسيكي", design_classic_sub: "التصميم الداكن الحالي", design_pro: "احترافي", design_pro_sub: "تصميم جديد فاتح وعصري",
+    design_title: "التصميم", design_hinweis: "اختر مظهر لوحة التحكم.", design_classic: "كلاسيكي", design_classic_sub: "التصميم الداكن الحالي", design_pro: "احترافي", design_pro_sub: "تصميم جديد فاتح وعصري", design_blue: "أزرق", design_blue_sub: "تصميم فاتح بلمسة زرقاء",
     design_led: "تبديل الألوان (RGB)", design_led_sub: "كأنوار LED – لون التمييز يتغير باستمرار",
     notif_title: "الإشعارات", notif_hinweis: "احصل على إشعار عند حدوث شيء جديد.",
     notif_sound_buchung: "صوت عند حجز جديد", notif_sound_buchung_sub: "يصدر صوتًا عند وصول حجز جديد",
@@ -2231,14 +2247,15 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
   }
 
   function DesignPreview({ variant }) {
-    const c = variant === "pro"
+    const c = (variant === "pro" || variant === "blue")
       ? { page:"#f1f3f9", surface:"#ffffff", border:"#e7e9f2", bar2:"#d3d7e6" }
       : { page:"#0a0a0f", surface:"#111118", border:"#1e1e2e", bar2:"#334155" };
+    const accentColor = variant === "led" ? "hsl(280,85%,60%)" : variant === "blue" ? "#2563eb" : "#7c3aed";
     return (
       <div style={{width:52,height:36,borderRadius:6,overflow:"hidden",display:"flex",flexShrink:0,background:c.page,border:`1px solid ${c.border}`}}>
         <div style={{width:14,background:c.surface,borderRight:`1px solid ${c.border}`}} />
         <div style={{flex:1,padding:4,display:"flex",flexDirection:"column",gap:3,justifyContent:"center"}}>
-          <div className={variant==="led" ? "led-demo" : undefined} style={{height:5,borderRadius:1,background:variant==="led" ? "hsl(280,85%,60%)" : "#7c3aed",width:"55%"}} />
+          <div className={variant==="led" ? "led-demo" : undefined} style={{height:5,borderRadius:1,background:accentColor,width:"55%"}} />
           <div style={{height:3,borderRadius:1,background:c.bar2,width:"85%"}} />
           <div style={{height:3,borderRadius:1,background:c.bar2,width:"45%"}} />
         </div>
@@ -2400,6 +2417,7 @@ function EinstellungenPage({ lang, setLang, design, setDesign, notifSettings, up
                 { code: "classic", label: t("design_classic"), sub: t("design_classic_sub") },
                 { code: "led", label: t("design_led"), sub: t("design_led_sub") },
                 { code: "pro", label: t("design_pro"), sub: t("design_pro_sub") },
+                { code: "blue", label: t("design_blue"), sub: t("design_blue_sub") },
               ].map(d => (
                 <div key={d.code} onClick={() => selectDesign(d.code)} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 14px",borderRadius:10,border:`1px solid ${design===d.code?"var(--c-accent)":"var(--c-border)"}`,background:design===d.code?"var(--c-accent-bg)":"var(--c-surface-alt)",cursor:"pointer",transition:"all 0.15s"}}>
                   <DesignPreview variant={d.code} />
