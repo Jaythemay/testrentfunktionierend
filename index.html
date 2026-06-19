@@ -2160,7 +2160,7 @@ function DokumentationsUpload({ fahrzeugName, onConfirm, t }) {
         )}
       </div>
 
-      <div style={{position:"fixed",left:0,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
+      <div style={{position:"fixed",left:220,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
         <button onClick={handleConfirm} className="btn-primary" style={{width:"100%",maxWidth:440,padding:"13px",fontSize:14}}>
           {t("bestaetigen")}
         </button>
@@ -2224,7 +2224,7 @@ function RueckgabeUebersicht({ fahrzeugName, status, onNavigate, onAbschliessen,
         ))}
       </div>
 
-      <div style={{position:"fixed",left:0,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
+      <div style={{position:"fixed",left:220,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
         <button
           onClick={onAbschliessen}
           disabled={!alleFertig}
@@ -2302,7 +2302,7 @@ function KautionErstatten({ buchung, onSpeichern, onZurueck, t }) {
         </div>
       </div>
 
-      <div style={{position:"fixed",left:0,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
+      <div style={{position:"fixed",left:220,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
         <button onClick={handleSpeichern} disabled={submitting} className="btn-primary" style={{width:"100%",maxWidth:440,padding:"13px",fontSize:14,opacity:submitting?0.6:1}}>
           {submitting ? t("wird_hochgeladen") : `${t("modul3_zurueckzahlen")} ${summe.toFixed(2)} €`}
         </button>
