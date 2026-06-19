@@ -246,6 +246,9 @@ const TRANSLATIONS = {
     modul2_zahlungen: "Zahlungen", modul2_gezahlt: "Gezahlt", modul2_offen: "offen",
     modul2_kaution: "Kaution", modul2_checkliste: "Checkliste", modul2_checkliste_sub: "Artikel wurden kontrolliert.",
     modul2_bemerkungen: "Bemerkungen (optional)", modul2_dokumentation: "Dokumentation", modul2_abschliessen: "Buchung abschließen",
+    modul3_titel: "Kaution erstatten", modul3_bezahlmethode: "Bezahlmethode", modul3_groesse: "Größe der Zahlung",
+    modul3_gesamtbetrag: "Gesamtbetrag", modul3_summe: "Summe", modul3_zurueckzahlen: "Kaution zurückzahlen",
+    kaution_bar: "Bar", kaution_karte: "Karte", kaution_ueberweisung: "Überweisung",
     rueckgabe_title: "Rückgabe", rueckgabe_sub: "Fahrzeugzustand und km-Stand bei Abholung und Rückgabe erfassen",
     tab_neuer_eintrag: "Neuer Eintrag", tab_alte_eintraege: "Alte Einträge",
     typ_abholung: "Abholung", typ_rueckgabe: "Rückgabe", fahrzeug_waehlen: "Buchung wählen",
@@ -339,6 +342,9 @@ const TRANSLATIONS = {
     modul2_zahlungen: "Payments", modul2_gezahlt: "Paid", modul2_offen: "outstanding",
     modul2_kaution: "Deposit", modul2_checkliste: "Checklist", modul2_checkliste_sub: "items checked.",
     modul2_bemerkungen: "Remarks (optional)", modul2_dokumentation: "Documentation", modul2_abschliessen: "Complete booking",
+    modul3_titel: "Refund deposit", modul3_bezahlmethode: "Payment method", modul3_groesse: "Payment size",
+    modul3_gesamtbetrag: "Full amount", modul3_summe: "Amount", modul3_zurueckzahlen: "Refund deposit",
+    kaution_bar: "Cash", kaution_karte: "Card", kaution_ueberweisung: "Bank transfer",
     rueckgabe_title: "Return", rueckgabe_sub: "Document vehicle condition and mileage at pickup and return",
     tab_neuer_eintrag: "New Entry", tab_alte_eintraege: "Previous Entries",
     typ_abholung: "Pickup", typ_rueckgabe: "Return", fahrzeug_waehlen: "Select booking",
@@ -432,6 +438,9 @@ const TRANSLATIONS = {
     modul2_zahlungen: "Paiements", modul2_gezahlt: "Payé", modul2_offen: "restant",
     modul2_kaution: "Caution", modul2_checkliste: "Liste de contrôle", modul2_checkliste_sub: "articles contrôlés.",
     modul2_bemerkungen: "Remarques (optionnel)", modul2_dokumentation: "Documentation", modul2_abschliessen: "Finaliser la réservation",
+    modul3_titel: "Rembourser la caution", modul3_bezahlmethode: "Méthode de paiement", modul3_groesse: "Taille du paiement",
+    modul3_gesamtbetrag: "Montant total", modul3_summe: "Somme", modul3_zurueckzahlen: "Rembourser la caution",
+    kaution_bar: "Espèces", kaution_karte: "Carte", kaution_ueberweisung: "Virement",
     rueckgabe_title: "Retour", rueckgabe_sub: "Documenter l'état et le kilométrage à la prise en charge et au retour",
     tab_neuer_eintrag: "Nouvelle entrée", tab_alte_eintraege: "Entrées précédentes",
     typ_abholung: "Prise en charge", typ_rueckgabe: "Retour", fahrzeug_waehlen: "Choisir réservation",
@@ -525,6 +534,9 @@ const TRANSLATIONS = {
     modul2_zahlungen: "المدفوعات", modul2_gezahlt: "مدفوع", modul2_offen: "متبقٍ",
     modul2_kaution: "التأمين", modul2_checkliste: "قائمة التحقق", modul2_checkliste_sub: "عناصر تم فحصها.",
     modul2_bemerkungen: "ملاحظات (اختياري)", modul2_dokumentation: "التوثيق", modul2_abschliessen: "إنهاء الحجز",
+    modul3_titel: "استرداد التأمين", modul3_bezahlmethode: "طريقة الدفع", modul3_groesse: "حجم الدفعة",
+    modul3_gesamtbetrag: "المبلغ الكامل", modul3_summe: "المبلغ", modul3_zurueckzahlen: "استرداد التأمين",
+    kaution_bar: "نقدًا", kaution_karte: "بطاقة", kaution_ueberweisung: "تحويل بنكي",
     rueckgabe_title: "الإرجاع", rueckgabe_sub: "توثيق حالة السيارة وقراءة العداد عند الاستلام والإرجاع",
     tab_neuer_eintrag: "تسجيل جديد", tab_alte_eintraege: "التسجيلات السابقة",
     typ_abholung: "الاستلام", typ_rueckgabe: "الإرجاع", fahrzeug_waehlen: "اختر الحجز",
@@ -674,11 +686,12 @@ function useSheetData(intervalMs) {
   const load = async () => {
     try {
       const [bRows, cRows, vRows, kRows, dRows] = await fetchSheetBatch([
-        "Buchungen!A2:H200", "Chats!A2:E500", "Fahrzeuge!A2:E300", "Kunden!A2:E500", "Schaeden!A2:F500"
+        "Buchungen!A2:K200", "Chats!A2:E500", "Fahrzeuge!A2:F300", "Kunden!A2:E500", "Schaeden!A2:F500"
       ]);
       setBookings(bRows.map(r => ({
         id: r[0]||"", name: r[1]||"", telefon: r[2]||"", auto: r[3]||"",
-        von: r[4]||"", bis: r[5]||"", preis: r[6]||"", status: r[7]||""
+        von: r[4]||"", bis: r[5]||"", preis: r[6]||"", status: r[7]||"",
+        kautionMethode: r[8]||"", kautionBetrag: r[9]||"", kautionErstattet: r[10]||""
       })).filter(r => r.id));
       setChats(cRows.map(r => ({
         zeitstempel: r[0]||"", telefon: r[1]||"", name: r[2]||"",
@@ -686,7 +699,7 @@ function useSheetData(intervalMs) {
       })).filter(r => r.nachricht));
       setVehicles(vRows.map(r => ({
         kennzeichen: r[0]||"", modell: r[1]||"", baujahr: r[2]||"",
-        preis: r[3]||"", status: r[4]||"Aktiv"
+        preis: r[3]||"", status: r[4]||"Aktiv", kaution: r[5]||""
       })).filter(r => r.kennzeichen));
       setCustomers(kRows.map(r => ({
         telefon: r[0]||"", name: r[1]||"", letzteBuchung: r[2]||"",
@@ -2171,11 +2184,88 @@ function RueckgabeUebersicht({ fahrzeugName, status, onNavigate, onAbschliessen,
   );
 }
 
+function KautionErstatten({ buchung, onSpeichern, onZurueck, t }) {
+  const gesamtBetrag = parseFloat(buchung.kautionBetrag || 0) || 0;
+  const [methode, setMethode] = useState(buchung.kautionMethode || "Bar");
+  const [groesse, setGroesse] = useState("gesamt");
+  const [summe, setSumme] = useState(gesamtBetrag);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setSumme(groesse === "gesamt" ? gesamtBetrag : summe);
+  }, [groesse]);
+
+  async function handleSpeichern() {
+    setSubmitting(true);
+    try {
+      await fetch("https://patrickscloud.app.n8n.cloud/webhook/kaution-erstatten", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ buchungsId: buchung.id, erstatteterBetrag: summe })
+      });
+      if (onSpeichern) onSpeichern(summe);
+    } catch(e) {}
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{maxWidth:480,margin:"0 auto",paddingBottom:90}}>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+        <button onClick={onZurueck} style={{background:"none",border:"none",fontSize:18,color:"var(--c-text-faint)",cursor:"pointer",padding:0}}>‹</button>
+        <h1 style={{fontSize:18,fontWeight:600,color:"var(--c-text-heading)",margin:0}}>{t("modul3_titel")}</h1>
+      </div>
+
+      <div style={{fontSize:13,color:"var(--c-text-muted)",margin:"14px 0 22px"}}>
+        {t("modul2_kaution")}: <strong style={{color:"var(--c-text-body)"}}>{summe.toFixed(2)} €</strong> {t("von")} <strong style={{color:"var(--c-text-body)"}}>{gesamtBetrag.toFixed(2)} €</strong>
+      </div>
+
+      <div style={{marginBottom:16}}>
+        <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block",marginBottom:4}}>{t("modul3_bezahlmethode")}</label>
+        <select value={methode} onChange={e => setMethode(e.target.value)} style={{width:"100%"}}>
+          <option value="Bar">{t("kaution_bar")}</option>
+          <option value="Karte">{t("kaution_karte")}</option>
+          <option value="Überweisung">{t("kaution_ueberweisung")}</option>
+        </select>
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
+        <div>
+          <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block",marginBottom:4}}>{t("modul3_groesse")}</label>
+          <select value={groesse} onChange={e => setGroesse(e.target.value)} style={{width:"100%"}}>
+            <option value="gesamt">{t("modul3_gesamtbetrag")}</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div>
+          <label style={{fontSize:11,color:"var(--c-text-faint)",display:"block",marginBottom:4}}>{t("modul3_summe")}</label>
+          <input
+            type="number"
+            value={summe}
+            disabled={groesse === "gesamt"}
+            onChange={e => setSumme(parseFloat(e.target.value) || 0)}
+            style={{width:"100%",opacity:groesse==="gesamt"?0.6:1}}
+          />
+        </div>
+      </div>
+
+      <div style={{position:"fixed",left:0,right:0,bottom:0,padding:"14px 20px",background:"var(--c-surface)",borderTop:"1px solid var(--c-border)",display:"flex",justifyContent:"center"}}>
+        <button onClick={handleSpeichern} disabled={submitting} className="btn-primary" style={{width:"100%",maxWidth:440,padding:"13px",fontSize:14,opacity:submitting?0.6:1}}>
+          {submitting ? t("wird_hochgeladen") : `${t("modul3_zurueckzahlen")} ${summe.toFixed(2)} €`}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 function RueckgabePage({ bookings, damages, t }) {
   const [schritt, setSchritt] = useState("upload");
 
+  // Test-Buchung: nimmt die erste Buchung aus dem Sheet, sonst Platzhalter
+  const testBuchung = bookings[0] || { id: "BK-TEST", name: "Test Kunde", auto: "Porsche Taycan", kautionMethode: "Bar", kautionBetrag: "300" };
+
   // Platzhalter-Status für Modul 2, bis die echten Schritte (Nutzung, Zahlungen, etc.) gebaut sind
-  const [status] = useState({
+  const [status, setStatus] = useState({
     nutzung: false,
     zahlungen: false,
     gezahlt: 0,
@@ -2191,8 +2281,19 @@ function RueckgabePage({ bookings, damages, t }) {
   if (schritt === "upload") {
     return (
       <DokumentationsUpload
-        fahrzeugName="Porsche Taycan"
+        fahrzeugName={testBuchung.auto}
         onConfirm={(dateien) => { console.log("Bestätigt mit", dateien.length, "Bildern"); setSchritt("uebersicht"); }}
+        t={t}
+      />
+    );
+  }
+
+  if (schritt === "kaution") {
+    return (
+      <KautionErstatten
+        buchung={testBuchung}
+        onZurueck={() => setSchritt("uebersicht")}
+        onSpeichern={(betrag) => { setStatus(s => ({ ...s, kaution: true })); setSchritt("uebersicht"); }}
         t={t}
       />
     );
@@ -2200,9 +2301,9 @@ function RueckgabePage({ bookings, damages, t }) {
 
   return (
     <RueckgabeUebersicht
-      fahrzeugName="Porsche Taycan"
+      fahrzeugName={testBuchung.auto}
       status={status}
-      onNavigate={(key) => console.log("Navigiere zu:", key)}
+      onNavigate={(key) => { if (key === "kaution") setSchritt("kaution"); else console.log("Navigiere zu:", key); }}
       onAbschliessen={() => console.log("Buchung abgeschlossen")}
       t={t}
     />
